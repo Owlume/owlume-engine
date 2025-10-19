@@ -1,0 +1,239 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "Run: Validate Clarity Gain Record schema",
+            "type": "shell",
+            "command": "python",
+            "args": [
+                "-u",
+                "scripts/validate_clarity_gain_record.py"
+            ],
+            "group": {
+                "kind": "test",
+                "isDefault": false
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated",
+                "clear": true
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Run: Elenx Loader (with schema validation)",
+            "type": "shell",
+            "command": "py",
+            "args": [
+                "-3",
+                "-u",
+                "src/elenx_loader.py"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated",
+                "clear": true
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Validate JSON packs",
+            "type": "shell",
+            "command": "py",
+            "args": [
+                "-3",
+                "-u",
+                "scripts/validate_jsons.py"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "group": "test",
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared",
+                "clear": true
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Run: Elenx Engine Demo (T1)",
+            "type": "shell",
+            "command": "py",
+            "args": [
+                "-3",
+                "-u",
+                "src/elenx_engine.py"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "group": {
+                "kind": "test",
+                "isDefault": false
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared",
+                "clear": true
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Run: Proof-of-Clarity UI demo",
+            "type": "shell",
+            "command": "py",
+            "args": [
+                "-3",
+                "-u",
+                "scripts/demo_ui_message.py"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Archive: market signal",
+            "type": "shell",
+            "command": "py",
+            "args": [
+                "-3",
+                "-u",
+                "scripts/archive_market_signal.py",
+                "--source",
+                "${input:signalSource}",
+                "--name",
+                "${input:signalName}",
+                "--category",
+                "${input:signalCategory}",
+                "--outcome",
+                "${input:signalOutcome}"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Run: Hybrid Fusion smoke test",
+            "type": "shell",
+            "command": "py",
+            "args": [
+                "-3",
+                "-u",
+                "scripts/smoke_test_engine_fusion.py"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Run: Engine Smoke (Top-2)",
+            "type": "shell",
+            "command": "py",
+            "args": [
+                "-3",
+                "-u",
+                "scripts/smoke_test_engine.py"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": []
+        },
+        {
+            "label": "Elenx: Engine shim smoke test",
+            "type": "shell",
+            "command": "py",
+            "args": [
+                "-3",
+                "-u",
+                "scripts/smoke_test_engine_shim.py"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "group": "test",
+            "problemMatcher": []
+        },
+        {
+            "label": "Elenx: Render pack smoke test",
+            "type": "shell",
+            "command": "py",
+            "args": [
+                "-3",
+                "-u",
+                "scripts/smoke_test_renderer.py"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "group": "test",
+            "problemMatcher": []
+        },
+        {
+            "label": "Owlume: UI console demo",
+            "type": "shell",
+            "command": "py",
+            "args": [
+                "-3",
+                "-u",
+                "scripts/smoke_test_ui.py"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "group": "test",
+            "problemMatcher": []
+        },
+        {
+            "label": "Run: T2 Clarity Logging smoke test",
+            "type": "shell",
+            "command": "python",
+            "args": [
+                "-u",
+                "scripts/smoke_test_clarity_logging.py"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
+            },
+            "problemMatcher": []
+        }
+    ],
+    "inputs": [
+        {
+            "id": "signalSource",
+            "type": "promptString",
+            "description": "Path to the signal file in /docs (e.g., docs/market_signals_prompt_competition.md)",
+            "default": "docs/market_signals_prompt_competition.md"
+        },
+        {
+            "id": "signalName",
+            "type": "promptString",
+            "description": "Signal name (appears in archive row)",
+            "default": "Prompt Emulation Trend"
+        },
+        {
+            "id": "signalCategory",
+            "type": "pickString",
+            "description": "Signal category",
+            "options": [
+                "Competition",
+                "UX Trend",
+                "Behavioral Shift",
+                "Ecosystem",
+                "Technology"
+            ],
+            "default": "Behavioral Shift"
+        },
+    ]
+}

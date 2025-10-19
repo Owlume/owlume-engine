@@ -1,0 +1,272 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Clarity Gain Record",
+    "description": "Schema for a single DilemmaNet clarity-gain reflection record produced in T2.",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "session_id": {
+            "type": "string",
+            "description": "Unique identifier for this reflection session (e.g., DLM-20251018-084522)."
+        },
+        "user_text": {
+            "type": "string",
+            "description": "Raw dilemma/statement provided by the user."
+        },
+        "detected": {
+            "type": "object",
+            "description": "Elenx detection result (mode × principle + tags/drivers, empathy, confidences).",
+            "additionalProperties": false,
+            "properties": {
+                "mode": {
+                    "type": "string"
+                },
+                "principle": {
+                    "type": "string"
+                },
+                "drivers": {
+                    "type": "array",
+                    "description": "Context drivers (e.g., Incentive Misalignment).",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "empathy": {
+                    "type": "boolean"
+                },
+                "confidence": {
+                    "type": "number",
+                    "minimum": 0.0,
+                    "maximum": 1.0
+                },
+                "alt": {
+                    "type": "object",
+                    "description": "Optional top-2 carry (alternative mode/principle). Values may be null.",
+                    "additionalProperties": false,
+                    "properties": {
+                        "mode": {
+                            "type": [
+                                "string",
+                                "null"
+                            ]
+                        },
+                        "principle": {
+                            "type": [
+                                "string",
+                                "null"
+                            ]
+                        },
+                        "confidence": {
+                            "type": [
+                                "number",
+                                "null"
+                            ],
+                            "minimum": 0.0,
+                            "maximum": 1.0
+                        }
+                    },
+                    "required": [
+                        "mode",
+                        "principle",
+                        "confidence"
+                    ]
+                }
+            },
+            "required": [
+                "mode",
+                "principle",
+                "drivers",
+                "empathy",
+                "confidence",
+                "alt"
+            ]
+        },
+        "voices": {
+            "type": "array",
+            "description": "Voices used to render questions/feedback for this reflection.",
+            "items": {
+                "type": "string"
+            },
+            "minItems": 1
+        },
+        "clarity_gain": {
+            "type": "object",
+            "description": "Clarity scores captured for the session.",
+            "additionalProperties": false,
+            "properties": {
+                "CG_pre": {
+                    "type": "number",
+                    "minimum": 0.0,
+                    "maximum": 1.0,
+                    "description": "Clarity at start (0–1)."
+                },
+                "CG_post": {
+                    "type": "number",
+                    "minimum": 0.0,
+                    "maximum": 1.0,
+                    "description": "Clarity at end (0–1)."
+                },
+                "CG_delta": {
+                    "type": "number",
+                    "minimum": -1.0,
+                    "maximum": 1.0,
+                    "description": "Net change (post − pre)."
+                }
+            },
+            "required": [
+                "CG_pre",
+                "CG_post",
+                "CG_delta"
+            ]
+        },
+        "proof_signals": {
+            "type": "array",
+            "description": "Proof-of-Clarity signals (delta/insight badges).",
+            "items": {
+                "type": "string"
+            }
+        },
+        "share": {
+            "type": "object",
+            "description": "Optional share metadata for Clarity Card flow (privacy-first).",
+            "additionalProperties": false,
+            "properties": {
+                "status": {
+                    "type": "string",
+                    "enum": [
+                        "opt_in",
+                        "skipped"
+                    ]
+                },
+                "channel": {
+                    "type": "string",
+                    "enum": [
+                        "image",
+                        "markdown"
+                    ]
+                },
+                "consent": {
+                    "type": "boolean"
+                },
+                "timestamp": {
+                    "type": "string",
+                    "format": "date-time"
+                }
+            },
+            "required": [
+                "status"
+            ],
+            "allOf": [
+                {
+                    "if": {
+                        "properties": {
+                            "status": {
+                                "const": "opt_in"
+                            }
+                        },
+                        "required": [
+                            "status"
+                        ]
+                    },
+                    "then": {
+                        "required": [
+                            "channel",
+                            "consent",
+                            "timestamp"
+                        ],
+                        "properties": {
+                            "consent": {
+                                "const": true
+                            }
+                        }
+                    }
+                }
+            ]
+        },
+        "timestamp": {
+            "type": "string",
+            "format": "date-time",
+            "description": "ISO-8601 timestamp when the record was created (local or UTC)."
+        }
+    },
+    "required": [
+        "session_id",
+        "user_text",
+        "detected",
+        "voices",
+        "clarity_gain",
+        "proof_signals",
+        "timestamp"
+    ],
+    "examples": [
+        {
+            "session_id": "DLM-2025-10-18-084522",
+            "user_text": "My co-founder is distant. Tension is rising and I’m avoiding the hard talk.",
+            "detected": {
+                "mode": "Critical",
+                "principle": "Assumption",
+                "drivers": [
+                    "Stakeholder (generic)"
+                ],
+                "empathy": true,
+                "confidence": 0.64,
+                "alt": {
+                    "mode": "Risk & Second-Order",
+                    "principle": "Test Assumptions",
+                    "confidence": 0.41
+                }
+            },
+            "voices": [
+                "Peterson",
+                "Feynman"
+            ],
+            "clarity_gain": {
+                "CG_pre": 0.42,
+                "CG_post": 0.81,
+                "CG_delta": 0.39
+            },
+            "proof_signals": [
+                "Δ-Insight",
+                "Pattern Reversal"
+            ],
+            "share": {
+                "status": "opt_in",
+                "channel": "markdown",
+                "consent": true,
+                "timestamp": "2025-10-18T14:55:00Z"
+            },
+            "timestamp": "2025-10-18T08:45:22+11:00"
+        },
+        {
+            "session_id": "DLM-2025-10-18-084523",
+            "user_text": "We have two customers; strategy seems solid but pressure is high.",
+            "detected": {
+                "mode": "Decision",
+                "principle": "Evidence",
+                "drivers": [],
+                "empathy": false,
+                "confidence": 0.58,
+                "alt": {
+                    "mode": null,
+                    "principle": null,
+                    "confidence": null
+                }
+            },
+            "voices": [
+                "Thiel"
+            ],
+            "clarity_gain": {
+                "CG_pre": 0.55,
+                "CG_post": 0.74,
+                "CG_delta": 0.19
+            },
+            "proof_signals": [
+                "Depth Bump"
+            ],
+            "share": {
+                "status": "skipped"
+            },
+            "timestamp": "2025-10-18T09:02:10+11:00"
+        }
+    ]
+}
