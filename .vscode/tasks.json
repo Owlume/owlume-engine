@@ -2,6 +2,20 @@
     "version": "2.0.0",
     "tasks": [
         {
+            "label": "Create: Feature Branch",
+            "type": "shell",
+            "command": "read-host 'Enter branch name (e.g. feat/update-readme)' | foreach { git checkout -b $_ }",
+            "group": {
+                "kind": "none",
+                "isDefault": false
+            },
+            "presentation": {
+                "reveal": "always",
+                "panel": "shared"
+            },
+            "problemMatcher": []
+        },
+        {
             "label": "Run: Share Card (opt-in, markdown)",
             "type": "shell",
             "command": "python",
