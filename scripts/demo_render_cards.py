@@ -1,17 +1,29 @@
 # scripts/demo_render_cards.py
+import sys
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8")
+    sys.stderr.reconfigure(encoding="utf-8")
+
+import os, sys
+
+# Make /src importable before any src imports
+sys.path.append(os.path.join(os.path.dirname(__file__), "..", "src"))  # noqa: E402
+
+from render_card import render_clarity_card  # noqa: E402
+from ui_utils import format_share_footer     # noqa: E402
+
 import json
 import os
 import sys
 from typing import Any, Dict, Optional
+from ui_utils import format_share_footer
+
 
 # Ensure UTF-8 for Windows terminals
 if hasattr(sys.stdout, "reconfigure"):
     sys.stdout.reconfigure(encoding="utf-8")
     sys.stderr.reconfigure(encoding="utf-8")
 
-# import renderer
-sys.path.append(os.path.join(os.path.dirname(__file__), "..", "src"))
-from render_card import render_clarity_card  # noqa: E402
 
 DEFAULT_JSONL = os.path.join("data", "logs", "clarity_gain_samples.jsonl")
 DEFAULT_THRESHOLDS = os.path.join("data", "clarity_gain_thresholds.json")
