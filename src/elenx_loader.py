@@ -95,3 +95,53 @@ def load_packs() -> dict:
         "fallacies": load_pack("fallacies"),
         "context_drivers": load_pack("context_drivers"),
     }
+# --- Clarity Gain signal picker (shim) ---
+# Provides a stable API for smoke_test_clarity_gain.py
+# Reads thresholds if available; otherwise uses sane defaults.
+
+import json
+import os
+from typing import Dict
+
+def _load_thresholds(defaults: Dict[str, float] = None) -> Dict[str, float]:
+    if defaults is None:
+        defaults = {"LOW_MAX": 0.20, "MED_MAX": 0.35}  # HIGH = > MED_MAX
+    path = os.path.join(os.path.dirname(__file__), "..", "data", "clarity_gain_thresholds.json")
+    path = os.path.normpath(path)
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            cfg = json.load(f)
+        # Accept either flat or nested formats; fall back safely
+        low_max = cfg.get("LOW_MAX") or cfg.get("thresholds", {}).get("LOW_MAX") or defaults["LOW_MAX"]
+        med_max = cfg.get("MED_MAX") or cfg.get("thresholds", {}).get("MED_MAX") or defaults["MED_MAX"]
+        return {"LOW_MAX": float(low_max), "MED_MAX": float(med_max)}
+    except Exception:
+        return defaults
+
+def pick_signal(delta: float) -> Dict[str, str]:
+    """
+    Returns a simple signal dict for the given clarity delta.
+    Example: {"tier": "MED", "label": "Moderate clarity gain"}
+    """
+    th = _load_thresholds()
+    if delta is None:
+        delta = 0.0
+    try:
+        d = float(delta)
+    except Exception:
+        d = 0.0
+
+    if d <= 0.0:
+        tier = "NONE"
+        label = "No clarity gain yet"
+    elif d <= th["LOW_MAX"]:
+        tier = "LOW"
+        label = "Slight clarity gain"
+    elif d <= th["MED_MAX"]:
+        tier = "MED"
+        label = "Moderate clarity gain"
+    else:
+        tier = "HIGH"
+        label = "Strong clarity jump"
+
+    return {"tier": tier, "label": label}

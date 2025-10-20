@@ -1,0 +1,131 @@
+name: Validate & Smoke Test
+
+on:
+  push:
+    branches: [ main, develop, '**/feature/**' ]
+    paths:
+      - "**.py"
+      - "**.json"
+      - "schemas/**"
+      - "scripts/**"
+      - ".github/workflows/**"
+      - "README.md"
+  pull_request:
+    branches: [ main, develop ]
+    paths:
+      - "**.py"
+      - "**.json"
+      - "schemas/**"
+      - "scripts/**"
+      - ".github/workflows/**"
+      - "README.md"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: validate-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    name: Validate JSON + Run Smoke Tests (Linux, Py 3.12)
+    runs-on: ubuntu-latest
+    env:
+      PYTHONIOENCODING: utf-8
+      PIP_DISABLE_PIP_VERSION_CHECK: "1"
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install minimal deps
+        run: |
+          python -m pip install -U pip
+          pip install jsonschema ruff flake8
+
+      - name: Lint (non-blocking for now)
+        continue-on-error: true
+        run: |
+          ruff check .
+          flake8 .
+
+      - name: Validate Proof-of-Clarity schemas/data
+        run: |
+          if [ -f "scripts/validate_proof_of_clarity.py" ]; then
+            python -u scripts/validate_proof_of_clarity.py
+          else
+            echo "No validate_proof_of_clarity.py found; skipping."
+          fi
+
+      - name: Smoke — Loader
+        run: |
+          if [ -f "scripts/smoke_test_loader.py" ]; then
+            python -u scripts/smoke_test_loader.py
+          else
+            echo "No smoke_test_loader.py found; skipping."
+          fi
+
+      - name: Smoke — Engine Fusion
+        run: |
+          if [ -f "scripts/smoke_test_engine_fusion.py" ]; then
+            python -u scripts/smoke_test_engine_fusion.py
+          else
+            echo "No smoke_test_engine_fusion.py found; skipping."
+          fi
+
+      - name: Smoke — Clarity Gain
+        run: |
+          if [ -f "scripts/smoke_test_clarity_gain.py" ]; then
+            python -u scripts/smoke_test_clarity_gain.py
+          else
+            echo "No smoke_test_clarity_gain.py found; skipping."
+          fi
+
+      - name: Demo — Render Clarity Cards (optional)
+        continue-on-error: true
+        run: |
+          if [ -f "scripts/demo_render_cards.py" ]; then
+            python -u scripts/demo_render_cards.py | head -n 100
+          else
+            echo "No demo_render_cards.py found; skipping."
+          fi
+
+      - name: PyTest (optional)
+        continue-on-error: true
+        run: |
+          if [ -f "pytest.ini" ] || [ -d "tests" ]; then
+            pip install pytest
+            pytest -q
+          else
+            echo "No tests/ or pytest.ini; skipping."
+          fi
+
+  # Optional second job to keep an eye on Windows encoding issues
+  windows_smoke:
+    name: Quick Smoke (Windows, Py 3.12)
+    runs-on: windows-latest
+    needs: validate
+    if: ${{ always() }}  # run to catch OS-specific issues
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install minimal deps
+        run: |
+          python -m pip install -U pip
+          pip install jsonschema
+      - name: Smoke — Engine Fusion (UTF-8 check)
+        shell: pwsh
+        run: |
+          $env:PYTHONIOENCODING = "utf-8"
+          if (Test-Path "scripts/smoke_test_engine_fusion.py") {
+            python -u scripts/smoke_test_engine_fusion.py
+          } else {
+            echo "No smoke_test_engine_fusion.py found; skipping."
+          }
