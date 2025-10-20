@@ -1,0 +1,282 @@
+Here’s how I think when I design your schemas — and how you can do it too
+
+Below is the exact step-by-step playbook I use for Elenx. It’s not “magic”; it’s a repeatable method you can follow without me.
+
+1) Start with purpose, users, and invariants
+
+Thought: What job will this JSON do? Who consumes it (people, code, both)? What must always be true?
+
+Do this yourself:
+
+Write one sentence: “This file defines ___ so that ___ can ___.”
+
+List invariants (non-negotiables). Example for voices.json:
+
+Each voice has a stable id (never changes).
+
+label is what humans see; id is what code uses.
+
+There is exactly one default voice.
+
+2) Identify entities and relationships
+
+Thought: What are the “things” here and how do they nest?
+
+Do this yourself:
+
+List entities: voice, matrix mode, matrix principle, fallacy, context driver.
+
+Decide the shape:
+
+Array of objects when you care about order or want human-friendly editing (e.g., fallacies[]).
+
+Map/object when you care about fast lookup by name/id (e.g., Matrix: { Mode → { Principle → Question } }).
+
+Elenx decisions:
+
+fallacies.json & context_drivers.json: array of objects.
+
+matrix.json: nested maps (Mode → Principle → String).
+
+voices.json: array of objects plus a defaults object.
+
+3) Sketch one “golden” example by hand
+
+Thought: If I can’t show one perfect record, I don’t understand the structure yet.
+
+Do this yourself:
+Create a tiny, valid sample of each file before you write a schema.
+
+Voices:
+
+{
+  "spec": "voices.v1",
+  "defaults": {"voice": "feynman"},
+  "voices": [
+    {"id": "feynman", "label": "Richard Feynman", "style": "clear, simple", "example": "What do we actually know?"}
+  ]
+}
+
+
+Matrix:
+
+{
+  "Analytical": {
+    "Assumptions": "What am I taking for granted?",
+    "Evidence": "What supports this claim?"
+  }
+}
+
+4) Turn the example into a schema skeleton
+
+Thought: Lock the outer frame first; don’t over-tighten yet.
+
+Do this yourself (pattern):
+
+Set $schema to draft-07 (your VS Code baseline).
+
+Define the top level: type: "object".
+
+Add the root keys under properties.
+
+Mark absolutely required keys in required.
+
+5) Tighten constraints gradually
+
+Thought: Add guardrails that prevent the mistakes you expect (not every hypothetical).
+
+Do this yourself:
+
+Required fields: required: [...]
+
+No freeloaders: additionalProperties: false
+
+IDs formatted the same way: pattern: "^[a-z0-9_]+$"
+
+Arrays not empty: minItems: 1
+
+Enums when values come from a fixed set.
+
+patternProperties when you allow dynamic keys that match a rule (used in matrix.schema.json).
+
+Note on unique IDs in arrays: JSON Schema draft-07 can’t easily enforce “all id values are unique” by itself. Enforce this in code or your editor/linter (Ajv has plugins), or add a manual check in your build script.
+
+6) Document the schema (for humans)
+
+Thought: Schemas are contracts; contracts need plain-language clauses.
+
+Do this yourself:
+
+Add description to important properties explaining why they exist.
+
+Add an example section (many validators support the examples keyword).
+
+7) Add a version tag and link the schema
+
+Thought: Make evolution safe and explicit.
+
+Do this yourself:
+
+Put a spec field in the data (e.g., "voices.v1").
+
+In the data file, add the top $schema pointer to the local schema path so VS Code validates live:
+
+{
+  "$schema": "../schemas/voices.schema.json",
+  "spec": "voices.v1",
+  ...
+}
+
+8) Validate and iterate
+
+Thought: The first draft always has gaps; let the validator teach you.
+
+Do this yourself:
+
+Open the JSON in VS Code → fix all red squiggles.
+
+Try breaking it on purpose (typos, extra keys) to ensure the schema catches errors you care about.
+
+9) Evolve with intent (versioning & migration)
+
+Thought: Changes should be deliberate and traceable.
+
+Do this yourself:
+
+If you add a new required field, bump spec (e.g., voices.v2) and keep a short CHANGELOG in /docs/.
+
+Provide a tiny migration note: “Add example (optional). No action needed” vs “Add tone (required) — set default to neutral”.
+
+Why each Elenx schema looks the way it does
+
+voices.schema.json
+
+Array of objects: voices are a list you’ll edit by hand.
+
+defaults.voice: separates human defaulting from the list itself.
+
+id vs label: stable machine key vs display text.
+
+additionalProperties: false: catches typos like "stil" instead of "style".
+
+matrix.schema.json
+
+Nested maps: you want O(1) lookup by Mode/Principle and no duplicates.
+
+patternProperties with ^[A-Za-z]+$: allow only word-like keys for modes/principles.
+
+Values are strings (the guiding question).
+
+additionalProperties: false (both levels): ban junk keys like "Notes".
+
+fallacies.schema.json
+
+Array of objects: hand-curated list.
+
+Required id, label, definition; regex locks id format.
+
+No extras allowed: keeps it clean for devs.
+
+context_driver.schema.json
+
+Mirrors fallacies (id/label/definition) for symmetry and dev ergonomics.
+
+A fill-in-the-blanks schema template (reuse this)
+A) Array-of-objects dataset (like fallacies/drivers)
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "<<<TITLE>>> Schema",
+  "type": "object",
+  "properties": {
+    "spec": { "type": "string", "description": "Version tag, e.g., <<<name>>>.v1" },
+    "items": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9_]+$",
+            "description": "Stable machine id (lower_snake_case)."
+          },
+          "label": { "type": "string", "description": "Human display name." },
+          "definition": { "type": "string", "description": "What it is / why it matters." }
+        },
+        "required": ["id", "label", "definition"],
+        "additionalProperties": false
+      }
+    }
+  },
+  "required": ["spec", "items"],
+  "additionalProperties": false
+}
+
+
+Rename items to fallacies or drivers as needed.
+
+B) Map-of-maps dataset (like matrix)
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "<<<TITLE>>> Schema",
+  "type": "object",
+  "patternProperties": {
+    "^[A-Za-z]+$": {
+      "type": "object",
+      "patternProperties": {
+        "^[A-Za-z]+$": {
+          "type": "string",
+          "description": "Leaf value (e.g., guiding question)."
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}
+
+Quick decision tree (use this every time)
+
+Need lookup by name/id? → Use object/map.
+
+Need ordering or frequent manual editing? → Use array.
+
+Do keys change over time?
+
+Yes → use patternProperties to allow any key that matches a rule.
+
+No → use explicit properties with an enum where appropriate.
+
+Must block typos? → Set additionalProperties: false.
+
+Want consistent IDs? → Add a pattern for id.
+
+Is it optional? → Don’t put it in required.
+
+Common pitfalls (and how to dodge them)
+
+Forgetting additionalProperties: false → typos silently pass.
+
+Over-tight patterns → e.g., blocking hyphens you might actually want later.
+
+Unique ids in arrays → draft-07 can’t enforce it alone; check in code or tooling.
+
+Wrong $schema or path → VS Code won’t validate; keep paths relative and correct.
+
+Enums too early → you’ll churn the schema for every new value. Start with a pattern first.
+
+If you had to do this tomorrow without me
+
+Write the purpose and invariants (1 minute).
+
+Draw the data shape (array vs map, nesting) (3 minutes).
+
+Hand-write a golden example JSON (5 minutes).
+
+Convert to a schema skeleton (top-level type + properties) (5 minutes).
+
+Add guardrails (required, patterns, additionalProperties) (5 minutes).
+
+Validate in VS Code and iterate (5 minutes).
+
+You’ll have a solid, working schema in ~20 minutes.

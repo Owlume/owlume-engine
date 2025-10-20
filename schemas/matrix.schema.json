@@ -1,0 +1,77 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://owlume.org/schemas/matrix.schema.json",
+  "title": "Questioncraft Matrix (Nested Map: Mode → Principle → Question)",
+  "type": "object",
+  "required": [
+    "Analytical",
+    "Critical",
+    "Creative",
+    "Reflective",
+    "Growth"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "Analytical": {
+      "$ref": "#/definitions/principleBlock"
+    },
+    "Critical": {
+      "$ref": "#/definitions/principleBlock"
+    },
+    "Creative": {
+      "$ref": "#/definitions/principleBlock"
+    },
+    "Reflective": {
+      "$ref": "#/definitions/principleBlock"
+    },
+    "Growth": {
+      "$ref": "#/definitions/principleBlock"
+    }
+  },
+  "additionalProperties": true,
+  "definitions": {
+    "principleBlock": {
+      "type": "object",
+      "required": [
+        "Assumption",
+        "Evidence",
+        "Risk",
+        "Clarity",
+        "Efficiency",
+        "Action"
+      ],
+      "properties": {
+        "$schema": {
+          "type": "string"
+        },
+        "Assumption": {
+          "type": "string",
+          "minLength": 3
+        },
+        "Evidence": {
+          "type": "string",
+          "minLength": 3
+        },
+        "Risk": {
+          "type": "string",
+          "minLength": 3
+        },
+        "Clarity": {
+          "type": "string",
+          "minLength": 3
+        },
+        "Efficiency": {
+          "type": "string",
+          "minLength": 3
+        },
+        "Action": {
+          "type": "string",
+          "minLength": 3
+        }
+      },
+      "additionalProperties": true
+    }
+  }
+}

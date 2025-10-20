@@ -1,0 +1,18 @@
+{
+  "file": "example.json",
+  "purpose": "Write here why this file exists (e.g., store voices, fallacies, etc.)",
+  "schema": {
+    "field_name_1": "type (string, number, boolean, array, object)",
+    "field_name_2": "type",
+    "field_name_3": "type"
+  },
+  "example_entries": [
+    {
+      "field_name_1": "example value",
+      "field_name_2": "example value",
+      "field_name_3": "example value"
+    }
+  ],
+  "validation_notes": "Open this file in VS Code or paste into a JSON validator to check for errors.",
+  "__note": "Delete or edit this template before handing to devs."
+}

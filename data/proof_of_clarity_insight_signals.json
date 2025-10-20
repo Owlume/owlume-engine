@@ -1,0 +1,34 @@
+{
+    "$schema": "../schemas/proof_of_clarity_insight_signals.schema.json",
+    "spec_version": "2025-10-12",
+    "signals": [
+        {
+            "id": "rarity_of_insight",
+            "label": "Rarity of Insight",
+            "example_feedback": "You caught what 82% of users in similar dilemmas overlook.",
+            "meaning": "Social validation — you are ahead of the curve.",
+            "source_metric": "dilemmanet_category_frequency"
+        },
+        {
+            "id": "depth_of_reflection",
+            "label": "Depth of Reflection",
+            "example_feedback": "You went one layer deeper than most users exploring this topic.",
+            "meaning": "Self-efficacy — learning to think clearer.",
+            "source_metric": "mode_principle_depth_score"
+        },
+        {
+            "id": "empathy_ratio",
+            "label": "Empathy Ratio",
+            "example_feedback": "You balanced logic and empathy better than most today.",
+            "meaning": "Moral + relational reinforcement.",
+            "source_metric": "empathy_lens_activation_rate"
+        },
+        {
+            "id": "consistency_score",
+            "label": "Consistency Score",
+            "example_feedback": "You have illuminated blind spots 5 days this week — clarity compounds.",
+            "meaning": "Momentum anchor, not streak pressure.",
+            "source_metric": "weekly_reflection_count"
+        }
+    ]
+}

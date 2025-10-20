@@ -1,0 +1,83 @@
+{
+  "$schema": "file:///C:/Users/shenb/DesktopLocal/elx-repo/schema/context_driver.schema.json",
+  "spec_version": "2025-10-08",
+  "spec": {
+    "name": "context_drivers",
+    "version": "0.1.0",
+    "owner": "Owlume",
+    "date": "2025-10-03",
+    "notes": "Systemic drivers that create blind spots beyond logical fallacies."
+  },
+  "drivers": [
+    {
+      "id": "identity_protection",
+      "label": "Identity Protection",
+      "definition": "Defending self‑image or status, filtering out threatening facts."
+    },
+    {
+      "id": "misaligned_incentives",
+      "label": "Misaligned Incentives",
+      "definition": "Rewards encourage behavior that conflicts with the real goal."
+    },
+    {
+      "id": "time_pressure",
+      "label": "Time Pressure",
+      "definition": "Rushing decisions narrows options and suppresses diligence."
+    },
+    {
+      "id": "overload",
+      "label": "Overload",
+      "definition": "Too much information hides signal and delays key choices."
+    },
+    {
+      "id": "complexity",
+      "label": "Complexity",
+      "definition": "Interdependent parts obscure causes and side‑effects."
+    },
+    {
+      "id": "groupthink",
+      "label": "Groupthink",
+      "definition": "Desire for harmony suppresses dissent and alternative views."
+    },
+    {
+      "id": "status_quo_bias",
+      "label": "Status Quo Bias",
+      "definition": "Preferring existing paths even when better options emerge."
+    },
+    {
+      "id": "confirmation_drift",
+      "label": "Confirmation Drift",
+      "definition": "Gradual tilt toward data that supports prior beliefs."
+    },
+    {
+      "id": "scope_creep",
+      "label": "Scope Creep",
+      "definition": "Expanding goals dilute focus and blur success criteria."
+    },
+    {
+      "id": "metric_fixation",
+      "label": "Metric Fixation",
+      "definition": "Optimizing the number instead of the underlying reality."
+    },
+    {
+      "id": "handoff_gaps",
+      "label": "Handoff Gaps",
+      "definition": "Coordination breaks hide responsibilities between teams."
+    },
+    {
+      "id": "political_constraints",
+      "label": "Political Constraints",
+      "definition": "Internal power dynamics block rational options."
+    },
+    {
+      "id": "access_bias",
+      "label": "Access Bias",
+      "definition": "Limited stakeholder access skews what gets heard or measured."
+    },
+    {
+      "id": "moral_hazard",
+      "label": "Moral Hazard",
+      "definition": "Actors take more risk when others bear the downside."
+    }
+  ]
+}

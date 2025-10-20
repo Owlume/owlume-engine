@@ -1,0 +1,56 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "proof_of_clarity_insight_signals.schema.json",
+    "title": "Proof of Clarity — Insight Metric Signals (aggregate badges)",
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+        "$schema": {
+            "type": "string"
+        },
+        "spec_version": {
+            "type": "string"
+        },
+        "signals": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "minLength": 1
+                    },
+                    "label": {
+                        "type": "string",
+                        "minLength": 1
+                    },
+                    "example_feedback": {
+                        "type": "string",
+                        "minLength": 1
+                    },
+                    "meaning": {
+                        "type": "string",
+                        "minLength": 1
+                    },
+                    "source_metric": {
+                        "type": "string",
+                        "minLength": 1
+                    }
+                },
+                "required": [
+                    "id",
+                    "label",
+                    "example_feedback",
+                    "meaning",
+                    "source_metric"
+                ]
+            }
+        }
+    },
+    "required": [
+        "spec_version",
+        "signals"
+    ]
+}

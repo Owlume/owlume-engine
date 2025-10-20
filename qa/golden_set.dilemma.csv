@@ -1,0 +1,19 @@
+dilemma_id,short_dilemma_text,expected_mode,expected_principle,notes
+D001,"We're considering raising our product price by 20% next quarter. What blind spots might we be missing?",Assumption,Value vs Evidence,"Baseline test case (used in brand analysis)"
+D002,"Our customer churn has risen slightly, but our acquisition rate is high. Should we worry or focus on growth?",Evidence,Consequence,"Tests balance of short-term data vs. long-term risk"
+D003,"We're thinking of expanding into a new market because competitors are moving there fast.",Hidden Driver,Timing,"Checks for herd instinct and strategic rush"
+D004,"Employee engagement scores are dropping even though pay increased. What's going on?",Empathy,Alignment,"Tests non-financial drivers detection"
+D005,"A major client requested a custom feature that doesn't fit our roadmap. Should we build it?",Trade-off,Focus,"Evaluates principle vs. revenue temptation"
+D006,"Our investor suggests cutting marketing spend to improve margins this quarter.",Consequence,Time Horizon,"Tests short-term optimization bias"
+D007,"Customer feedback is positive, but conversion rates are flat. Where’s the gap?",Evidence,Interpretation,"Tests surface vs. root-cause analysis"
+D008,"We’re planning to rebrand to sound more premium. Any blind spots?",Identity,Perception,"Tests signaling vs. substance tension"
+D009,"We're automating customer support to reduce cost. What could go wrong?",Ethics,Empathy,"Tests moral/relational blind spots"
+D010,"We’re offering discounts to drive end-of-year sales. Any hidden risks?",Assumption,Consequence,"Tests tactical vs. strategic trade-off"
+
+# Add 10 more dilemmas following this structure (D011–D020)
+# Columns:
+# - dilemma_id: Unique identifier (D001–D020)
+# - short_dilemma_text: 2–4 sentence decision scenario
+# - expected_mode: One of the 5 Modes from Questioncraft Matrix
+# - expected_principle: One of the 6 Principles
+# - notes: Optional context or reason for inclusion

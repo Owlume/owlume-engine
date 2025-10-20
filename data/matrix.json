@@ -1,0 +1,49 @@
+{
+  "$schema": "file:///C:/Users/shenb/DesktopLocal/elx-repo/schemas/matrix.schema.json",
+  "spec_version": "2025-10-18",
+  "Analytical": {
+    "Evidence & Validation": "What evidence most directly supports or challenges this conclusion?",
+    "Assumption": "What must be true here for this to work?",
+    "Evidence": "What evidence distinguishes signal from noise in this claim?",
+    "Risk": "Where could this fail first, and how would we notice early?",
+    "Clarity": "What is meant precisely here, and what could be misread?",
+    "Efficiency": "What is being repeated, wasted, or unnecessarily complex?",
+    "Action": "What is the smallest step that would test this?"
+  },
+  "Critical": {
+    "Assumption": "Which assumptions could be flawed, biased, or circular?",
+    "Stakeholder": "Whose interests or incentives could distort this reasoning?",
+    "Evidence": "What counter-evidence or missing data could overturn this?",
+    "Risk": "What is the hidden downside or worst-case that’s ignored?",
+    "Clarity": "Where is the ambiguity that could conceal an error?",
+    "Efficiency": "What is over-engineered or unnecessarily constrained?",
+    "Action": "Which action here may backfire or cause harm?"
+  },
+  "Creative": {
+    "Exploration": "What new angle, idea, or prototype could reveal hidden potential?",
+    "Assumption": "What alternative assumptions could open new possibilities?",
+    "Evidence": "How might unusual or overlooked signals point to a breakthrough?",
+    "Risk": "How could reframing this risk create an unexpected advantage?",
+    "Clarity": "What metaphors or analogies could clarify and inspire?",
+    "Efficiency": "What shortcut, hack, or inversion could simplify?",
+    "Action": "What bold step would radically change the outcome?"
+  },
+  "Reflective": {
+    "Root Cause": "What’s the underlying cause behind this recurring issue?",
+    "Assumption": "How do my own biases shape these assumptions?",
+    "Evidence": "Why do I trust this evidence — and could I be wrong?",
+    "Risk": "What past failures mirror the risks here?",
+    "Clarity": "What am I avoiding seeing clearly because it’s uncomfortable?",
+    "Efficiency": "Where am I overcomplicating because of ego or habit?",
+    "Action": "Am I acting for clarity, or for comfort and identity?"
+  },
+  "Growth": {
+    "Iteration": "What new assumption would I test to learn fastest?",
+    "Assumption": "What new assumption would I test to learn fastest?",
+    "Evidence": "What evidence would most accelerate my learning curve?",
+    "Risk": "What small risk could I take to expand capacity safely?",
+    "Clarity": "What misunderstanding, if resolved, would unlock progress?",
+    "Efficiency": "How could I recycle mistakes into faster improvement?",
+    "Action": "What experiment moves me forward regardless of success or failure?"
+  }
+}

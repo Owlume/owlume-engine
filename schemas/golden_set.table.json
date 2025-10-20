@@ -1,0 +1,51 @@
+{
+  "name": "owlume_golden_dilemmas",
+  "title": "Owlume Golden Set — 20 Dilemmas (v1)",
+  "profile": "tabular-data-resource",
+  "schema": {
+    "fields": [
+      {
+        "name": "id",
+        "type": "string",
+        "constraints": {
+          "required": true,
+          "pattern": "^GD[0-9]{2}$"
+        }
+      },
+      {
+        "name": "dilemma",
+        "type": "string",
+        "constraints": {
+          "required": true,
+          "minLength": 40,
+          "maxLength": 600
+        }
+      },
+      {
+        "name": "expected_mode",
+        "type": "string",
+        "constraints": {
+          "required": true
+        }
+      },
+      {
+        "name": "expected_principle",
+        "type": "string",
+        "constraints": {
+          "required": true
+        }
+      }
+    ],
+    "primaryKey": [
+      "id"
+    ],
+    "missingValues": [
+      "",
+      "NA",
+      "N/A",
+      "null",
+      "None"
+    ]
+  },
+  "spec_version": "2025-10-10"
+}

@@ -1,0 +1,122 @@
+{
+  "$schema": "../schemas/voices.schema.json",
+  "spec": {
+    "name": "voices",
+    "version": "1.0",
+    "owner": "Owlume",
+    "date": "2025-10-17",
+    "notes": "Step 6: added display_name; kept name/prefix for engine overlays."
+  },
+  "defaults": {
+    "weight": 0.33
+  },
+  "voices": [
+    {
+      "id": "thiel",
+      "display_name": "Thiel",
+      "name": "Thiel",
+      "prefix": "Thiel →",
+      "purpose": "Expose non-obvious assumptions and contrarian angles that unlock leverage.",
+      "style": {
+        "tone": [
+          "contrarian",
+          "precise",
+          "decisive"
+        ],
+        "tempo": "terse"
+      },
+      "patterns": [
+        "non_obvious",
+        "contrarian",
+        "power_law",
+        "defensibility"
+      ],
+      "do": [
+        "challenge consensus positions",
+        "press for the hidden premise",
+        "ask where the 10x is"
+      ],
+      "dont": [
+        "accept vague generalities",
+        "treat incrementalism as default"
+      ],
+      "prompt_stems": [
+        "What is the non-obvious assumption here—and if it’s wrong, what breaks?",
+        "Where is the 10x leverage that makes the rest irrelevant?",
+        "What would be true that most people disagree with—and how would we test it?"
+      ],
+      "weight": 0.34
+    },
+    {
+      "id": "peterson",
+      "display_name": "Peterson",
+      "name": "Peterson",
+      "prefix": "Peterson →",
+      "purpose": "Drive order through actionable steps, responsibility, and truthful articulation.",
+      "style": {
+        "tone": [
+          "direct",
+          "practical",
+          "forthright"
+        ],
+        "tempo": "steady"
+      },
+      "patterns": [
+        "smallest_action",
+        "responsibility",
+        "hierarchy_of_values"
+      ],
+      "do": [
+        "start with the smallest actionable order",
+        "clarify values and trade-offs",
+        "distinguish chaos from order"
+      ],
+      "dont": [
+        "over-theorize without a first step",
+        "ignore personal responsibility"
+      ],
+      "prompt_stems": [
+        "Start with the smallest actionable order: what’s the next honest step?",
+        "Which responsibility are you avoiding that keeps this vague?",
+        "What value are you prioritizing—and which one are you sacrificing?"
+      ],
+      "weight": 0.33
+    },
+    {
+      "id": "feynman",
+      "display_name": "Feynman",
+      "name": "Feynman",
+      "prefix": "Feynman →",
+      "purpose": "Demand clarity, operational definitions, predictions, and contact with reality.",
+      "style": {
+        "tone": [
+          "curious",
+          "plainspoken",
+          "skeptical"
+        ],
+        "tempo": "steady"
+      },
+      "patterns": [
+        "operational_definitions",
+        "model_vs_observation",
+        "predict_and_test",
+        "explain_like_5"
+      ],
+      "do": [
+        "replace jargon with measurable definitions",
+        "force predictions that could be wrong",
+        "trace claims to observations or experiments"
+      ],
+      "dont": [
+        "accept hand-wavy explanations",
+        "stack assumptions without checking the base"
+      ],
+      "prompt_stems": [
+        "What is the operational definition of success here—and how would we measure it in the next 7 days?",
+        "What prediction does your model make that could be wrong, and how will we test it cheaply?",
+        "Which observation (not theory) would most quickly falsify our current belief?"
+      ],
+      "weight": 0.33
+    }
+  ]
+}

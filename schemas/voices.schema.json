@@ -1,0 +1,152 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://owlume.org/schemas/voices.schema.json",
+  "title": "Owlume Voices (Overlay Pack v0.1)",
+  "type": "object",
+  "required": [
+    "spec",
+    "defaults",
+    "voices"
+  ],
+  "properties": {
+    "$schema": {
+      "type": "string"
+    },
+    "spec": {
+      "type": "object",
+      "required": [
+        "name",
+        "version",
+        "owner",
+        "date"
+      ],
+      "properties": {
+        "name": {
+          "type": "string",
+          "const": "voices"
+        },
+        "version": {
+          "type": "string"
+        },
+        "owner": {
+          "type": "string"
+        },
+        "date": {
+          "type": "string"
+        },
+        "notes": {
+          "type": "string"
+        }
+      },
+      "additionalProperties": true
+    },
+    "defaults": {
+      "type": "object",
+      "properties": {
+        "max_prompt_stems": {
+          "type": "integer",
+          "minimum": 1
+        },
+        "weight_normalization": {
+          "type": "string",
+          "enum": [
+            "per_file_sum_to_1",
+            "none"
+          ]
+        }
+      },
+      "additionalProperties": true
+    },
+    "voices": {
+      "type": "array",
+      "minItems": 1,
+      "items": {
+        "type": "object",
+        "required": [
+          "id",
+          "display_name",
+          "purpose",
+          "style",
+          "patterns",
+          "do",
+          "dont",
+          "prompt_stems",
+          "weight"
+        ],
+        "properties": {
+          "id": {
+            "type": "string",
+            "pattern": "^[a-z0-9_-]+$"
+          },
+          "display_name": {
+            "type": "string"
+          },
+          "purpose": {
+            "type": "string"
+          },
+          "style": {
+            "type": "object",
+            "required": [
+              "tone",
+              "tempo"
+            ],
+            "properties": {
+              "tone": {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                },
+                "minItems": 1,
+                "uniqueItems": true
+              },
+              "tempo": {
+                "type": "string",
+                "enum": [
+                  "terse",
+                  "steady",
+                  "deliberate"
+                ]
+              }
+            },
+            "additionalProperties": true
+          },
+          "patterns": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1
+          },
+          "do": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1
+          },
+          "dont": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1
+          },
+          "prompt_stems": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 1
+          },
+          "weight": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+          }
+        },
+        "additionalProperties": true
+      }
+    }
+  },
+  "additionalProperties": true
+}

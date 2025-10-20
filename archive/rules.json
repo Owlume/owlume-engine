@@ -1,0 +1,114 @@
+{
+  "spec": {
+    "name": "rules",
+    "version": "0.1.0",
+    "owner": "Owlume",
+    "date": "2025-10-03",
+    "notes": "Human-editable runtime-agnostic rules for how content packs are applied."
+  },
+  "defaults": {
+    "language": "en",
+    "empathy_lens": "on",
+    "voices_active": [
+      "thiel",
+      "feynman",
+      "peterson"
+    ],
+    "per_principle_max": 2,
+    "overall_question_max": 8,
+    "avoid_advice": true,
+    "question_style": "crisp",
+    "max_stem_words": 20
+  },
+  "selector_weights": {
+    "modes": {
+      "Analytical": 0.24,
+      "Critical": 0.2,
+      "Creative": 0.18,
+      "Reflective": 0.18,
+      "Growth": 0.2
+    },
+    "principles": {
+      "Assumptions": 0.17,
+      "Evidence": 0.17,
+      "Risks": 0.18,
+      "Clarity": 0.16,
+      "Focus": 0.16,
+      "Action": 0.16
+    }
+  },
+  "ranking": {
+    "signals": [
+      "relevance",
+      "novelty",
+      "diversity",
+      "empathy_score",
+      "readability"
+    ],
+    "weights": {
+      "relevance": 0.35,
+      "novelty": 0.2,
+      "diversity": 0.15,
+      "empathy_score": 0.15,
+      "readability": 0.15
+    },
+    "output_top_k": 3
+  },
+  "constraints": {
+    "min_dilemma_chars": 40,
+    "max_dilemma_chars": 2000,
+    "max_question_chars": 240,
+    "duplication_threshold": 0.85,
+    "readability_grade_max": 10,
+    "banned_patterns": [
+      "shall",
+      "ought to",
+      "you must",
+      "advice:"
+    ],
+    "require_question_mark": true
+  },
+  "drivers_usage": {
+    "fallacies_required": false,
+    "context_required": false,
+    "max_fallacies_per_item": 2,
+    "max_context_drivers_per_item": 2,
+    "priority_fallacies": [
+      "false_dilemma",
+      "appeal_to_authority",
+      "circular_reasoning",
+      "cherry_picking",
+      "hasty_generalization",
+      "straw_man"
+    ]
+  },
+  "empathy": {
+    "when_to_apply": [
+      "stakeholders_present",
+      "harm_risk_detected",
+      "value_conflict_detected"
+    ],
+    "boosts": {
+      "coverage": 0.35,
+      "prioritization_sharpness": 0.25
+    },
+    "max_overlay_stems": 2
+  },
+  "telemetry": {
+    "collect_feedback": true,
+    "capture_fields": [
+      "QID",
+      "CID",
+      "modes",
+      "principles",
+      "drivers",
+      "empathy_on",
+      "latency_ms",
+      "user_feedback"
+    ],
+    "privacy": {
+      "pseudonymize_user": true,
+      "retain_raw_text_days": 30
+    }
+  }
+}

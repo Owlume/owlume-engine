@@ -1,0 +1,113 @@
+{
+    "$schema": "file:///C:/Users/shenb/DesktopLocal/elx-repo/schema/fallacies.schema.json",
+    "spec_version": "2025-10-08",
+    "spec": {
+        "name": "fallacies",
+        "version": "0.1.0",
+        "owner": "Owlume",
+        "date": "2025-10-02",
+        "notes": "Core fallacy drivers for blind spot tagging. Each item has id, label, and 1-line definition."
+    },
+    "fallacies": [
+        {
+            "id": "false_dilemma",
+            "label": "False Dilemma",
+            "definition": "Forcing a choice between limited options when more exist."
+        },
+        {
+            "id": "appeal_to_authority",
+            "label": "Appeal to Authority",
+            "definition": "Claiming something is true because an authority says so."
+        },
+        {
+            "id": "circular_reasoning",
+            "label": "Circular Reasoning",
+            "definition": "Using the conclusion as evidence for itself."
+        },
+        {
+            "id": "cherry_picking",
+            "label": "Cherry Picking",
+            "definition": "Highlighting only favorable data while ignoring the rest."
+        },
+        {
+            "id": "hasty_generalization",
+            "label": "Hasty Generalization",
+            "definition": "Drawing a broad rule from too few examples."
+        },
+        {
+            "id": "ad_hominem",
+            "label": "Ad Hominem",
+            "definition": "Attacking the person instead of their argument."
+        },
+        {
+            "id": "slippery_slope",
+            "label": "Slippery Slope",
+            "definition": "Arguing one step will inevitably trigger extreme outcomes."
+        },
+        {
+            "id": "post_hoc",
+            "label": "Post Hoc",
+            "definition": "Assuming causation just because one event followed another."
+        },
+        {
+            "id": "straw_man",
+            "label": "Straw Man",
+            "definition": "Misrepresenting someone’s argument to make it easier to attack."
+        },
+        {
+            "id": "appeal_to_emotion",
+            "label": "Appeal to Emotion",
+            "definition": "Substituting feelings for valid reasoning."
+        },
+        {
+            "id": "bandwagon",
+            "label": "Bandwagon",
+            "definition": "Assuming something is true because many believe it."
+        },
+        {
+            "id": "red_herring",
+            "label": "Red Herring",
+            "definition": "Introducing irrelevant info to distract from the issue."
+        },
+        {
+            "id": "false_cause",
+            "label": "False Cause",
+            "definition": "Mistaking correlation for causation."
+        },
+        {
+            "id": "equivocation",
+            "label": "Equivocation",
+            "definition": "Using the same word in different senses to mislead."
+        },
+        {
+            "id": "appeal_to_tradition",
+            "label": "Appeal to Tradition",
+            "definition": "Claiming something is correct because it’s long-standing."
+        },
+        {
+            "id": "appeal_to_nature",
+            "label": "Appeal to Nature",
+            "definition": "Arguing something is good because it’s natural."
+        },
+        {
+            "id": "false_analogy",
+            "label": "False Analogy",
+            "definition": "Drawing a comparison between unlike things as proof."
+        },
+        {
+            "id": "burden_of_proof",
+            "label": "Burden of Proof",
+            "definition": "Demanding others disprove a claim rather than proving it."
+        },
+        {
+            "id": "no_true_scotsman",
+            "label": "No True Scotsman",
+            "definition": "Rejecting counterexamples by changing the group definition."
+        },
+        {
+            "id": "appeal_to_ignorance",
+            "label": "Appeal to Ignorance",
+            "definition": "Arguing something is true because it hasn’t been proven false."
+        }
+    ]
+}

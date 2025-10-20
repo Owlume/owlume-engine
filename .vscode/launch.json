@@ -1,0 +1,57 @@
+{
+    // Owlume — VS Code Run/Debug Config
+    // ---------------------------------
+    // How to use:
+    // 1) Open the Run & Debug panel (Ctrl/Cmd + Shift + D)
+    // 2) Pick a configuration from the dropdown
+    // 3) Press the green ▶️ button
+    "version": "0.2.0",
+    "configurations": [
+        {
+            "name": "Elenx Engine Demo (T1)",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/src/elenx_engine.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
+            "env": {
+                // Ensures imports from /src work cleanly
+                "PYTHONPATH": "${workspaceFolder}"
+            },
+            "args": [],
+            // Optional: run schema validation before launch
+            "preLaunchTask": "Validate JSON packs",
+            "justMyCode": true,
+            "stopOnEntry": false
+        },
+        {
+            "name": "Elenx Loader (with schema validation)",
+            "type": "python",
+            "request": "launch",
+            "program": "${workspaceFolder}/src/elenx_loader.py",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}"
+            },
+            "args": [],
+            "preLaunchTask": "Validate JSON packs",
+            "justMyCode": true,
+            "stopOnEntry": false
+        },
+        {
+            "name": "Run Current Python File (Owlume)",
+            "type": "python",
+            "request": "launch",
+            "program": "${file}",
+            "console": "integratedTerminal",
+            "cwd": "${workspaceFolder}",
+            "env": {
+                "PYTHONPATH": "${workspaceFolder}"
+            },
+            "args": [],
+            "justMyCode": true,
+            "stopOnEntry": false
+        }
+    ]
+}

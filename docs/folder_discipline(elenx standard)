@@ -1,0 +1,17 @@
+elx-repo/
+ ├── README.md
+ ├── /data/                ← JSON datasets
+ │     ├── matrix.json
+ │     ├── voices.json
+ │     ├── fallacies.json
+ │     └── context_drivers.json
+ ├── /schemas/             ← matching rulebooks
+ │     ├── matrix.schema.json
+ │     ├── voices.schema.json
+ │     ├── fallacies.schema.json
+ │     └── context_driver.schema.json
+ ├── /docs/                ← explanations, guides, philosophy
+ │     ├── how_to_read_elenx_schemas.md
+ │     ├── how_to_brief_for_schemas.md
+ │     └── [future Elenx engine diagrams, empathy lens doc, etc.]
+ └── /assets/ (optional)   ← diagrams or PNGs

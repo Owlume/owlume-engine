@@ -1,0 +1,21 @@
+id,dilemma,expected_mode,expected_principle
+GD01,"My co‑founder has been quieter in meetings and shipping fewer PRs. I’m thinking of quietly reallocating ownership to protect the company. If I bring it up, I fear damaging trust.",Interpersonal,Assumptions
+GD02,"Our early adopters love the power‑user shortcuts, but activation for new users is terrible. I want to add an onboarding wizard, yet it could bloat the product. What’s the right first move?",Operational,Trade‑offs/Risks
+GD03,A big enterprise logo wants a custom SSO feature in exchange for a one‑year contract. Building it would consume our small team for two sprints. Is this worth it?,Strategic,Opportunity Cost
+GD04,"Churn is 7% monthly, but NPS is 54 and Twitter praise looks great. The team insists churn is just seasonal. I think something deeper is off.",Analytical,Evidence/Gaps
+GD05,I’m preparing to raise a seed round and investors keep asking for a clear wedge. We can pitch either 'compliance AI' or 'workflow assistant'. Which story creates unfair advantage?,Strategic,Positioning/Differentiation
+GD06,We’re debating usage‑based vs seat‑based pricing. Finance prefers predictability; customers say they want to 'start small'. I’m worried our price meter will distort behavior.,Analytical,Incentives/Behavior
+GD07,A senior engineer pushes to rewrite the core service in Rust for performance. Our roadmap is already slipping. Could a partial refactor be smarter?,Operational,Scope/Alternatives
+GD08,"A design partner keeps giving glowing feedback, but they get it for free. I’m not sure they represent a paying segment. Should we start charging them now?",Analytical,Sampling/Bias
+GD09,Marketing proposes a bold rebrand before launch to 'feel premium'. It will delay GA by three weeks. Does signaling outweigh speed to market?,Strategic,Timing/Second‑Order
+GD10,"Customer success escalations are piling up on one PM. She’s great but burning out. If I redistribute accounts, I could lose continuity for key logos.",Interpersonal,Capacity/Boundaries
+GD11,We’re planning an Australia‑only launch to stay focused. A US influencer just offered a shout‑out that could spike American signups. Do we hold the line or ride the wave?,Strategic,Focus/Scope Creep
+GD12,Security flagged our session logging as overly verbose. Product analytics rely on it. I’m torn between tightening data and keeping insight velocity.,Operational,Risk/Compliance
+GD13,A candidate dazzled in the take‑home but dodged collaborative exercises. The hiring manager insists they’re '10x'. Am I overweighting likeability or underweighting team fit?,Interpersonal,Criteria/Signals
+GD14,A competitor just open‑sourced a similar library. Our devs want to integrate it to move faster. Would that erode our IP or free us to focus on the proprietary layer?,Strategic,Build‑vs‑Buy
+GD15,We’ve promised 'privacy‑first' to users. Growth wants referral tracking with deep attribution. How do we keep trust while learning what works?,Analytical,Constraints/Principles
+GD16,Sales keeps promising features that don’t exist yet. They argue we need momentum. I worry we’re training customers to expect vapor.,Operational,Expectation/Risk
+GD17,Two advisors recommend opposite things: 'go enterprise now' vs 'nail prosumers first'. Both have great track records. How do I avoid borrowing their biases?,Analytical,Authority/Appeals
+GD18,"Our stand‑ups have ballooned to 40 minutes and feel performative. If I cut them to async updates, will collaboration suffer or improve?",Operational,Process/Change Impact
+GD19,"A pilot user reported our AI suggestion sounded judgmental in sensitive contexts. We can add an empathy layer, but it may reduce crispness. What’s the right tone bar?",Interpersonal,User Trust/Experience
+GD20,We’re considering a freemium tier to seed distribution. Support cost and spam risks worry me. Do we gate with waitlists or usage caps?,Strategic,Guardrails/Design

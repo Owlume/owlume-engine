@@ -1,0 +1,3 @@
+{"did":"DID-2025-0012","uid":"U-134A","cg_pre":0.42,"cg_post":0.78,"cg_delta":0.36,"empathy_state":"ON","mode_detected":"Assumption","principle_detected":"Evidence","timestamp":"2025-10-12T10:40:00Z"}
+{"did":"DID-2025-0013","uid":"U-134A","cg_pre":0.55,"cg_post":0.74,"cg_delta":0.19,"empathy_state":"OFF","mode_detected":"Perspective","principle_detected":"Impact","timestamp":"2025-10-12T11:05:00Z"}
+{"did":"DID-2025-0014","uid":"U-204B","cg_pre":0.31,"cg_post":0.81,"cg_delta":0.50,"empathy_state":"ON","mode_detected":"Decision","principle_detected":"Risk","timestamp":"2025-10-12T11:30:00Z"}
