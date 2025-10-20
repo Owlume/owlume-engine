@@ -1,28 +1,36 @@
 # scripts/smoke_test_clarity_gain.py
+# UTF-8 safety on Windows terminals
 import sys
-from pathlib import Path
+import os   # <-- this line must be present!
 
-# Make src importable when run from repo root
-ROOT = Path(__file__).resolve().parents[1]
-sys.path.insert(0, str(ROOT / "src"))
+if hasattr(sys.stdout, "reconfigure"):
+    sys.stdout.reconfigure(encoding="utf-8")
+    sys.stderr.reconfigure(encoding="utf-8")
 
-from elenx_loader import pick_signal  # noqa: E402
+# Ensure we can import from src/
+sys.path.append(os.path.normpath(os.path.join(os.path.dirname(__file__), "..", "src")))
 
+from elenx_loader import pick_signal  # returns {"tier": ..., "label": ...}
 
-def demo(delta: int):
-    sig = pick_signal(delta)
-    print(f"Δ={delta} → [{sig.get('id')}] {sig.get('user_message')}")
-    coach = sig.get("coach_nudge")
-    if coach:
-        print(f"  Coach: {coach}")
-
+def show(delta):
+    sig = pick_signal(delta) or {}
+    tier = sig.get("tier", "NONE")
+    label = sig.get("label", "No clarity gain yet")
+    print(f"Δ={delta} → [{tier}] {label}")
 
 def main():
-    # Try three representative deltas
-    for d in (1, 4, 7):
-        demo(d)
+    print("CLARITY GAIN — SMOKE TEST")
+    # canonical probes
+    for d in [0.0, 0.05, 0.28, 0.42, 1, 4, 7]:
+        show(d)
 
+    # simple invariants
+    assert pick_signal(0.0)["tier"] in {"NONE", "LOW"}, "Zero delta should not be MED/HIGH"
+    assert pick_signal(1)["tier"] == "HIGH", "Large delta should be HIGH"
+
+    print("Clarity gain smoke test completed ✓")
 
 if __name__ == "__main__":
     main()
+
 
