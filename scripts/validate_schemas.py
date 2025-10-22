@@ -18,6 +18,10 @@ Usage:
 """
 
 from __future__ import annotations
+
+import warnings
+warnings.filterwarnings("ignore", message="jsonschema.RefResolver is deprecated")
+
 import argparse, json, sys, traceback
 from pathlib import Path
 from typing import Dict, List, Tuple, Optional
