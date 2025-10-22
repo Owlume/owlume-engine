@@ -1,70 +1,107 @@
-﻿# scripts/smoke_test_engine_fusion.py
-import os, sys
-# Ensure Python can find the src/ folder
+﻿#!/usr/bin/env python3
+# scripts/smoke_test_engine_fusion.py
+"""
+Owlume — Engine Smoke Test (hybrid fusion)
+- Loads real packs via load_packs()
+- Runs a few short sample texts through ElenxEngine.analyze()
+- Exits 0 on success, non-zero on any failure (CI-friendly)
+"""
+
+from __future__ import annotations
+import os, sys, traceback
+
+# Ensure Python can find the src/ folder (works locally and in CI)
 sys.path.append(os.path.join(os.path.dirname(__file__), "..", "src"))
 
-from elenx_engine import ElenxEngine
-from elenx_loader import load_packs  # uses your real loader
-
-# --- Fix Windows console encoding (UTF-8 support for → etc.) ---
+# UTF-8 for Windows consoles; harmless on Linux CI runners
 if hasattr(sys.stdout, "reconfigure"):
-    sys.stdout.reconfigure(encoding="utf-8")
-    sys.stderr.reconfigure(encoding="utf-8")
+    try:
+        sys.stdout.reconfigure(encoding="utf-8")
+        sys.stderr.reconfigure(encoding="utf-8")
+    except Exception:
+        pass
 
-# --- Sample texts for quick sanity checks ---
+# ---- Samples (keep short so CI is fast) ----
 SAMPLES = [
-    # 1) Analytical — unsure / next step (no priors)
     "We have some notes from two users, but I’m unsure what to do next.",
-
-    # 2) Critical — incentives / stakeholder pressure (priors likely)
     "Incentives are misaligned across sales and product; stakeholders are pressuring us and risk is rising.",
-
-    # 3) Critical + Empathy — relationship conflict
     "My co-founder seems distant lately. Tension is building with the team and I worry incentives are clashing.",
-
-    # 4) Creative — ideation / new approach
     "Let’s brainstorm a new approach. What if we imagine a lightweight prototype to explore novel possibilities?",
-
-    # 5) Reflective — hindsight / lessons
     "Looking back, I regret how we handled the first rollout. What patterns do we keep repeating and what lesson is here?",
-
-    # 6) Growth — mindset / feedback / improvement
     "I want to build a better habit around feedback and coaching. How can I evolve my mindset so improvement sticks?",
 ]
 
+def _limit_samples(samples: list[str]) -> list[str]:
+    """Allow CI to limit the number of samples via env var OWLUME_SMOKE_SAMPLES."""
+    try:
+        n = int(os.getenv("OWLUME_SMOKE_SAMPLES", "6"))
+        n = max(1, min(n, len(samples)))
+        return samples[:n]
+    except Exception:
+        return samples[:6]
 
-def main():
-    # Load all validated packs (Matrix, Voices, Fallacies, Context Drivers)
-    packs = load_packs()
-    eng = ElenxEngine(packs)
+def main() -> int:
+    print("SMOKE: hybrid_fusion start")
+    try:
+        # Lazy imports after sys.path append so failures are clearer
+        from elenx_engine import ElenxEngine
+        from elenx_loader import load_packs
+    except Exception as e:
+        print(f"SMOKE: import_error: {e}")
+        print(traceback.format_exc())
+        return 1
 
-    print("\nHYBRID FUSION — SMOKE TEST\n")
+    try:
+        packs = load_packs()
+    except Exception as e:
+        print(f"SMOKE: load_packs_error: {e}")
+        print(traceback.format_exc())
+        return 1
 
-    for i, text in enumerate(SAMPLES, start=1):
-        print(f"--- SAMPLE {i} ---")
-        print("TEXT:", text)
+    try:
+        eng = ElenxEngine(packs)
+    except Exception as e:
+        print(f"SMOKE: engine_init_error: {e}")
+        print(traceback.format_exc())
+        return 1
 
-        det, qs = eng.analyze(text)
+    failures = 0
+    ran = 0
+    for i, text in enumerate(_limit_samples(SAMPLES), start=1):
+        try:
+            det, qs = eng.analyze(text)
+        except Exception as e:
+            print(f"SMOKE: analyze_error sample={i}: {e}")
+            print(traceback.format_exc())
+            failures += 1
+            continue
 
-        print(
-            "MODE×PRINCIPLE:",
-            f"{det.mode} × {det.principle} | conf={det.confidence:.2f} "
-            f"| priors_used={det.priors_used} | empathy={det.empathy_on}"
-        )
-
-        if det.alt_mode or det.alt_principle:
+        # Minimal structural assertions (don’t overfit to exact values)
+        missing = []
+        for attr in ("mode", "principle", "confidence", "priors_used", "empathy_on", "tags"):
+            if not hasattr(det, attr):
+                missing.append(attr)
+        if missing:
+            print(f"SMOKE: invalid_detection sample={i}: missing {missing}")
+            failures += 1
+        else:
+            # Log a compact, greppable line for CI
+            conf = getattr(det, "confidence", 0.0)
             print(
-                "ALT:",
-                f"{det.alt_mode or '-'} × {det.alt_principle or '-'} "
-                f"| alt_conf={det.alt_confidence:.2f}",
+                f"SMOKE: ok sample={i} "
+                f"mode={det.mode} principle={det.principle} conf={conf:.2f} "
+                f"priors={det.priors_used} empathy={det.empathy_on} tags={len(det.tags)} qs={len(qs)}"
             )
+        ran += 1
 
-        print("TAGS:", det.tags)
-        for q in qs:
-            print("Q:", q)
-        print()
+    if failures > 0:
+        print(f"SMOKE: FAIL ran={ran} failures={failures}")
+        return 1
 
-    print("Hybrid Fusion smoke test completed ✓")
+    print(f"SMOKE: PASS ran={ran} failures=0")
+    return 0
 
 if __name__ == "__main__":
-    main()
+    sys.exit(main())
+
+
