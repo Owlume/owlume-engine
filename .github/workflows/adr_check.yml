@@ -1,4 +1,4 @@
-name: ADR Check — Schema Validation
+name: Owlume Schema Validation
 
 on:
   push:
