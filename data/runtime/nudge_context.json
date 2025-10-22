@@ -1,0 +1,15 @@
+{
+    "user_name": "Brian",
+    "last_session_minutes_ago": 5,
+    "last_cg_delta": 0.12,
+    "avg_cg_delta_window": 0.10,
+    "sessions_in_window": 2,
+    "idle_days": 0,
+    "reflections_count": 9,
+    "streak_days": 0,
+    "next_event": {
+        "title": "—",
+        "minutes_until": 999
+    },
+    "now_utc": "2025-10-21T02:40:00Z"
+}

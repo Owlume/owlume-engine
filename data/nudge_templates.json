@@ -1,0 +1,178 @@
+{
+    "$schema": "../schemas/nudge_templates.schema.json",
+    "spec": "owlume.nudges.v1",
+    "version": "1.0.0",
+    "default_timezone": "Australia/Sydney",
+    "templates": [
+        {
+            "id": "gentle_morning_ping",
+            "tone": "gentle",
+            "trigger_type": "daily_time",
+            "message": "Morning {{user_name}} — one small reflection today can prevent a big regret later. What’s the next decision on your mind?",
+            "cooldown_hours": 24,
+            "priority": 0,
+            "channels": [
+                "in_app"
+            ],
+            "conditions": {
+                "days_of_week": [
+                    "Mon",
+                    "Tue",
+                    "Wed",
+                    "Thu",
+                    "Fri"
+                ],
+                "by_hour": [
+                    9
+                ]
+            }
+        },
+        {
+            "id": "gentle_weekend_review",
+            "tone": "gentle",
+            "trigger_type": "weekend",
+            "message": "Weekend reset: What shifted this week? Pick one decision to see clearer — before it costs you.",
+            "cooldown_hours": 24,
+            "priority": 0,
+            "channels": [
+                "in_app"
+            ],
+            "conditions": {
+                "days_of_week": [
+                    "Sat",
+                    "Sun"
+                ],
+                "by_hour": [
+                    10
+                ]
+            }
+        },
+        {
+            "id": "eod_micro_wrap",
+            "tone": "gentle",
+            "trigger_type": "end_of_day",
+            "message": "A 60-second wrap can lock in clarity. What did you almost miss today?",
+            "cooldown_hours": 24,
+            "priority": 0,
+            "channels": [
+                "in_app"
+            ],
+            "conditions": {
+                "by_hour": [
+                    20
+                ]
+            }
+        },
+        {
+            "id": "post_session_boost",
+            "tone": "moment",
+            "trigger_type": "after_session",
+            "message": "Nice pass. CG {{cg_delta}}. Want a fast follow-up question to turn this into action?",
+            "cooldown_hours": 2,
+            "priority": 2,
+            "channels": [
+                "in_app"
+            ],
+            "conditions": {
+                "min_cg_delta": 0.05
+            }
+        },
+        {
+            "id": "cg_trend_guardrail",
+            "tone": "moment",
+            "trigger_type": "cg_trend_low",
+            "message": "Your clarity trend dipped this week. Try one sharper lens now to recover momentum?",
+            "cooldown_hours": 12,
+            "priority": 3,
+            "channels": [
+                "in_app"
+            ],
+            "conditions": {
+                "window_days": 7,
+                "threshold_delta": 0.05,
+                "min_sessions": 3
+            }
+        },
+        {
+            "id": "streak_reignite",
+            "tone": "moment",
+            "trigger_type": "streak_break",
+            "message": "Your reflection streak paused at {{streak_days}} days. Want a one-tap prompt to restart?",
+            "cooldown_hours": 24,
+            "priority": 2,
+            "channels": [
+                "in_app",
+                "push"
+            ],
+            "conditions": {
+                "idle_days": 3
+            }
+        },
+        {
+            "id": "empathy_nudge",
+            "tone": "moment",
+            "trigger_type": "empathy_off",
+            "message": "Relationships often hide the real blind spots. Enable Empathy Lens for your next reflection?",
+            "cooldown_hours": 24,
+            "priority": 1,
+            "channels": [
+                "in_app"
+            ],
+            "conditions": {
+                "window_days": 7,
+                "min_sessions": 2
+            }
+        },
+        {
+            "id": "reactivation_soft",
+            "tone": "gentle",
+            "trigger_type": "reactivation_idle",
+            "message": "When you’re ready, I’m here. One reflection now can prevent a costly miss later.",
+            "cooldown_hours": 48,
+            "priority": 1,
+            "channels": [
+                "email",
+                "in_app"
+            ],
+            "conditions": {
+                "idle_days": 14
+            }
+        },
+        {
+            "id": "milestone_cheer",
+            "tone": "gentle",
+            "trigger_type": "milestone",
+            "message": "👏 Milestone unlocked — {{reflections_count}} reflections. Want a quick snapshot of your top Mode × Principle so far?",
+            "cooldown_hours": 168,
+            "priority": 0,
+            "channels": [
+                "in_app"
+            ],
+            "conditions": {
+                "reflections_count_min": 10
+            }
+        },
+        {
+            "id": "pre_meeting_focus",
+            "tone": "moment",
+            "trigger_type": "pre_meeting",
+            "message": "Before your next meeting ({{next_event_in}}), pick one lens to avoid blind-spot surprises.",
+            "cooldown_hours": 6,
+            "priority": 3,
+            "channels": [
+                "in_app",
+                "push"
+            ],
+            "conditions": {
+                "window_minutes": 20,
+                "calendar_keywords": [
+                    "1:1",
+                    "review",
+                    "stakeholder",
+                    "pitch",
+                    "planning"
+                ]
+            }
+        }
+    ]
+}

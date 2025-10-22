@@ -1,68 +1,18 @@
 {
-    "$schema": "http://json-schema.org/draft-07/schema#",
-    "spec": {
-        "name": "clarity_gain_thresholds",
-        "version": "2.0.0",
-        "updated": "2025-10-18",
-        "owner": "Owlume",
-        "description": "Reference thresholds for clarity gain on a normalized 0–1 scale, with back-compat keys for the T2 smoke script."
+    "$schema": "../schemas/clarity_gain_thresholds.schema.json",
+    "spec": "owlume.clarity.thresholds.v1",
+    "version": "1.0.0",
+    "description": "Thresholds for interpreting clarity gain (Δ) into qualitative tiers used across dashboards and nudges.",
+    "thresholds": {
+        "very_low": 0.05,
+        "low": 0.10,
+        "medium": 0.25,
+        "high": 0.40,
+        "very_high": 0.60
     },
-    "scale": {
-        "min": 0.0,
-        "max": 1.0,
-        "unit": "clarity (0–1)",
-        "notes": "If you have legacy 0–10 logs, normalize by dividing by 10."
-    },
-    "meaningful_delta": 0.10,
-    "low": 0.10,
-    "medium": 0.25,
-    "high": 0.40,
-    "thresholds": [
-        {
-            "id": "low",
-            "label": "Low gain",
-            "delta_min": 0.10,
-            "delta_max": 0.2499,
-            "description": "Early movement or surface relief — user starts to see around a corner."
-        },
-        {
-            "id": "medium",
-            "label": "Medium gain",
-            "delta_min": 0.25,
-            "delta_max": 0.3999,
-            "description": "Noticeable conceptual shift — a new angle or correction emerges."
-        },
-        {
-            "id": "high",
-            "label": "High gain",
-            "delta_min": 0.40,
-            "delta_max": 1.0,
-            "description": "Transformative insight or mindset reversal — strong confidence increase."
-        }
-    ],
-    "maps": {
-        "proof_signals": [
-            {
-                "threshold_id": "low",
-                "signals": [
-                    "Δ-Insight"
-                ]
-            },
-            {
-                "threshold_id": "medium",
-                "signals": [
-                    "Δ-Insight",
-                    "Perspective Shift"
-                ]
-            },
-            {
-                "threshold_id": "high",
-                "signals": [
-                    "Δ-Insight",
-                    "Pattern Reversal",
-                    "Perspective Shift"
-                ]
-            }
-        ]
+    "notes": {
+        "purpose": "Defines cut-off points for computing clarity tiers (LOW, MED, HIGH, EXCELLENT).",
+        "usage": "Used by DilemmaNet aggregators, dashboard visualizations, and nudge generator.",
+        "source": "Derived empirically from early reflection set (Oct 2025)."
     }
 }

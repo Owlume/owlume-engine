@@ -1,0 +1,12 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "https://owlume-engine/schemas/clarity_metrics_summary.schema.json",
+    "title": "Clarity Metrics Summary",
+    "type": "object",
+    "additionalProperties": true,
+    "properties": {
+        "$schema": {
+            "type": "string"
+        }
+    }
+}

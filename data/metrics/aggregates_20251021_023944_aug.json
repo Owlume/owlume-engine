@@ -1,0 +1,123 @@
+{
+  "spec": "owlume.aggregates.v1",
+  "generated_at": "2025-10-21T02:39:44Z",
+  "source_files": [
+    "C:\\Users\\shenb\\DesktopLocal\\owlume-engine\\data\\logs\\clarity_gain_202510.bak.jsonl",
+    "C:\\Users\\shenb\\DesktopLocal\\owlume-engine\\data\\logs\\clarity_gain_202510.jsonl",
+    "C:\\Users\\shenb\\DesktopLocal\\owlume-engine\\data\\logs\\clarity_gain_samples.jsonl",
+    "C:\\Users\\shenb\\DesktopLocal\\owlume-engine\\data\\logs\\clarity_gain_samples_full.jsonl",
+    "C:\\Users\\shenb\\DesktopLocal\\owlume-engine\\data\\logs\\samples\\clarity_gain_samples.jsonl"
+  ],
+  "totals": {
+    "n_records": 20,
+    "avg": {
+      "cg_pre": 0.128,
+      "cg_post": 0.233,
+      "cg_delta": 0.105
+    },
+    "distribution": {
+      "positive_rate": 0.3,
+      "negative_rate": 0.0,
+      "zero_rate": 0.7,
+      "tiers": {
+        "LOW": 16,
+        "HIGH": 4
+      }
+    },
+    "empathy": {
+      "on": 4,
+      "off": 16,
+      "activation_rate": 0.2
+    }
+  },
+  "top": {
+    "modes": [
+      {
+        "label": "-",
+        "count": 14
+      },
+      {
+        "label": "Assumption",
+        "count": 2
+      },
+      {
+        "label": "Perspective",
+        "count": 2
+      },
+      {
+        "label": "Decision",
+        "count": 2
+      }
+    ],
+    "principles": [
+      {
+        "label": "-",
+        "count": 14
+      },
+      {
+        "label": "Evidence",
+        "count": 2
+      },
+      {
+        "label": "Impact",
+        "count": 2
+      },
+      {
+        "label": "Risk",
+        "count": 2
+      }
+    ],
+    "mode_x_principle": [
+      {
+        "label": "- × -",
+        "count": 14
+      },
+      {
+        "label": "Assumption × Evidence",
+        "count": 2
+      },
+      {
+        "label": "Perspective × Impact",
+        "count": 2
+      },
+      {
+        "label": "Decision × Risk",
+        "count": 2
+      }
+    ],
+    "fallacies": [],
+    "contexts": []
+  },
+  "timeseries": {
+    "by_day": [
+      {
+        "day": "2025-10-12",
+        "n": 8,
+        "avg_delta": 0.262
+      },
+      {
+        "day": "2025-10-18",
+        "n": 12,
+        "avg_delta": 0.0
+      }
+    ],
+    "by_week": [
+      {
+        "week": "2025-W41",
+        "n": 8,
+        "avg_delta": 0.262
+      },
+      {
+        "week": "2025-W42",
+        "n": 12,
+        "avg_delta": 0.0
+      }
+    ]
+  },
+  "empathy_activation_rate": 0.2,
+  "mode_principle_counts": {
+    "Assumption × Evidence": 2,
+    "Decision × Risk": 2,
+    "Perspective × Impact": 2
+  }
+}

@@ -1,0 +1,41 @@
+{
+    "$schema": "schemas/clarity_metrics_summary.schema.json",
+    "spec": "owlume.clarity.metrics.v1",
+    "generated_at": "2025-10-21T11:30:00Z",
+    "period_start": "2025-10-14",
+    "period_end": "2025-10-21",
+    "window_days": 7,
+    "cg_avg": 0.27,
+    "cg_median": 0.25,
+    "cg_delta_mean": 0.27,
+    "empathy_ratio": 0.41,
+    "priors_ratio": 0.22,
+    "voice_diversity": 0.67,
+    "total_reflections": 108,
+    "top_modes": [
+        "Decision",
+        "Perspective",
+        "Critical"
+    ],
+    "top_mode_pairs": [
+        {
+            "mode": "Decision",
+            "principle": "Risk",
+            "cg_avg": 0.31,
+            "count": 19
+        },
+        {
+            "mode": "Perspective",
+            "principle": "Impact",
+            "cg_avg": 0.29,
+            "count": 14
+        },
+        {
+            "mode": "Critical",
+            "principle": "Assumption",
+            "cg_avg": 0.28,
+            "count": 16
+        }
+    ],
+    "notes": "Sample summary for schema validation."
+}

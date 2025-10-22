@@ -1,0 +1,93 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "https://owlume-engine/schemas/context_drivers.schema.json",
+    "title": "Context Drivers Pack",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "drivers"
+    ],
+    "properties": {
+        "$schema": {
+            "type": "string"
+        },
+        "spec": {
+            "description": "Metadata for this pack (object or simple string id).",
+            "oneOf": [
+                {
+                    "type": "string"
+                },
+                {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "$schema": {
+                            "type": "string"
+                        },
+                        "name": {
+                            "type": "string"
+                        },
+                        "version": {
+                            "type": "string"
+                        },
+                        "owner": {
+                            "type": "string"
+                        },
+                        "date": {
+                            "type": "string"
+                        },
+                        "notes": {
+                            "type": "string"
+                        }
+                    }
+                }
+            ]
+        },
+        "version": {
+            "type": "string",
+            "description": "Optional top-level data version."
+        },
+        "spec_version": {
+            "type": "string",
+            "description": "Optional spec semver (e.g., 1.0.0)."
+        },
+        "drivers": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                    "id",
+                    "label",
+                    "definition"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "string"
+                    },
+                    "label": {
+                        "type": "string"
+                    },
+                    "definition": {
+                        "type": "string"
+                    },
+                    "notes": {
+                        "type": "string"
+                    },
+                    "aliases": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "examples": {
+                        "type": "array",
+                        "items": {
+                            "type": "string"
+                        }
+                    }
+                }
+            }
+        }
+    }
+}

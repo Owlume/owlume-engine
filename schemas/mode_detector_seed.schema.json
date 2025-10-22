@@ -1,1 +1,135 @@
-
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "https://owlume-engine/schemas/mode_detector_seed.schema.json",
+    "title": "Mode Detector Seed",
+    "description": "Handcrafted linguistic cues for detectMode(). Flexible to allow id/label/description, tokens OR lexicon OR prototypes.",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "spec",
+        "spec_version",
+        "modes"
+    ],
+    "properties": {
+        "$schema": {
+            "type": "string"
+        },
+        "spec": {
+            "type": "string",
+            "const": "mode_detector_seed.v1",
+            "description": "Identifier for the spec family."
+        },
+        "spec_version": {
+            "type": "string",
+            "pattern": "^\\d+\\.\\d+\\.\\d+$",
+            "description": "Semantic version (e.g., 1.0.0)."
+        },
+        "defaults": {
+            "type": "object",
+            "description": "Global weights/tokens applied to all modes by default.",
+            "additionalProperties": true
+        },
+        "modes": {
+            "type": "array",
+            "description": "Per-mode cue definitions.",
+            "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "description": "Stable identifier (e.g., ASSUMPTION)."
+                    },
+                    "label": {
+                        "type": "string",
+                        "description": "Human-readable label (e.g., 'Assumption')."
+                    },
+                    "description": {
+                        "type": "string"
+                    },
+                    "mode": {
+                        "type": "string",
+                        "description": "Alternate name key if used by engine."
+                    },
+                    "tokens": {
+                        "type": "array",
+                        "description": "Direct keyword/stem/phrase list for this mode.",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "lexicon": {
+                        "description": "Flexible lexicon structure (allow object, array, or string to match your current pack).",
+                        "oneOf": [
+                            {
+                                "type": "object",
+                                "additionalProperties": true
+                            },
+                            {
+                                "type": "array",
+                                "items": {
+                                    "type": [
+                                        "string",
+                                        "object"
+                                    ]
+                                }
+                            },
+                            {
+                                "type": "string"
+                            }
+                        ]
+                    },
+                    "prototypes": {
+                        "type": "array",
+                        "description": "Canonical example phrases/sentences.",
+                        "items": {
+                            "type": "string"
+                        }
+                    },
+                    "weight": {
+                        "type": "number",
+                        "minimum": 0,
+                        "maximum": 1
+                    },
+                    "notes": {
+                        "type": "string"
+                    }
+                },
+                "anyOf": [
+                    {
+                        "required": [
+                            "tokens"
+                        ]
+                    },
+                    {
+                        "required": [
+                            "lexicon"
+                        ]
+                    },
+                    {
+                        "required": [
+                            "prototypes"
+                        ]
+                    }
+                ],
+                "anyOf": [
+                    {
+                        "required": [
+                            "mode"
+                        ]
+                    },
+                    {
+                        "required": [
+                            "label"
+                        ]
+                    },
+                    {
+                        "required": [
+                            "id"
+                        ]
+                    }
+                ]
+            }
+        }
+    }
+}

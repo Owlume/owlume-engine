@@ -1,0 +1,20 @@
+﻿{
+  "selected": {
+    "id": "post_session_boost",
+    "tone": "moment",
+    "trigger_type": "after_session",
+    "message": "Nice pass. CG 0.12. Want a fast follow-up question to turn this into action?",
+    "raw_message": "Nice pass. CG {{cg_delta}}. Want a fast follow-up question to turn this into action?",
+    "channels": [
+      "in_app"
+    ],
+    "cooldown_hours": 2,
+    "priority": 2,
+    "conditions": {
+      "min_cg_delta": 0.05
+    }
+  },
+  "reason": "recent session and CG ok",
+  "timestamp_utc": "2025-10-21T22:00:00Z"
+}
+

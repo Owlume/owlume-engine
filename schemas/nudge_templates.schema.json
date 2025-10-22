@@ -1,0 +1,408 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "https://owlume-engine/schemas/nudge_templates.schema.json",
+    "title": "Nudge Templates Pack",
+    "type": "object",
+    "required": [
+        "spec",
+        "version",
+        "templates"
+    ],
+    "properties": {
+        "$schema": {
+            "type": "string",
+            "description": "Local schema hint for validators."
+        },
+        "spec": {
+            "type": "string",
+            "const": "owlume.nudges.v1"
+        },
+        "version": {
+            "type": "string",
+            "pattern": "^\\d+\\.\\d+\\.\\d+$"
+        },
+        "default_timezone": {
+            "type": "string",
+            "description": "IANA timezone for time-based rules (e.g., Australia/Sydney)."
+        },
+        "templates": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "required": [
+                    "id",
+                    "tone",
+                    "trigger_type",
+                    "message",
+                    "cooldown_hours"
+                ],
+                "properties": {
+                    "id": {
+                        "type": "string",
+                        "pattern": "^[a-z0-9][a-z0-9_\\-]{2,40}$",
+                        "description": "Stable ID (kebab_or_snake)."
+                    },
+                    "tone": {
+                        "type": "string",
+                        "enum": [
+                            "gentle",
+                            "moment"
+                        ]
+                    },
+                    "trigger_type": {
+                        "type": "string",
+                        "enum": [
+                            "daily_time",
+                            "end_of_day",
+                            "weekend",
+                            "after_session",
+                            "cg_trend_low",
+                            "streak_break",
+                            "empathy_off",
+                            "reactivation_idle",
+                            "milestone",
+                            "pre_meeting"
+                        ]
+                    },
+                    "message": {
+                        "type": "string",
+                        "minLength": 8,
+                        "description": "May include tokens like {{user_name}}, {{last_mode}}, {{cg_delta}}, {{streak_days}}."
+                    },
+                    "cooldown_hours": {
+                        "type": "integer",
+                        "minimum": 0,
+                        "description": "Minimum hours before this same template can nudge again."
+                    },
+                    "priority": {
+                        "type": "integer",
+                        "default": 0,
+                        "description": "Higher wins when multiple qualify."
+                    },
+                    "channels": {
+                        "type": "array",
+                        "items": {
+                            "type": "string",
+                            "enum": [
+                                "in_app",
+                                "email",
+                                "push"
+                            ]
+                        },
+                        "uniqueItems": true,
+                        "default": [
+                            "in_app"
+                        ]
+                    },
+                    "conditions": {
+                        "type": "object",
+                        "description": "Trigger-specific conditions.",
+                        "properties": {
+                            "days_of_week": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string",
+                                    "enum": [
+                                        "Mon",
+                                        "Tue",
+                                        "Wed",
+                                        "Thu",
+                                        "Fri",
+                                        "Sat",
+                                        "Sun"
+                                    ]
+                                },
+                                "uniqueItems": true
+                            },
+                            "by_hour": {
+                                "type": "array",
+                                "items": {
+                                    "type": "integer",
+                                    "minimum": 0,
+                                    "maximum": 23
+                                },
+                                "uniqueItems": true,
+                                "description": "Local hours when this may fire."
+                            },
+                            "window_days": {
+                                "type": "integer",
+                                "minimum": 1
+                            },
+                            "window_minutes": {
+                                "type": "integer",
+                                "minimum": 5
+                            },
+                            "idle_days": {
+                                "type": "integer",
+                                "minimum": 1
+                            },
+                            "min_sessions": {
+                                "type": "integer",
+                                "minimum": 1
+                            },
+                            "threshold_delta": {
+                                "type": "number",
+                                "description": "Threshold for CG trend triggers (e.g., below +0.05)."
+                            },
+                            "min_cg_delta": {
+                                "type": "number"
+                            },
+                            "empathy_activated": {
+                                "type": "boolean"
+                            },
+                            "calendar_keywords": {
+                                "type": "array",
+                                "items": {
+                                    "type": "string",
+                                    "minLength": 2
+                                },
+                                "uniqueItems": true
+                            },
+                            "cg_total_min": {
+                                "type": "number"
+                            },
+                            "reflections_count_min": {
+                                "type": "integer",
+                                "minimum": 1
+                            },
+                            "empathy_ratio_ge": {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 1
+                            }
+                        },
+                        "additionalProperties": false
+                    }
+                },
+                "allOf": [
+                    {
+                        "if": {
+                            "properties": {
+                                "trigger_type": {
+                                    "const": "daily_time"
+                                }
+                            }
+                        },
+                        "then": {
+                            "required": [
+                                "conditions"
+                            ],
+                            "properties": {
+                                "conditions": {
+                                    "required": [
+                                        "by_hour"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "if": {
+                            "properties": {
+                                "trigger_type": {
+                                    "const": "end_of_day"
+                                }
+                            }
+                        },
+                        "then": {
+                            "required": [
+                                "conditions"
+                            ],
+                            "properties": {
+                                "conditions": {
+                                    "required": [
+                                        "by_hour"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "if": {
+                            "properties": {
+                                "trigger_type": {
+                                    "const": "weekend"
+                                }
+                            }
+                        },
+                        "then": {
+                            "required": [
+                                "conditions"
+                            ],
+                            "properties": {
+                                "conditions": {
+                                    "required": [
+                                        "days_of_week",
+                                        "by_hour"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "if": {
+                            "properties": {
+                                "trigger_type": {
+                                    "const": "after_session"
+                                }
+                            }
+                        },
+                        "then": {
+                            "required": [
+                                "conditions"
+                            ],
+                            "properties": {
+                                "conditions": {}
+                            }
+                        }
+                    },
+                    {
+                        "if": {
+                            "properties": {
+                                "trigger_type": {
+                                    "const": "cg_trend_low"
+                                }
+                            }
+                        },
+                        "then": {
+                            "required": [
+                                "conditions"
+                            ],
+                            "properties": {
+                                "conditions": {
+                                    "required": [
+                                        "window_days",
+                                        "threshold_delta",
+                                        "min_sessions"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "if": {
+                            "properties": {
+                                "trigger_type": {
+                                    "const": "streak_break"
+                                }
+                            }
+                        },
+                        "then": {
+                            "required": [
+                                "conditions"
+                            ],
+                            "properties": {
+                                "conditions": {
+                                    "required": [
+                                        "idle_days"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "if": {
+                            "properties": {
+                                "trigger_type": {
+                                    "const": "empathy_off"
+                                }
+                            }
+                        },
+                        "then": {
+                            "required": [
+                                "conditions"
+                            ],
+                            "properties": {
+                                "conditions": {
+                                    "required": [
+                                        "window_days",
+                                        "min_sessions"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "if": {
+                            "properties": {
+                                "trigger_type": {
+                                    "const": "reactivation_idle"
+                                }
+                            }
+                        },
+                        "then": {
+                            "required": [
+                                "conditions"
+                            ],
+                            "properties": {
+                                "conditions": {
+                                    "required": [
+                                        "idle_days"
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "if": {
+                            "properties": {
+                                "trigger_type": {
+                                    "const": "milestone"
+                                }
+                            }
+                        },
+                        "then": {
+                            "required": [
+                                "conditions"
+                            ],
+                            "properties": {
+                                "conditions": {
+                                    "anyOf": [
+                                        {
+                                            "required": [
+                                                "cg_total_min"
+                                            ]
+                                        },
+                                        {
+                                            "required": [
+                                                "reflections_count_min"
+                                            ]
+                                        },
+                                        {
+                                            "required": [
+                                                "empathy_ratio_ge"
+                                            ]
+                                        }
+                                    ]
+                                }
+                            }
+                        }
+                    },
+                    {
+                        "if": {
+                            "properties": {
+                                "trigger_type": {
+                                    "const": "pre_meeting"
+                                }
+                            }
+                        },
+                        "then": {
+                            "required": [
+                                "conditions"
+                            ],
+                            "properties": {
+                                "conditions": {
+                                    "required": [
+                                        "window_minutes"
+                                    ]
+                                }
+                            }
+                        }
+                    }
+                ],
+                "additionalProperties": false
+            }
+        }
+    },
+    "additionalProperties": false
+}

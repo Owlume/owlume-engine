@@ -1,7 +1,7 @@
 {
     "$schema": "../schemas/mode_detector_seed.schema.json",
-    "spec_version": "2025-10-08",
     "spec": "mode_detector_seed.v1",
+    "spec_version": "1.0.0",
     "defaults": {
         "fusion_weights": {
             "rule": 0.4,

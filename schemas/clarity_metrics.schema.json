@@ -1,0 +1,109 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "https://owlume-engine/schemas/clarity_metrics.schema.json",
+    "title": "Owlume Clarity Metrics Summary",
+    "type": "object",
+    "properties": {
+        "spec": {
+            "type": "string",
+            "const": "owlume.clarity.metrics.v1"
+        },
+        "generated_at": {
+            "type": "string",
+            "format": "date-time",
+            "description": "UTC timestamp when this summary was generated"
+        },
+        "period_start": {
+            "type": "string",
+            "format": "date",
+            "description": "inclusive, YYYY-MM-DD (UTC)"
+        },
+        "period_end": {
+            "type": "string",
+            "format": "date",
+            "description": "exclusive, YYYY-MM-DD (UTC)"
+        },
+        "window_days": {
+            "type": "integer",
+            "minimum": 1
+        },
+        "cg_avg": {
+            "type": "number"
+        },
+        "cg_median": {
+            "type": "number"
+        },
+        "cg_delta_mean": {
+            "type": "number",
+            "description": "alias for cg_avg if you prefer"
+        },
+        "empathy_ratio": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+        },
+        "priors_ratio": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+        },
+        "voice_diversity": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+        },
+        "total_reflections": {
+            "type": "integer",
+            "minimum": 0
+        },
+        "top_modes": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            },
+            "maxItems": 5
+        },
+        "top_mode_pairs": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "properties": {
+                    "mode": {
+                        "type": "string"
+                    },
+                    "principle": {
+                        "type": "string"
+                    },
+                    "cg_avg": {
+                        "type": "number"
+                    },
+                    "count": {
+                        "type": "integer",
+                        "minimum": 1
+                    }
+                },
+                "required": [
+                    "mode",
+                    "principle",
+                    "cg_avg",
+                    "count"
+                ],
+                "additionalProperties": false
+            },
+            "maxItems": 10
+        },
+        "notes": {
+            "type": "string"
+        }
+    },
+    "required": [
+        "spec",
+        "generated_at",
+        "period_start",
+        "period_end",
+        "window_days",
+        "cg_avg",
+        "total_reflections"
+    ],
+    "additionalProperties": false
+}

@@ -1,0 +1,279 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "schemas/aggregated_metrics.schema.json",
+    "title": "Owlume Aggregated Metrics",
+    "type": "object",
+    "required": [
+        "spec",
+        "generated_at",
+        "source_files",
+        "totals",
+        "top",
+        "timeseries"
+    ],
+    "properties": {
+        "spec": {
+            "const": "owlume.aggregates.v1"
+        },
+        "generated_at": {
+            "type": "string",
+            "format": "date-time"
+        },
+        "source_files": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        },
+        "totals": {
+            "type": "object",
+            "required": [
+                "n_records",
+                "avg",
+                "distribution",
+                "empathy"
+            ],
+            "properties": {
+                "n_records": {
+                    "type": "integer",
+                    "minimum": 0
+                },
+                "avg": {
+                    "type": "object",
+                    "required": [
+                        "cg_pre",
+                        "cg_post",
+                        "cg_delta"
+                    ],
+                    "properties": {
+                        "cg_pre": {
+                            "type": "number"
+                        },
+                        "cg_post": {
+                            "type": "number"
+                        },
+                        "cg_delta": {
+                            "type": "number"
+                        }
+                    },
+                    "additionalProperties": false
+                },
+                "distribution": {
+                    "type": "object",
+                    "required": [
+                        "positive_rate",
+                        "negative_rate",
+                        "zero_rate",
+                        "tiers"
+                    ],
+                    "properties": {
+                        "positive_rate": {
+                            "type": "number"
+                        },
+                        "negative_rate": {
+                            "type": "number"
+                        },
+                        "zero_rate": {
+                            "type": "number"
+                        },
+                        "tiers": {
+                            "type": "object",
+                            "additionalProperties": {
+                                "type": "integer"
+                            }
+                        }
+                    },
+                    "additionalProperties": false
+                },
+                "empathy": {
+                    "type": "object",
+                    "required": [
+                        "on",
+                        "off",
+                        "activation_rate"
+                    ],
+                    "properties": {
+                        "on": {
+                            "type": "integer",
+                            "minimum": 0
+                        },
+                        "off": {
+                            "type": "integer",
+                            "minimum": 0
+                        },
+                        "activation_rate": {
+                            "type": "number"
+                        }
+                    },
+                    "additionalProperties": false
+                }
+            },
+            "additionalProperties": false
+        },
+        "top": {
+            "type": "object",
+            "required": [
+                "modes",
+                "principles",
+                "mode_x_principle",
+                "fallacies",
+                "contexts"
+            ],
+            "properties": {
+                "modes": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "required": [
+                            "label",
+                            "count"
+                        ],
+                        "properties": {
+                            "label": {
+                                "type": "string"
+                            },
+                            "count": {
+                                "type": "integer"
+                            }
+                        },
+                        "additionalProperties": false
+                    }
+                },
+                "principles": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "required": [
+                            "label",
+                            "count"
+                        ],
+                        "properties": {
+                            "label": {
+                                "type": "string"
+                            },
+                            "count": {
+                                "type": "integer"
+                            }
+                        },
+                        "additionalProperties": false
+                    }
+                },
+                "mode_x_principle": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "required": [
+                            "label",
+                            "count"
+                        ],
+                        "properties": {
+                            "label": {
+                                "type": "string"
+                            },
+                            "count": {
+                                "type": "integer"
+                            }
+                        },
+                        "additionalProperties": false
+                    }
+                },
+                "fallacies": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "required": [
+                            "label",
+                            "count"
+                        ],
+                        "properties": {
+                            "label": {
+                                "type": "string"
+                            },
+                            "count": {
+                                "type": "integer"
+                            }
+                        },
+                        "additionalProperties": false
+                    }
+                },
+                "contexts": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "required": [
+                            "label",
+                            "count"
+                        ],
+                        "properties": {
+                            "label": {
+                                "type": "string"
+                            },
+                            "count": {
+                                "type": "integer"
+                            }
+                        },
+                        "additionalProperties": false
+                    }
+                }
+            },
+            "additionalProperties": false
+        },
+        "timeseries": {
+            "type": "object",
+            "required": [
+                "by_day",
+                "by_week"
+            ],
+            "properties": {
+                "by_day": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "required": [
+                            "day",
+                            "n",
+                            "avg_delta"
+                        ],
+                        "properties": {
+                            "day": {
+                                "type": "string"
+                            },
+                            "n": {
+                                "type": "integer"
+                            },
+                            "avg_delta": {
+                                "type": "number"
+                            }
+                        },
+                        "additionalProperties": false
+                    }
+                },
+                "by_week": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "required": [
+                            "week",
+                            "n",
+                            "avg_delta"
+                        ],
+                        "properties": {
+                            "week": {
+                                "type": "string"
+                            },
+                            "n": {
+                                "type": "integer"
+                            },
+                            "avg_delta": {
+                                "type": "number"
+                            }
+                        },
+                        "additionalProperties": false
+                    }
+                }
+            },
+            "additionalProperties": false
+        }
+    },
+    "additionalProperties": false
+}
