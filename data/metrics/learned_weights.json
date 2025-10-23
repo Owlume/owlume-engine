@@ -2,36 +2,30 @@
   "$schema": "../schemas/learned_weights.schema.json",
   "spec": {
     "version": "1.0",
-    "updated_utc": "2025-10-23T03:45:03Z",
+    "updated_utc": "2025-10-23T07:25:07Z",
     "notes": "Initialized defaults; will be updated by scripts/update_weights.py"
   },
   "weights": {
     "mode": {
-      "Analytical": 0.6,
-      "Creative": 0.6,
-      "Assumption": 0.6,
-      "-": 1.6,
-      "Decision": 0.6,
-      "Perspective": 0.6,
-      "Reflective": 0.6,
-      "Growth": 0.6,
-      "Critical": 0.6
+      "Critical": 1.0,
+      "Analytical": 1.0,
+      "Creative": 1.0,
+      "Reflective": 1.0,
+      "Growth": 1.0
     },
     "principle": {
-      "Evidence & Validation": 0.6,
-      "Root Cause": 0.6,
-      "Exploration": 0.6,
-      "Iteration": 0.6,
-      "Risk": 0.6,
-      "-": 1.6,
-      "Evidence": 0.6,
-      "Assumption": 0.6,
-      "Impact": 0.6,
-      "Stakeholders": 0.6
+      "Evidence & Validation": 0.6697,
+      "Iteration": 0.6697,
+      "Impact": 0.6697,
+      "Exploration": 0.6697,
+      "Risk": 0.6697,
+      "Assumption": 0.6697,
+      "Stakeholder": 1.6,
+      "Root Cause": 0.6697
     },
     "empathy": {
-      "bias": 0.05,
-      "multiplier": 1.0077
+      "bias": 0.0875,
+      "multiplier": 1.0124
     }
   },
   "history": [
@@ -103,6 +97,38 @@
         "avg_delta": 0.062,
         "n_records": 17,
         "empathy_rate": 0.118
+      }
+    },
+    {
+      "timestamp_utc": "2025-10-23T07:25:07Z",
+      "source": "aggregates_20251023_055422.json",
+      "deltas": {
+        "mode": {
+          "Critical": 0.4,
+          "Analytical": 0.4,
+          "Creative": 0.4,
+          "Reflective": 0.4,
+          "Growth": 0.4
+        },
+        "principle": {
+          "Evidence & Validation": 0.0697,
+          "Iteration": 0.0697,
+          "Impact": 0.0697,
+          "Exploration": 0.0697,
+          "Risk": 0.0697,
+          "Assumption": 0.0697,
+          "Stakeholder": 0.6,
+          "Root Cause": 0.0697
+        },
+        "empathy": {
+          "bias": 0.0375,
+          "multiplier": 0.0047
+        }
+      },
+      "stats": {
+        "avg_delta": 0.053,
+        "n_records": 20,
+        "empathy_rate": 0
       }
     }
   ]
