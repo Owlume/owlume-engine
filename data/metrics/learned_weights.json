@@ -1,0 +1,65 @@
+{
+  "$schema": "../schemas/learned_weights.schema.json",
+  "spec": {
+    "version": "1.0",
+    "updated_utc": "2025-10-23T02:07:34Z",
+    "notes": "Initialized defaults; will be updated by scripts/update_weights.py"
+  },
+  "weights": {
+    "mode": {
+      "Impact": 0.7301,
+      "Perspective": 1.3599,
+      "Risk": 0.7301,
+      "Evidence": 0.7301,
+      "Assumption": 1.3599,
+      "Goal": 0.7301,
+      "Decision": 1.3599
+    },
+    "principle": {
+      "TimeHorizon": 0.8488,
+      "Alternatives": 0.8488,
+      "Stakeholders": 0.8488,
+      "FirstPrinciples": 0.8488,
+      "Tradeoffs": 0.8488,
+      "Evidence": 1.6
+    },
+    "empathy": {
+      "bias": 0.05,
+      "multiplier": 1.0077
+    }
+  },
+  "history": [
+    {
+      "timestamp_utc": "2025-10-23T02:07:34Z",
+      "source": "aggregates_20251023_015640.json",
+      "deltas": {
+        "mode": {
+          "Impact": -0.2699,
+          "Perspective": 0.3599,
+          "Risk": -0.2699,
+          "Evidence": -0.2699,
+          "Assumption": 0.3599,
+          "Goal": -0.2699,
+          "Decision": 0.3599
+        },
+        "principle": {
+          "TimeHorizon": -0.1512,
+          "Alternatives": -0.1512,
+          "Stakeholders": -0.1512,
+          "FirstPrinciples": -0.1512,
+          "Tradeoffs": -0.1512,
+          "Evidence": 0.6
+        },
+        "empathy": {
+          "bias": 0.05,
+          "multiplier": 0.0077
+        }
+      },
+      "stats": {
+        "avg_delta": 0.062,
+        "n_records": 17,
+        "empathy_rate": 0.118
+      }
+    }
+  ]
+}
