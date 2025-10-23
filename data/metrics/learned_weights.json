@@ -2,26 +2,32 @@
   "$schema": "../schemas/learned_weights.schema.json",
   "spec": {
     "version": "1.0",
-    "updated_utc": "2025-10-23T02:07:34Z",
+    "updated_utc": "2025-10-23T03:45:03Z",
     "notes": "Initialized defaults; will be updated by scripts/update_weights.py"
   },
   "weights": {
     "mode": {
-      "Impact": 0.7301,
-      "Perspective": 1.3599,
-      "Risk": 0.7301,
-      "Evidence": 0.7301,
-      "Assumption": 1.3599,
-      "Goal": 0.7301,
-      "Decision": 1.3599
+      "Analytical": 0.6,
+      "Creative": 0.6,
+      "Assumption": 0.6,
+      "-": 1.6,
+      "Decision": 0.6,
+      "Perspective": 0.6,
+      "Reflective": 0.6,
+      "Growth": 0.6,
+      "Critical": 0.6
     },
     "principle": {
-      "TimeHorizon": 0.8488,
-      "Alternatives": 0.8488,
-      "Stakeholders": 0.8488,
-      "FirstPrinciples": 0.8488,
-      "Tradeoffs": 0.8488,
-      "Evidence": 1.6
+      "Evidence & Validation": 0.6,
+      "Root Cause": 0.6,
+      "Exploration": 0.6,
+      "Iteration": 0.6,
+      "Risk": 0.6,
+      "-": 1.6,
+      "Evidence": 0.6,
+      "Assumption": 0.6,
+      "Impact": 0.6,
+      "Stakeholders": 0.6
     },
     "empathy": {
       "bias": 0.05,
@@ -49,6 +55,44 @@
           "FirstPrinciples": -0.1512,
           "Tradeoffs": -0.1512,
           "Evidence": 0.6
+        },
+        "empathy": {
+          "bias": 0.05,
+          "multiplier": 0.0077
+        }
+      },
+      "stats": {
+        "avg_delta": 0.062,
+        "n_records": 17,
+        "empathy_rate": 0.118
+      }
+    },
+    {
+      "timestamp_utc": "2025-10-23T03:45:03Z",
+      "source": "aggregates_20251023_015640.json",
+      "deltas": {
+        "mode": {
+          "Analytical": -0.4,
+          "Creative": -0.4,
+          "Assumption": -0.4,
+          "-": 0.6,
+          "Decision": -0.4,
+          "Perspective": -0.4,
+          "Reflective": -0.4,
+          "Growth": -0.4,
+          "Critical": -0.4
+        },
+        "principle": {
+          "Evidence & Validation": -1.0,
+          "Root Cause": -0.4,
+          "Exploration": -0.4,
+          "Iteration": -0.4,
+          "Risk": -0.4,
+          "-": 0.6,
+          "Evidence": -0.4,
+          "Assumption": -0.4,
+          "Impact": -0.4,
+          "Stakeholders": -0.4
         },
         "empathy": {
           "bias": 0.05,
