@@ -2,30 +2,30 @@
   "$schema": "../schemas/learned_weights.schema.json",
   "spec": {
     "version": "1.0",
-    "updated_utc": "2025-10-23T07:25:07Z",
+    "updated_utc": "2025-10-23T09:07:25Z",
     "notes": "Initialized defaults; will be updated by scripts/update_weights.py"
   },
   "weights": {
     "mode": {
-      "Critical": 1.0,
-      "Analytical": 1.0,
-      "Creative": 1.0,
       "Reflective": 1.0,
-      "Growth": 1.0
+      "Growth": 1.0,
+      "Creative": 1.0,
+      "Analytical": 1.0,
+      "Critical": 1.0
     },
     "principle": {
-      "Evidence & Validation": 0.6697,
-      "Iteration": 0.6697,
-      "Impact": 0.6697,
-      "Exploration": 0.6697,
-      "Risk": 0.6697,
-      "Assumption": 0.6697,
+      "Evidence & Validation": 0.6,
+      "Exploration": 0.6,
+      "Root Cause": 0.6,
+      "Iteration": 0.6,
+      "Impact": 0.6,
+      "Assumption": 0.6,
       "Stakeholder": 1.6,
-      "Root Cause": 0.6697
+      "Risk": 0.6
     },
     "empathy": {
-      "bias": 0.0875,
-      "multiplier": 1.0124
+      "bias": 0.1156,
+      "multiplier": 1.0159
     }
   },
   "history": [
@@ -123,6 +123,38 @@
         "empathy": {
           "bias": 0.0375,
           "multiplier": 0.0047
+        }
+      },
+      "stats": {
+        "avg_delta": 0.053,
+        "n_records": 20,
+        "empathy_rate": 0
+      }
+    },
+    {
+      "timestamp_utc": "2025-10-23T09:07:25Z",
+      "source": "aggregates_20251023_090032.json",
+      "deltas": {
+        "mode": {
+          "Reflective": 0.0,
+          "Growth": 0.0,
+          "Creative": 0.0,
+          "Analytical": 0.0,
+          "Critical": 0.0
+        },
+        "principle": {
+          "Evidence & Validation": -0.0697,
+          "Exploration": -0.0697,
+          "Root Cause": -0.0697,
+          "Iteration": -0.0697,
+          "Impact": -0.0697,
+          "Assumption": -0.0697,
+          "Stakeholder": 0.0,
+          "Risk": -0.0697
+        },
+        "empathy": {
+          "bias": 0.0281,
+          "multiplier": 0.0035
         }
       },
       "stats": {
