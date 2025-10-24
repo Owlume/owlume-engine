@@ -2,30 +2,30 @@
   "$schema": "../schemas/learned_weights.schema.json",
   "spec": {
     "version": "1.0",
-    "updated_utc": "2025-10-23T09:07:25Z",
+    "updated_utc": "2025-10-24T22:44:17Z",
     "notes": "Initialized defaults; will be updated by scripts/update_weights.py"
   },
   "weights": {
     "mode": {
-      "Reflective": 1.0,
-      "Growth": 1.0,
-      "Creative": 1.0,
-      "Analytical": 1.0,
-      "Critical": 1.0
+      "Analytical": 1.0106,
+      "Creative": 1.0106,
+      "Critical": 1.0106,
+      "Growth": 1.0106,
+      "Reflective": 1.0106
     },
     "principle": {
-      "Evidence & Validation": 0.6,
-      "Exploration": 0.6,
-      "Root Cause": 0.6,
-      "Iteration": 0.6,
-      "Impact": 0.6,
-      "Assumption": 0.6,
-      "Stakeholder": 1.6,
-      "Risk": 0.6
+      "Assumption": 0.9,
+      "Evidence & Validation": 0.9,
+      "Exploration": 0.9,
+      "Impact": 0.9,
+      "Iteration": 0.9,
+      "Risk": 0.9,
+      "Root Cause": 0.9,
+      "Stakeholder": 1.6
     },
     "empathy": {
-      "bias": 0.1156,
-      "multiplier": 1.0159
+      "bias": 0.1325,
+      "multiplier": 1.018
     }
   },
   "history": [
@@ -155,6 +155,38 @@
         "empathy": {
           "bias": 0.0281,
           "multiplier": 0.0035
+        }
+      },
+      "stats": {
+        "avg_delta": 0.053,
+        "n_records": 20,
+        "empathy_rate": 0
+      }
+    },
+    {
+      "timestamp_utc": "2025-10-24T22:44:17Z",
+      "source": "aggregates_20251023_090032.json",
+      "deltas": {
+        "mode": {
+          "Analytical": 0.0106,
+          "Creative": 0.0106,
+          "Critical": 0.0106,
+          "Growth": 0.0106,
+          "Reflective": 0.0106
+        },
+        "principle": {
+          "Assumption": 0.3,
+          "Evidence & Validation": 0.3,
+          "Exploration": 0.3,
+          "Impact": 0.3,
+          "Iteration": 0.3,
+          "Risk": 0.3,
+          "Root Cause": 0.3,
+          "Stakeholder": 0.0
+        },
+        "empathy": {
+          "bias": 0.0169,
+          "multiplier": 0.0021
         }
       },
       "stats": {
