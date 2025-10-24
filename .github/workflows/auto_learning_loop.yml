@@ -1,0 +1,89 @@
+name: L1 Auto-Learning Loop
+
+on:
+  workflow_dispatch: {}          # allow manual runs
+  schedule:
+    # Runs daily at 05:30 Sydney time (which is 18:30 UTC during AEDT).
+    # CRON is in UTC.
+    - cron: "30 18 * * *"
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  learn:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repo
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Show Python version
+        run: python -V
+
+      - name: Install minimal deps (if any)
+        run: |
+          python -m pip install --upgrade pip
+          # Add project deps here if your scripts need them
+          # pip install -r requirements.txt
+
+      - name: Aggregate metrics
+        run: python -u scripts/aggregate_metrics.py
+
+      - name: Find newest aggregates file
+        id: find_agg
+        shell: bash
+        run: |
+          set -euo pipefail
+          LATEST="$(ls -t data/metrics/aggregates_*.json | head -n1 || true)"
+          if [[ -z "${LATEST}" ]]; then
+            echo "No aggregates file produced."
+            exit 1
+          fi
+          echo "latest=${LATEST}" >> "$GITHUB_OUTPUT"
+
+      - name: Update learned weights from newest aggregates
+        run: |
+          python -u scripts/update_weights.py --aggregate "${{ steps.find_agg.outputs.latest }}"
+
+      - name: Check if learned weights changed
+        id: diff
+        shell: bash
+        run: |
+          set -euo pipefail
+          git add -N data/metrics/learned_weights.json
+          if git diff --quiet -- data/metrics/learned_weights.json; then
+            echo "changed=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "changed=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Commit changes (if any)
+        if: steps.diff.outputs.changed == 'true'
+        run: |
+          git config user.name "owlume-bot"
+          git config user.email "bot@users.noreply.github.com"
+          git add data/metrics/learned_weights.json
+          git commit -m "chore(L1): nightly learned weights from ${{ steps.find_agg.outputs.latest }}"
+
+      - name: Create PR (if any change)
+        if: steps.diff.outputs.changed == 'true'
+        uses: peter-evans/create-pull-request@v6
+        with:
+          commit-message: "chore(L1): nightly learned weights from ${{ steps.find_agg.outputs.latest }}"
+          title: "L1 — Nightly Learned Weights (${{ steps.find_agg.outputs.latest }})"
+          body: |
+            This PR updates `learned_weights.json` from the latest aggregates:
+            - Source: `${{ steps.find_agg.outputs.latest }}`
+            - Auto-run via CI (neutral base + clamp [0.90, 1.60])
+            - See history block for deltas
+          branch: "ci/auto-learn-${{ github.run_id }}"
+          base: "main"
+          labels: auto-learn
