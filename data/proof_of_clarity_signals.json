@@ -1,25 +1,29 @@
 {
-    "$schema": "./schemas/proof_of_clarity_delta_signals.schema.json",
-    "spec": "v1",
-    "locale_default": "en-AU",
-    "signals": [
-        {
-            "id": "cg_small",
-            "label": "Small Clarity Gain",
-            "meaning": "The session produced a slight clarity shift (low delta). Early progress is visible and can compound with continued reflection.",
-            "example_feedback": "A slight shift — I’m starting to see things more clearly."
-        },
-        {
-            "id": "cg_medium",
-            "label": "Medium Clarity Gain",
-            "meaning": "The session delivered a noticeable improvement in perspective (moderate delta), resolving some uncertainty.",
-            "example_feedback": "Nice — that reflection gave me clearer perspective and resolved some uncertainty."
-        },
-        {
-            "id": "cg_large",
-            "label": "Large Clarity Gain",
-            "meaning": "The session produced a strong clarity jump (high delta), indicating a meaningful reframing or new insight.",
-            "example_feedback": "Strong clarity jump — I reframed my thinking and found a real insight."
-        }
-    ]
+  "$schema": "./schemas/proof_of_clarity_insight_signals.schema.json",
+  "spec": { "version": "v1" },
+  "locale_default": "en-AU",
+  "rules": {
+    "bucket_units": "points",
+    "delta_source": "cg_delta"
+  },
+  "signals": [
+    {
+      "id": "cg_small",
+      "range": { "delta_min": 1, "delta_max": 2 },
+      "user_message": "A slight shift — you’re starting to see things more clearly.",
+      "coach_nudge": "Want to save this? Tiny steps compound."
+    },
+    {
+      "id": "cg_medium",
+      "range": { "delta_min": 3, "delta_max": 5 },
+      "user_message": "Nice — that reflection gave you clearer perspective. You resolved some uncertainty.",
+      "coach_nudge": "Pin your top takeaway so future-you can reuse it."
+    },
+    {
+      "id": "cg_large",
+      "range": { "delta_min": 6, "delta_max": 10 },
+      "user_message": "Strong clarity jump — you reframed your thinking. That’s real insight.",
+      "coach_nudge": "Capture the new rule of thumb you discovered."
+    }
+  ]
 }
