@@ -1,0 +1,19 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "spec": "owlume.metrics.config.v1",
+    "rolling_window_days": 7,
+    "time_zone": "UTC",
+    "min_samples_for_summary": 10,
+    "mode_top_k": 3,
+    "mode_pair_top_k": 5,
+    "voice_diversity_min_count": 10,
+    "display": {
+        "percent_decimals": 0,
+        "delta_decimals": 2
+    },
+    "paths": {
+        "logs_jsonl": "data/logs/clarity_gain_samples.jsonl",
+        "summary_json": "data/clarity_metrics_summary.json",
+        "schema_summary": "schemas/clarity_metrics.schema.json"
+    }
+}

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<testsuite name="json-validate">
+  <testcase name="data\clarity_gain_thresholds.json">
+  </testcase>
+  <testcase name="data\clarity_metrics_summary.json">
+  </testcase>
+  <testcase name="data\context_drivers.json">
+  </testcase>
+  <testcase name="data\fallacies.json">
+  </testcase>
+  <testcase name="data\matrix.json">
+  </testcase>
+  <testcase name="data\mode_detector_seed.json">
+  </testcase>
+  <testcase name="data\nudge_templates.json">
+  </testcase>
+  <testcase name="data\proof_of_clarity_insight_signals.json">
+  </testcase>
+  <testcase name="data\proof_of_clarity_signals.json">
+  </testcase>
+  <testcase name="data\voices.json">
+  </testcase>
+</testsuite>

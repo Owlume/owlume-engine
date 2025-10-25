@@ -36,8 +36,11 @@ def validate_file(dp: pathlib.Path):
 def main():
     cases = []
     failures = 0
+
+      # Skip folders that contain generated or temporary JSONs
+    SKIP_DIRS = {"runtime", "metrics", "artifacts", "reports"}    
     for p in sorted(DATA.rglob("*.json")):
-        if "runtime" in p.parts:  # skip generated runtime files
+        if any(part in SKIP_DIRS for part in p.parts):
             continue
         try:
             errs, sch_path = validate_file(p)

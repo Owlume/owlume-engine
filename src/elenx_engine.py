@@ -1,7 +1,66 @@
-# src/elenx_engine.py
-from dataclasses import dataclass
 from typing import List, Dict, Any, Optional, Tuple
-import re, json
+from dataclasses import dataclass   # 👈 add this import
+import re, json, os
+from pathlib import Path
+
+# === L1: Learned Weights hook ===
+_LEARNED_PATH = Path(__file__).resolve().parents[1] / "data" / "metrics" / "learned_weights.json"
+try:
+    with open(_LEARNED_PATH, "r", encoding="utf-8") as _f:
+        _LEARNED = json.load(_f).get("weights", {})
+except Exception:
+    _LEARNED = {}
+
+_ELENX_DEBUG_WEIGHTS = os.getenv("ELENX_DEBUG_WEIGHTS", "0") == "1"
+if _ELENX_DEBUG_WEIGHTS:
+    print("[L1] DEBUG ON: elenx_engine loaded")
+
+# --- L1: label aliases (engine-side) ---
+PRINCIPLE_ALIASES = {
+    "Evidence": "Evidence & Validation",
+    "Stakeholders": "Stakeholder",
+    "Clarity": "Evidence & Validation",
+    "Efficiency": "Evidence & Validation",
+    "Action": "Evidence & Validation",
+}
+
+def _alias_principle(name: str) -> str:
+    return PRINCIPLE_ALIASES.get(name, name)
+
+def _lw(kind: str, name: str, default: float) -> float:
+    try:
+        if not name:
+            return default
+        key = _alias_principle(name) if kind == "principle" else name
+        w = (_LEARNED.get(kind, {}) or {}).get(key)
+        return float(w) if isinstance(w, (int, float)) else default
+    except Exception:
+        return default
+
+# (rest of file unchanged below)
+
+def _lw_emp() -> dict:
+    e = _LEARNED.get("empathy", {}) if isinstance(_LEARNED, dict) else {}
+    return {"bias": float(e.get("bias", 0.0)), "multiplier": float(e.get("multiplier", 1.0))}
+
+_ELENX_DEBUG_WEIGHTS = os.getenv("ELENX_DEBUG_WEIGHTS", "0") == "1"
+if _ELENX_DEBUG_WEIGHTS:
+    print("[L1] DEBUG ON: elenx_engine loaded")
+# === end L1 hook ===
+
+def _apply_learned_weights(scores: dict, kind: str) -> dict:
+    """Multiply scores by learned weights (mode/principle). Returns a new dict."""
+    if not isinstance(scores, dict) or not scores:
+        return scores
+    out = {}
+    for k, v in scores.items():
+        mult = _lw(kind, k, 1.0)
+        out[k] = float(v) * mult
+    # optional re-normalize so average stays comparable
+    mean = sum(out.values()) / max(1, len(out))
+    if mean > 0:
+        out = {k: v / mean for k, v in out.items()}
+    return out
 
 # -- Coerce context drivers pack into {"drivers":[...]}, robust to dict/tuple/list/JSON
 def _coerce_context_pack(raw) -> Dict[str, Any]:
@@ -214,7 +273,18 @@ class ElenxEngine:
                     hits += 1
             if hits >= self.cfg["LINGUISTIC_MIN_MATCHES"]:
                 raw[mode] = float(hits)
-        return _softmax(raw)
+      
+        # [L1] apply learned weights to mode scores BEFORE normalization
+        weighted = _apply_learned_weights(raw, "mode")
+
+        if _ELENX_DEBUG_WEIGHTS:
+            for k in sorted(weighted, key=weighted.get, reverse=True)[:5]:
+                b = raw.get(k, 0.0)
+                a = weighted[k]
+                print(f"[L1] Mode weight applied: {k:12s} raw={b:.3f} → wtd={a:.3f}")
+
+        return _softmax(weighted)
+
 
     # ---------- Public API ----------
 
@@ -323,9 +393,12 @@ class ElenxEngine:
             mode = modes[0]
         principles = matrix.get(mode, {})
         if isinstance(principles, dict) and principles:
-            principle = next(iter(principles.keys()))
+             ordered = sorted(principles.keys(),
+                     key=lambda p: _lw("principle", p, 1.0),
+                     reverse=True)
+             principle = ordered[0]
         else:
-            principle = "Evidence & Validation"
+             principle = "Evidence & Validation"
         return mode, principle
 
     # ---------- Priors scan (light) ----------
@@ -388,8 +461,16 @@ class ElenxEngine:
         # 2) Principle selection within chosen mode
         chosen_principle = None
         principles = matrix.get(chosen_mode, {})
+        # [L1] reorder principles by learned weight (desc), fallback stable
+        if isinstance(principles, dict) and principles:
+             ordered = sorted(principles.keys(),
+                     key=lambda p: _lw("principle", p, 1.0),
+                     reverse=True)
+        else:
+            ordered = []
+
         if isinstance(principles, dict) and pref_principle_contains:
-            for p in principles.keys():
+            for p in (ordered or principles.keys()):
                 try:
                     if pref_principle_contains.lower() in p.lower():
                         chosen_principle = p
@@ -399,7 +480,7 @@ class ElenxEngine:
         if not isinstance(principles, dict) or not principles:
             return chosen_mode, self._default_principle
         if not chosen_principle:
-            chosen_principle = next(iter(principles.keys()), self._default_principle)
+            chosen_principle = (ordered[0] if ordered else self._default_principle)
 
         return chosen_mode, chosen_principle
 
@@ -520,12 +601,32 @@ class ElenxEngine:
             mode, principle = self._pick_from_matrix("Growth", "Iteration")
             confidence = max(confidence, 0.60)
 
+        if _ELENX_DEBUG_WEIGHTS:
+            try:
+                _mw = _lw("mode", mode, 1.0)
+                _pw = _lw("principle", principle, 1.0)
+                _emp = _lw_emp()
+                print(f"[L1] Final pick: mode={mode} (w={_mw:.3f})  principle={principle} (w={_pw:.3f})  "
+                      f"conf={confidence:.2f}  empathy_bias={_emp['bias']:+.3f}  emp_mult={_emp['multiplier']:.3f}")
+            except Exception as _e:
+                print(f"[L1] debug print failed: {_e!r}")
+
         # --- 8) Return result ---
         return mode, principle, confidence, {
             "alt_mode": alt_mode,
             "alt_principle": alt_principle,
             "alt_confidence": alt_conf
         }
+        # [L1] debug — confirm learned weights being read for the chosen labels
+        if _ELENX_DEBUG_WEIGHTS:
+            try:
+                 _mw = _lw("mode", mode, 1.0)
+                 _pw = _lw("principle", principle, 1.0)
+                 _emp = _lw_emp()
+                 print(f"[L1] Final pick: mode={mode} (w={_mw:.3f})  principle={principle} (w={_pw:.3f})  "
+                       f"conf={confidence:.2f}  empathy_bias={_emp['bias']:+.3f}  emp_mult={_emp['multiplier']:.3f}")
+            except Exception as _e:
+                 print(f"[L1] debug print failed: {_e!r}")
 
     # ---------- Matrix & Voices helpers ----------
 

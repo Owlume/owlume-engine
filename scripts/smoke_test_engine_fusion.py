@@ -1,14 +1,19 @@
-﻿#!/usr/bin/env python3
-# scripts/smoke_test_engine_fusion.py
-"""
-Owlume — Engine Smoke Test (hybrid fusion)
-- Loads real packs via load_packs()
-- Runs a few short sample texts through ElenxEngine.analyze()
-- Exits 0 on success, non-zero on any failure (CI-friendly)
-"""
+﻿from __future__ import annotations  # must be first
 
-from __future__ import annotations
-import os, sys, traceback
+import os, sys, inspect
+from pathlib import Path
+
+# Put project root on sys.path so `import src.elenx_engine` works
+ROOT = Path(__file__).resolve().parents[1]
+sys.path.insert(0, str(ROOT))
+
+# Force L1 debug for this run
+os.environ["ELENX_DEBUG_WEIGHTS"] = "1"
+
+import src.elenx_engine as EE
+print("[L1] smoke using engine file:", EE.__file__)
+
+# (then the rest of your existing imports follow)
 
 # Ensure Python can find the src/ folder (works locally and in CI)
 sys.path.append(os.path.join(os.path.dirname(__file__), "..", "src"))

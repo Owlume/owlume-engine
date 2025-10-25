@@ -1,0 +1,11 @@
+{
+  "avg_pre": 0.0,
+  "avg_post": 0.0,
+  "avg_delta": 0.0,
+  "empathy_activation_rate": 0.0,
+  "n_records": 0,
+  "top_mode_principle_counts": {
+    "mode": {},
+    "principle": {}
+  }
+}
