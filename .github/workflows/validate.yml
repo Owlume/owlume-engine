@@ -43,15 +43,6 @@ jobs:
           name: json-validation-junit
           path: reports/json_validation.junit.xml
 
-      - name: Publish Test Report
-        if: always()
-        uses: dorny/test-reporter@v1
-        with:
-          name: JSON Validation
-          path: reports/json_validation.junit.xml
-          reporter: java-junit
-          fail-on-error: false
-
   smoke:
     name: Re-run Smoke Test (Elenx Fusion)
     runs-on: ubuntu-latest
