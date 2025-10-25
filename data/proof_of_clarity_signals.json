@@ -1,49 +1,27 @@
 {
-    "$schema": "../schemas/proof_of_clarity_delta_signals.schema.json",
-    "spec": {
-        "name": "proof_of_clarity_signals",
-        "version": "1.0.0",
-        "updated": "2025-10-13",
-        "owner": "Owlume",
-        "description": "User-facing feedback strings mapped to clarity gain ranges."
-    },
-    "locale_default": "en-AU",
+    "$schema": "./schemas/proof_of_clarity_insight_signals.schema.json",
+    "spec_version": "v1",
     "signals": [
         {
             "id": "cg_small",
-            "range": {
-                "delta_min": 1,
-                "delta_max": 2
-            },
-            "user_message": "A slight shift — you’re starting to see things more clearly.",
-            "coach_nudge": "Want to save this? Tiny steps compound."
+            "label": "Small Clarity Gain",
+            "meaning": "A slight clarity shift indicating early progress that can compound with continued reflection.",
+            "example_feedback": "A slight shift — I’m starting to see things more clearly.",
+            "source_metric": "cg_delta"
         },
         {
             "id": "cg_medium",
-            "range": {
-                "delta_min": 3,
-                "delta_max": 5
-            },
-            "user_message": "Nice — that reflection gave you clearer perspective. You resolved some uncertainty.",
-            "coach_nudge": "Pin your top takeaway so future-you can reuse it."
+            "label": "Medium Clarity Gain",
+            "meaning": "A noticeable improvement in perspective that helped resolve some uncertainty.",
+            "example_feedback": "Nice — that reflection gave me clearer perspective and resolved some uncertainty.",
+            "source_metric": "cg_delta"
         },
         {
             "id": "cg_large",
-            "range": {
-                "delta_min": 6,
-                "delta_max": 10
-            },
-            "user_message": "Strong clarity jump — you reframed your thinking. That’s real insight.",
-            "coach_nudge": "Capture the new rule of thumb you discovered."
+            "label": "Large Clarity Gain",
+            "meaning": "A strong clarity jump indicating a meaningful reframing or new insight.",
+            "example_feedback": "Strong clarity jump — I reframed my thinking and found a real insight.",
+            "source_metric": "cg_delta"
         }
-    ],
-    "rules": {
-        "select_by": "delta",
-        "tie_breaker": "highest_delta",
-        "fallback": {
-            "id": "cg_small",
-            "user_message": "You made a small move toward clarity.",
-            "coach_nudge": "Keep going — one more question often unlocks the next step."
-        }
-    }
+    ]
 }

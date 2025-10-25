@@ -1,0 +1,21 @@
+{
+  "avg_pre": 0.075,
+  "avg_post": 0.137,
+  "avg_delta": 0.062,
+  "empathy_activation_rate": 0.118,
+  "n_records": 17,
+  "top_mode_principle_counts": {
+    "mode": {
+      "-": 14,
+      "Assumption": 1,
+      "Perspective": 1,
+      "Decision": 1
+    },
+    "principle": {
+      "-": 14,
+      "Evidence": 1,
+      "Impact": 1,
+      "Risk": 1
+    }
+  }
+}

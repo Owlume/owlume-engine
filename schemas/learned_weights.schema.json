@@ -1,0 +1,135 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Owlume Learned Weights",
+    "type": "object",
+    "required": [
+        "spec",
+        "weights"
+    ],
+    "properties": {
+        "spec": {
+            "type": "object",
+            "required": [
+                "version",
+                "updated_utc"
+            ],
+            "properties": {
+                "version": {
+                    "type": "string"
+                },
+                "updated_utc": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "notes": {
+                    "type": "string"
+                }
+            }
+        },
+        "weights": {
+            "type": "object",
+            "required": [
+                "mode",
+                "principle",
+                "empathy"
+            ],
+            "properties": {
+                "mode": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "number"
+                    }
+                },
+                "principle": {
+                    "type": "object",
+                    "additionalProperties": {
+                        "type": "number"
+                    }
+                },
+                "empathy": {
+                    "type": "object",
+                    "required": [
+                        "bias",
+                        "multiplier"
+                    ],
+                    "properties": {
+                        "bias": {
+                            "type": "number"
+                        },
+                        "multiplier": {
+                            "type": "number",
+                            "minimum": 0
+                        }
+                    }
+                }
+            }
+        },
+        "history": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "required": [
+                    "timestamp_utc",
+                    "source",
+                    "deltas"
+                ],
+                "properties": {
+                    "timestamp_utc": {
+                        "type": "string",
+                        "format": "date-time"
+                    },
+                    "source": {
+                        "type": "string"
+                    },
+                    "deltas": {
+                        "type": "object",
+                        "properties": {
+                            "mode": {
+                                "type": "object",
+                                "additionalProperties": {
+                                    "type": "number"
+                                }
+                            },
+                            "principle": {
+                                "type": "object",
+                                "additionalProperties": {
+                                    "type": "number"
+                                }
+                            },
+                            "empathy": {
+                                "type": "object",
+                                "properties": {
+                                    "bias": {
+                                        "type": "number"
+                                    },
+                                    "multiplier": {
+                                        "type": "number"
+                                    }
+                                },
+                                "additionalProperties": false
+                            }
+                        },
+                        "additionalProperties": false
+                    },
+                    "stats": {
+                        "type": "object",
+                        "properties": {
+                            "avg_delta": {
+                                "type": "number"
+                            },
+                            "n_records": {
+                                "type": "integer",
+                                "minimum": 0
+                            },
+                            "empathy_rate": {
+                                "type": "number",
+                                "minimum": 0
+                            }
+                        },
+                        "additionalProperties": true
+                    }
+                }
+            }
+        }
+    }
+}

@@ -2,88 +2,465 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "Create: Feature Branch",
+            "label": "Run: Validate Schemas",
             "type": "shell",
-            "command": "read-host 'Enter branch name (e.g. feat/update-readme)' | foreach { git checkout -b $_ }",
-            "group": {
-                "kind": "none",
-                "isDefault": false
-            },
+            "command": "python -u scripts/validate_schemas.py",
+            "problemMatcher": []
+        },
+        {
+            "label": "T5: Generate nudges",
+            "type": "shell",
+            "command": "python -u scripts/generate_nudge.py --templates data/nudge_templates.json --history data/runtime/nudge_history.json --context data/runtime/nudge_context.json | Out-File -FilePath data/runtime/next_nudges.json -Encoding utf8",
+            "reveal": "always",
+            "panel": "dedicated",
+            "clear": true
+        },
+        {
+            "label": "T5: Render nudges (from file)",
+            "type": "shell",
+            "command": "python -u scripts/demo_render_nudges.py --input data/runtime/next_nudges.json",
             "presentation": {
                 "reveal": "always",
-                "panel": "shared"
+                "panel": "dedicated",
+                "clear": false
+            }
+        },
+        {
+            "label": "Run: Nudge Cards demo (T5-S4)",
+            "type": "shell",
+            "command": "python -u scripts/demo_render_nudges.py",
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated",
+                "clear": true
+            }
+        },
+        {
+            "label": "Run: Nudge Cards demo (plain)",
+            "type": "shell",
+            "command": "python -u scripts/demo_render_nudges.py --plain",
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated",
+                "clear": true
+            }
+        },
+        {
+            "label": "Run: Generate + Render Nudges (T5-S4) [sequence]",
+            "dependsOrder": "sequence",
+            "dependsOn": [
+                "T5: Generate nudges",
+                "T5: Render nudges (from file)"
+            ]
+        },
+        {
+            "label": "Run: Generate + Render Nudges (T5-S4)",
+            "type": "shell",
+            "command": "python -u scripts/generate_nudge.py --templates data/nudge_templates.json --history data/runtime/nudge_history.json --context data/runtime/nudge_context.json --out data/runtime/next_nudges.json; if ($LASTEXITCODE -eq 0) { python -u scripts/demo_render_nudges.py --input data/runtime/next_nudges.json }",
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated",
+                "clear": true
+            }
+        },
+        {
+            "label": "Run: Nudge Cards demo (T5-S4)",
+            "type": "shell",
+            "command": "python -u scripts/demo_render_nudges.py",
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated",
+                "clear": true
+            }
+        },
+        {
+            "label": "Run: Nudge Cards demo (plain)",
+            "type": "shell",
+            "command": "python -u scripts/demo_render_nudges.py --plain",
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated",
+                "clear": true
+            }
+        },
+        {
+            "label": "Run: Nudge Cards demo (T5-S4)",
+            "type": "shell",
+            "command": "python -u scripts/demo_render_nudges.py",
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated",
+                "clear": true
+            }
+        },
+        {
+            "label": "Run: Nudge Cards demo (plain)",
+            "type": "shell",
+            "command": "python -u scripts/demo_render_nudges.py --plain",
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated",
+                "clear": true
+            }
+        },
+        {
+            "label": "Run: Generate + Render Nudges (T5-S4)",
+            "type": "shell",
+            "command": "python -u scripts/generate_nudge.py --templates data/nudge_templates.json --history data/runtime/nudge_history.json --context data/runtime/nudge_context.json --out data/runtime/next_nudges.json && python -u scripts/demo_render_nudges.py --input data/runtime/next_nudges.json",
+            "presentation": {
+                "reveal": "always",
+                "panel": "dedicated",
+                "clear": true
+            }
+        },
+        {
+            "label": "Run: Dashboard Watch (+Nudge)",
+            "type": "shell",
+            "command": "python",
+            "args": [
+                "-u",
+                "scripts/dashboard_watch.py"
+            ],
+            "options": {
+                "cwd": "${workspaceFolder}"
             },
             "problemMatcher": []
         },
         {
-            "label": "Run: Share Card (opt-in, markdown)",
+            "label": "Run: Demo Render Nudge",
             "type": "shell",
             "command": "python",
             "args": [
                 "-u",
-                "scripts/share_card_cli.py",
-                "data/logs/clarity_gain_samples_full.jsonl",
-                "--session_id",
-                "SES-DID-2025-0014",
-                "--channel",
-                "markdown"
+                "scripts/demo_render_nudges.py"
             ],
-            "presentation": {
-                "reveal": "always",
-                "panel": "dedicated",
-                "clear": true
-            }
-        },
-        {
-            "label": "Run: Validate JSONL (fast)",
-            "type": "shell",
-            "command": "python",
-            "args": [
-                "-u",
-                "scripts/validate_clarity_jsonl.py",
-                "data/logs/clarity_gain_samples_full.jsonl"
-            ],
-            "group": {
-                "kind": "test",
-                "isDefault": false
+            "options": {
+                "cwd": "${workspaceFolder}"
             },
-            "presentation": {
-                "reveal": "always",
-                "panel": "dedicated",
-                "clear": true
-            }
+            "problemMatcher": []
         },
         {
-            "label": "Run: Demo Render Cards",
+            "label": "Run: Generate next nudge",
             "type": "shell",
             "command": "python",
             "args": [
                 "-u",
-                "scripts/demo_render_cards.py"
+                "scripts/generate_nudge.py",
+                "--templates",
+                "data/nudge_templates.json",
+                "--history",
+                "data/runtime/nudge_history.json",
+                "--context",
+                "data/runtime/nudge_context.json"
             ],
-            "presentation": {
-                "reveal": "always",
-                "panel": "dedicated",
-                "clear": true
-            }
-        },
-        {
-            "label": "Run: Validate All (repo)",
-            "type": "shell",
-            "command": "python",
-            "args": [
-                "-u",
-                "scripts/validate_all.py"
-            ],
-            "group": {
-                "kind": "test",
-                "isDefault": false
+            "options": {
+                "cwd": "${workspaceFolder}"
             },
-            "presentation": {
-                "reveal": "always",
-                "panel": "dedicated",
-                "clear": true
-            }
+            "problemMatcher": []
+        }
+    ],
+    "inputs": [
+        {
+            "id": "nowArg",
+            "type": "promptString",
+            "description": "Optional ISO time (e.g. 2025-10-21T13:40:00+11:00). Leave blank for current time.",
+            "default": "",
+            "postscript": "return (value && value.trim()) ? `--now ${value}` : '';"
+        }
+    ]
+}
+
+
+{
+    "label": "Watch: Auto-refresh dashboard (T4-S3→S4)",
+    "type": "shell",
+    "command": "python",
+    "args": [
+        "-u",
+        "scripts/dashboard_watch.py"
+    ],
+    "options": {
+        "cwd": "${workspaceFolder}"
+    },
+    "problemMatcher": []
+},
+{
+    "label": "Aggregate: Metrics (T4-S2)",
+    "type": "shell",
+    "command": "python",
+    "args": [
+        "-u",
+        "scripts/aggregate_metrics.py"
+    ],
+    "options": {
+        "cwd": "${workspaceFolder}",
+        "env": {
+            "PYTHONPATH": "${workspaceFolder}"
+        }
+    },
+    "problemMatcher": []
+},
+{
+    "label": "One-click: Aggregate → Report → Open",
+    "dependsOrder": "sequence",
+    "dependsOn": [
+        "Aggregate: Metrics (T4-S2)",
+        "Render: Light HTML report (T4-S4)",
+        "Open: Latest Light Report"
+    ]
+},
+{
+    "label": "Open: Latest Light Report",
+    "type": "shell",
+    "command": "powershell",
+    "args": [
+        "-NoProfile",
+        "-Command",
+        "$r = Get-ChildItem -Path reports -Filter 'owlume_light_report_*.html' | Sort-Object LastWriteTime -Descending | Select-Object -First 1; if ($r) { Start-Process $r.FullName } else { Write-Host 'No reports found in ./reports' }"
+    ],
+    "options": {
+        "cwd": "${workspaceFolder}"
+    },
+    "problemMatcher": []
+},
+{
+    "label": "Render: Light HTML report (T4-S4)",
+    "type": "shell",
+    "command": "python -u scripts/render_report.py",
+    "options": {
+        "cwd": "${workspaceFolder}"
+    },
+    "problemMatcher": []
+},
+{
+    "label": "Run: Dashboard Watch (T4-S3)",
+    "type": "shell",
+    "command": "python",
+    "args": [
+        "-u",
+        "scripts/dashboard_watch.py"
+    ],
+    "options": {
+        "cwd": "${workspaceFolder}",
+        "env": {
+            "PYTHONPATH": "${workspaceFolder}"
+        }
+    },
+    "problemMatcher": []
+},
+{
+    "label": "Run: Augment Aggregates (T4-S3)",
+    "type": "shell",
+    "command": "python",
+    "args": [
+        "-u",
+        "scripts/augment_aggregates.py"
+    ],
+    "options": {
+        "cwd": "${workspaceFolder}",
+        "env": {
+            "PYTHONPATH": "${workspaceFolder}"
+        }
+    },
+    "problemMatcher": []
+},
+{
+    "label": "Run: Debug Parse Metrics",
+    "type": "shell",
+    "command": "python",
+    "args": [
+        "-u",
+        "scripts/debug_parse_metrics.py"
+    ],
+    "options": {
+        "cwd": "${workspaceFolder}",
+        "env": {
+            "PYTHONPATH": "${workspaceFolder}"
+        }
+    },
+    "problemMatcher": []
+},
+{
+    "label": "Run: Mini Dashboard (T4-S3)",
+    "type": "shell",
+    "command": "python",
+    "args": [
+        "-u",
+        "scripts/mini_dashboard.py"
+    ],
+    "options": {
+        "cwd": "${workspaceFolder}",
+        "env": {
+            "PYTHONPATH": "${workspaceFolder}"
+        }
+    },
+    "problemMatcher": []
+},
+{
+    "label": "Run: Chart Pack (T4-S3)",
+    "type": "shell",
+    "command": "python",
+    "args": [
+        "-u",
+        "scripts/chart_pack.py"
+    ],
+    "options": {
+        "cwd": "${workspaceFolder}",
+        "env": {
+            "PYTHONPATH": "${workspaceFolder}"
+        }
+    },
+    "problemMatcher": []
+},
+{
+    "label": "Run: Chart Pack (T4-S3)",
+    "type": "shell",
+    "command": "python",
+    "args": [
+        "-u",
+        "scripts/chart_pack.py"
+    ],
+    "options": {
+        "cwd": "${workspaceFolder}"
+    },
+    "problemMatcher": []
+},
+{
+    "label": "Validate: Aggregated metrics",
+    "type": "shell",
+    "command": "python",
+    "args": [
+        "-u",
+        "scripts/validate_aggregates.py"
+    ],
+    "options": {
+        "cwd": "${workspaceFolder}"
+    },
+    "problemMatcher": []
+},
+{
+    "label": "Run: Aggregate metrics",
+    "type": "shell",
+    "command": "python",
+    "args": [
+        "-u",
+        "scripts/aggregate_metrics.py"
+    ],
+    "options": {
+        "cwd": "${workspaceFolder}"
+    },
+    "problemMatcher": []
+},
+{
+    "label": "Validate: Clarity Metrics",
+    "type": "shell",
+    "command": "python",
+    "args": [
+        "scripts/validate_clarity_metrics.py"
+    ],
+    "problemMatcher": []
+},
+{
+    "label": "Create: Feature Branch",
+    "type": "shell",
+    "command": "read-host 'Enter branch name (e.g. feat/update-readme)' | foreach { git checkout -b $_ }",
+    "group": {
+        "kind": "none",
+        "isDefault": false
+    },
+    "presentation": {
+        "reveal": "always",
+        "panel": "shared"
+    },
+    "problemMatcher": []
+},
+{
+    "label": "Run: Share Card (opt-in, markdown)",
+    "type": "shell",
+    "command": "python",
+    "args": [
+        "-u",
+        "scripts/share_card_cli.py",
+        "data/logs/clarity_gain_samples_full.jsonl",
+        "--session_id",
+        "SES-DID-2025-0014",
+        "--channel",
+        "markdown"
+    ],
+    "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "clear": true
+    }
+},
+{
+    "label": "Run: Validate JSONL (fast)",
+    "type": "shell",
+    "command": "python",
+    "args": [
+        "-u",
+        "scripts/validate_clarity_jsonl.py",
+        "data/logs/clarity_gain_samples_full.jsonl"
+    ],
+    "group": {
+        "kind": "test",
+        "isDefault": false
+    },
+    "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "clear": true
+    }
+},
+{
+    "label": "Run: Demo Render Cards",
+    "type": "shell",
+    "command": "python",
+    "args": [
+        "-u",
+        "scripts/demo_render_cards.py"
+    ],
+    "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "clear": true
+    }
+},
+{
+    "label": "Run: Validate All (repo)",
+    "type": "shell",
+    "command": "python",
+    "args": [
+        "-u",
+        "scripts/validate_all.py"
+    ],
+    "group": {
+        "kind": "test",
+        "isDefault": false
+    },
+    "presentation": {
+        "reveal": "always",
+        "panel": "dedicated",
+        "clear": true
+    }
+},
+{
+    "label": "One-click: Aggregate → Report → Open",
+    "dependsOrder": "sequence",
+    "dependsOn": [
+        "Aggregate: Metrics (T4-S2)",
+        "Render: Light HTML report (T4-S4)",
+        "Open: Latest Light Report"{
+            "label": "L1 — Dry run update_weights",
+            "type": "shell",
+            "command": "python -u scripts/update_weights.py --dry-run",
+            "problemMatcher": []
+        },
+        {
+            "label": "L1 — Update weights now",
+            "type": "shell",
+            "command": "python -u scripts/update_weights.py",
+            "problemMatcher": []
         }
     ]
 }
