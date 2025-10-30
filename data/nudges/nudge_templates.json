@@ -1,0 +1,36 @@
+{
+    "spec": "nudges.v1",
+    "templates": [
+        {
+            "id": "POST_SESSION_BOOST",
+            "when": "event.type == 'HIGH_CG_SESSION'",
+            "title": "Nice clarity lift on {{mode}} × {{principle}}",
+            "subtitle": "CG Δ={{cg_delta}}. Keep the momentum going?",
+            "actions": [
+                {
+                    "id": "replay",
+                    "label": "Replay best question",
+                    "type": "REPLAY"
+                },
+                {
+                    "id": "share",
+                    "label": "Generate Clarity Card",
+                    "type": "SHARE_CARD"
+                }
+            ]
+        },
+        {
+            "id": "STALLED_SESSION_NUDGE",
+            "when": "event.type == 'LOW_CG_SESSION'",
+            "title": "Stuck on {{mode}} × {{principle}}?",
+            "subtitle": "Try one sharper probe to unblock.",
+            "actions": [
+                {
+                    "id": "probe",
+                    "label": "Try a sharper probe",
+                    "type": "PROBE"
+                }
+            ]
+        }
+    ]
+}
