@@ -1,0 +1,29 @@
+
+<!doctype html><html lang="en"><head><meta charset="utf-8"/>
+<title>Owlume — Session Explorer</title>
+<style>body{font-family:ui-sans-serif,system-ui,Segoe UI,Roboto;max-width:1100px;margin:40px auto;padding:0 16px;}</style>
+</head><body>
+<h1>🦉 Owlume — Session Explorer</h1>
+<p>This page lists all sessions with quick filter. Use the Drilldowns for Mode × Principle deep dives.</p>
+<h2>Quick Links — Drilldowns</h2>
+<ul><li><a href="drilldown_Assumption__Evidence.html">drilldown_Assumption__Evidence</a></li><li><a href="drilldown_Decision__Risk.html">drilldown_Decision__Risk</a></li><li><a href="drilldown_Perspective__Impact.html">drilldown_Perspective__Impact</a></li></ul>
+<h2>All Sessions</h2>
+
+<input id="filter" placeholder="Filter (mode, principle, did, empathy, etc.)" style="margin:12px 0;padding:8px;width:100%" />
+<table id="t" border="1" cellspacing="0" cellpadding="6" style="border-collapse:collapse;width:100%">
+  <thead><tr><th>timestamp</th><th>did</th><th>mode</th><th>principle</th><th>cg_delta</th><th>empathy_state</th></tr></thead>
+  <tbody><tr><td>2025-10-12T10:40:00+00:00</td><td>DID-2025-0012</td><td>Assumption</td><td>Evidence</td><td>0.360</td><td>on</td></tr><tr><td>2025-10-12T11:05:00+00:00</td><td>DID-2025-0013</td><td>Perspective</td><td>Impact</td><td>0.190</td><td>off</td></tr><tr><td>2025-10-12T11:30:00+00:00</td><td>DID-2025-0014</td><td>Decision</td><td>Risk</td><td>0.500</td><td>on</td></tr></tbody>
+</table>
+<script>
+const f = document.getElementById('filter');
+const t = document.getElementById('t').getElementsByTagName('tbody')[0];
+f.addEventListener('input', function(){
+  const q = this.value.toLowerCase();
+  for (const tr of t.rows) {
+    const show = tr.innerText.toLowerCase().includes(q);
+    tr.style.display = show ? '' : 'none';
+  }
+});
+</script>
+
+</body></html>

@@ -1,0 +1,44 @@
+[
+  {
+    "timestamp": "2025-10-12T10:40:00Z",
+    "did": "DID-2025-0012",
+    "mode": "Assumption",
+    "principle": "Evidence",
+    "mode_principle": "Assumption × Evidence",
+    "cg_pre": 0.42,
+    "cg_post": 0.78,
+    "cg_delta": 0.36,
+    "cg_tier": ">=+0.3",
+    "empathy_state": "on",
+    "empathy_on": true,
+    "empathy_ratio": NaN
+  },
+  {
+    "timestamp": "2025-10-12T11:05:00Z",
+    "did": "DID-2025-0013",
+    "mode": "Perspective",
+    "principle": "Impact",
+    "mode_principle": "Perspective × Impact",
+    "cg_pre": 0.55,
+    "cg_post": 0.74,
+    "cg_delta": 0.19,
+    "cg_tier": "+0.1–0.2",
+    "empathy_state": "off",
+    "empathy_on": false,
+    "empathy_ratio": NaN
+  },
+  {
+    "timestamp": "2025-10-12T11:30:00Z",
+    "did": "DID-2025-0014",
+    "mode": "Decision",
+    "principle": "Risk",
+    "mode_principle": "Decision × Risk",
+    "cg_pre": 0.31,
+    "cg_post": 0.81,
+    "cg_delta": 0.5,
+    "cg_tier": ">=+0.3",
+    "empathy_state": "on",
+    "empathy_on": true,
+    "empathy_ratio": NaN
+  }
+]

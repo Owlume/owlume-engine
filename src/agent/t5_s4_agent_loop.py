@@ -1,4 +1,4 @@
-import json, time, re
+import json, time, re, os
 from pathlib import Path
 from typing import Any, Dict, List
 from datetime import datetime, timezone
@@ -20,6 +20,7 @@ def load_record_by_did(did: str):
             if not line: 
                 continue
             try:
+                os.startfile(str(path))
                 rec=json.loads(line)
                 if str(rec.get("did") or rec.get("id")) == did:
                     return rec

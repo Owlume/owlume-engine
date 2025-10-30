@@ -1,7 +1,174 @@
-from typing import List, Dict, Any, Optional, Tuple
-from dataclasses import dataclass   # 👈 add this import
-import re, json, os
+from __future__ import annotations
+from typing import Callable, Optional, Any, Dict, List, Tuple
+
+import os
+import re
+import json
 from pathlib import Path
+from typing import Callable, Optional, Any, Dict, List, Tuple
+
+from src.policy_utils import load_current_policy
+from src.agent_core import self_prompt, ContextState, EmpathyState
+
+#Date model helpers
+from dataclasses import dataclass
+
+ELENX_DEBUG_POLICY = True  # set False to silence
+
+# … inside _render_questions(), after out.extend(policy_variants[:3])
+if ELENX_DEBUG_POLICY:
+    print(f"[L5] injected={min(3, len(policy_variants))} policy_variants for {det.mode}:{det.principle}")
+
+
+# Canonical sets for Questioncraft Matrix (Tightened)
+VALID_MODES = {
+    "Analytical",
+    "Critical",
+    "Creative",
+    "Reflective",
+    "Growth"
+}
+
+VALID_PRINCIPLES = {
+    "Assumption",
+    "Evidence",
+    "Risk",
+    "Clarity",
+    "Efficiency",
+    "Action"
+}
+
+# ---- Empathy learning defaults (engine config) ----
+default_empathy_cfg = {
+    "lambda": 0.30,      # empathy amplification λ
+    "alpha": 0.15,       # learning rate
+    "beta": 0.80,        # momentum
+    "decay": 0.02,       # weight decay per update
+    "max_step": 0.20,    # per-update step cap
+    "max_weight": 3.0,   # absolute caps
+    "min_weight": -3.0,
+    "high_E": 0.75,      # high-empathy threshold
+    "low_CG": 0.05,      # “no clarity” threshold
+    "oversym_penalty": 0.5
+}
+
+def load_empathy_cfg(path: str = "config/empathy_config.json") -> dict:
+    cfg = dict(default_empathy_cfg)  # start with defaults
+    if os.path.exists(path):
+        with open(path, "r", encoding="utf-8") as f:
+            user_cfg = json.load(f)
+            cfg.update(user_cfg or {})
+    # quick sanity caps
+    cfg["lambda"] = max(0.0, min(1.0, cfg.get("lambda", 0.30)))
+    cfg["alpha"]  = max(0.0, min(1.0, cfg.get("alpha", 0.15)))
+    cfg["beta"]   = max(0.0, min(0.99, cfg.get("beta", 0.80)))  # momentum < 1
+    cfg["decay"]  = max(0.0, min(1.0, cfg.get("decay", 0.02)))
+    return cfg
+
+def clip(x: float, lo: float, hi: float) -> float:
+    return max(lo, min(hi, x))
+
+# Stub: plug your real eligibility logic later (e.g., based on attention or path traces)
+def eligibility(cell: Tuple[str, str], context: Dict | None = None) -> float:
+    return 1.0
+
+def apply_empathy_learning(
+    cg_delta: float,                # clarity gain in [-1, +1]
+    empathy_state: float,           # E in [0, 1]
+    cells: Iterable[Tuple[str, str]],   # list of (Mode, Principle)
+    weights: Dict[str, float],      # mutable weight table: "Mode × Principle" -> weight
+    velocity: Dict[str, float],     # momentum buffer per cell
+    cfg: Dict[str, float],          # config dict (see default_cfg below)
+    context: Dict | None = None,    # optional context for eligibility()
+    on_log: Optional[Callable] = None  # optional logger: fn(event:str, **data)
+) -> None:
+    """
+    Empathy turns clarity (state) into motion (updates):
+    - scales cg_delta by empathy
+    - assigns credit to responsible Mode × Principle cells
+    - applies momentum, decay, and safety caps
+    """
+    # --- unpack config
+    lam = cfg.get("lambda", 0.30)                  # empathy amplification
+    alpha = cfg.get("alpha", 0.15)                 # learning rate
+    beta = cfg.get("beta", 0.80)                   # momentum
+    decay = cfg.get("decay", 0.02)                 # L2-ish decay
+    max_step = cfg.get("max_step", 0.20)           # step cap per update
+    max_weight = cfg.get("max_weight", 3.0)        # absolute weight cap
+    min_weight = cfg.get("min_weight", -3.0)
+    high_E = cfg.get("high_E", 0.75)               # threshold for "high empathy"
+    low_CG = cfg.get("low_CG", 0.05)               # clarity is effectively low
+    oversym_penalty = cfg.get("oversym_penalty", 0.5)  # shrink factor for λ on over-sympathy
+
+    # --- empathy-scaled signal
+    effective_delta = cg_delta * (1.0 + lam * empathy_state)
+
+    # Over-sympathy: strong empathy but negligible/negative clarity
+    if empathy_state >= high_E and abs(cg_delta) <= low_CG:
+        effective_delta *= oversym_penalty
+        if on_log:
+            on_log("oversympathy_detected", E=empathy_state, cg_delta=cg_delta)
+
+    # --- per-cell update
+    for mode, principle in cells:
+        validate_cell(mode, principle)                        # guardrail
+        cell_key = f"{mode} × {principle}"
+
+        elig = eligibility((mode, principle), context)        # [0..1]
+        step = alpha * effective_delta * elig
+        step = clip(step, -max_step, max_step)                # safety cap
+
+        v_prev = velocity.get(cell_key, 0.0)
+        v_next = beta * v_prev + step
+        w_prev = weights.get(cell_key, 0.0)
+
+        # decay pulls weights slightly toward 0 to avoid drift
+        w_next = w_prev + v_next - decay * w_prev
+        w_next = clip(w_next, min_weight, max_weight)
+
+        velocity[cell_key] = v_next
+        weights[cell_key] = w_next
+
+        if on_log:
+            on_log(
+                "cell_update",
+                cell=cell_key, cg_delta=cg_delta, E=empathy_state,
+                effective_delta=effective_delta, elig=elig, step=step,
+                v_prev=v_prev, v_next=v_next, w_prev=w_prev, w_next=w_next
+            )
+
+def validate_cell(mode: str, principle: str) -> bool:
+    """
+    Validate that a Mode × Principle pair exists in the canonical Questioncraft Matrix.
+    Returns True if valid; raises ValueError if not.
+    """
+    if mode not in VALID_MODES:
+        raise ValueError(
+            f"Invalid Mode '{mode}'. Must be one of {sorted(VALID_MODES)}."
+        )
+
+    if principle not in VALID_PRINCIPLES:
+        raise ValueError(
+            f"Invalid Principle '{principle}'. Must be one of {sorted(VALID_PRINCIPLES)}."
+        )
+
+    return True
+
+def update_weights(cells, effective_delta, weights):
+    """
+    Update learning weights for each valid Mode × Principle cell.
+    - cells: list of (mode, principle) tuples
+    - effective_delta: clarity gain adjustment value
+    - weights: dict storing accumulated weights
+    """
+    for mode, principle in cells:
+        # ✅ Step C — Call the validator before updating
+        validate_cell(mode, principle)
+
+        key = f"{mode} × {principle}"
+        weights[key] = weights.get(key, 0.0) + effective_delta
+
+    return weights
 
 # === L1: Learned Weights hook ===
 _LEARNED_PATH = Path(__file__).resolve().parents[1] / "data" / "metrics" / "learned_weights.json"
@@ -16,13 +183,59 @@ if _ELENX_DEBUG_WEIGHTS:
     print("[L1] DEBUG ON: elenx_engine loaded")
 
 # --- L1: label aliases (engine-side) ---
+# Only map *actual* principle naming variants to canonical names.
 PRINCIPLE_ALIASES = {
     "Evidence": "Evidence & Validation",
-    "Stakeholders": "Stakeholder",
-    "Clarity": "Evidence & Validation",
-    "Efficiency": "Evidence & Validation",
-    "Action": "Evidence & Validation",
+    "Stakeholders": "Stakeholder"  # plural → singular
 }
+
+# Non-principle tags occasionally seen in legacy logs/UI. Do not coerce these.
+NON_PRINCIPLE_TAGS = {"Clarity", "Efficiency", "Action"}
+
+# Ensure we have a logger; fall back to stdlib if not already defined above.
+try:
+    logger  # type: ignore
+except NameError:  # pragma: no cover
+    import logging
+    logger = logging.getLogger(__name__)
+    if not logger.handlers:
+        logging.basicConfig(level=logging.INFO)
+
+# Canonical principles set. If you already define this elsewhere in this file,
+# remove this block and import/use the existing constant.
+try:
+    CANONICAL_PRINCIPLES  # type: ignore
+except NameError:
+    CANONICAL_PRINCIPLES = {
+        "Assumption",
+        "Evidence & Validation",
+        "Risk",
+        "Stakeholder",
+        "Options",
+        "Tradeoff",
+        # add any other canonical principles you use here
+    }
+
+def normalize_principle(label: str) -> str | None:
+    """
+    Normalize a possibly non-canonical principle label to its canonical name.
+    Returns None for non-principle tags or unknowns so callers can decide.
+    """
+    if not label:
+        return None
+    # direct alias?
+    if label in PRINCIPLE_ALIASES:
+        return PRINCIPLE_ALIASES[label]
+    # already canonical?
+    if label in CANONICAL_PRINCIPLES:
+        return label
+    # known non-principle tag — do not coerce silently
+    if label in NON_PRINCIPLE_TAGS:
+        logger.warning(f"[alias] non-principle tag encountered: {label} (not coerced)")
+        return None
+    # unknown — surface for cleanup
+    logger.warning(f"[alias] unknown principle label: {label}")
+    return None
 
 def _alias_principle(name: str) -> str:
     return PRINCIPLE_ALIASES.get(name, name)
@@ -751,6 +964,31 @@ class ElenxEngine:
 
     def _render_questions(self, det: DetectionResult) -> List[str]:
         out: List[str] = []
+
+        # === [POLICY_HOOK · L5] Begin =========================================
+        from src.policy_utils import load_current_policy
+        from src.agent_core import self_prompt, ContextState, EmpathyState
+
+        # Load current learned policy from data/runtime/agent_policy.json
+        policy = load_current_policy()
+
+        # Build contextual state from the detection result
+        ctx = ContextState(
+            mode=det.mode,
+            principle=det.principle,
+            empathy_state=EmpathyState(
+                state=("AUTO" if getattr(det, "empathy_state", None) != "OFF" else "OFF"),
+                intensity=getattr(det, "empathy_intensity", None),
+            ),
+        )
+
+        # Generate variants influenced by learned policy
+        policy_variants = self_prompt(ctx, policy)
+
+        # Inject top few into the outgoing question list
+        out.extend(policy_variants[:3])
+        print(f"[L5] injected={min(3, len(policy_variants))} policy_variants")
+        # === [POLICY_HOOK · L5] End ===========================================
 
         # 1) Primary from Matrix (best effort)
         base_q = (self._get_matrix_question(det.mode, det.principle) or "").strip()

@@ -1,0 +1,73 @@
+{
+  "$schema": "../../schemas/empathy_weights.schema.json",
+  "spec": "Owlume L4 empathy_weights v0.1",
+  "weights": [
+    {
+      "move_id": "E_VALIDATE",
+      "mode": "Reflective",
+      "principle": "Assumption",
+      "score": 0.06528,
+      "n": 1,
+      "mean": 0.43520000000000003,
+      "m2": 0.0,
+      "ci_low": 0.43520000000000003,
+      "ci_high": 0.43520000000000003
+    },
+    {
+      "move_id": "E_REFRAME",
+      "mode": "Reflective",
+      "principle": "Assumption",
+      "score": 0.06528,
+      "n": 1,
+      "mean": 0.43520000000000003,
+      "m2": 0.0,
+      "ci_low": 0.43520000000000003,
+      "ci_high": 0.43520000000000003
+    },
+    {
+      "move_id": "E_PACE",
+      "mode": "Reflective",
+      "principle": "Assumption",
+      "score": 0.12076800000000001,
+      "n": 2,
+      "mean": 0.43520000000000003,
+      "m2": 0.0,
+      "ci_low": 0.43520000000000003,
+      "ci_high": 0.43520000000000003
+    },
+    {
+      "move_id": "E_VALIDATE",
+      "mode": "Decision",
+      "principle": "Risk",
+      "score": 0.04050000000000001,
+      "n": 6,
+      "mean": 0.405,
+      "m2": 0.0,
+      "ci_low": 0.405,
+      "ci_high": 0.405
+    },
+    {
+      "move_id": "E_REFRAME",
+      "mode": "Decision",
+      "principle": "Risk",
+      "score": 0.04050000000000001,
+      "n": 6,
+      "mean": 0.405,
+      "m2": 0.0,
+      "ci_low": 0.405,
+      "ci_high": 0.405
+    },
+    {
+      "move_id": "E_PACE",
+      "mode": "Decision",
+      "principle": "Risk",
+      "score": 0.04050000000000001,
+      "n": 6,
+      "mean": 0.405,
+      "m2": 0.0,
+      "ci_low": 0.405,
+      "ci_high": 0.405
+    }
+  ],
+  "updated_at": "2025-10-29T01:33:48.466199+00:00"
+}

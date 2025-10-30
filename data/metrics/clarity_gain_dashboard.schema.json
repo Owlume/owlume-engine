@@ -1,0 +1,75 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "clarity_gain_dashboard.schema.json",
+  "title": "Owlume Clarity Gain Dashboard — Row Schema",
+  "type": "array",
+  "items": {
+    "type": "object",
+    "properties": {
+      "timestamp": {
+        "type": "string"
+      },
+      "did": {
+        "type": "string"
+      },
+      "mode": {
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "principle": {
+        "type": [
+          "string",
+          "null"
+        ]
+      },
+      "mode_principle": {
+        "type": "string"
+      },
+      "cg_pre": {
+        "type": [
+          "number",
+          "null"
+        ]
+      },
+      "cg_post": {
+        "type": [
+          "number",
+          "null"
+        ]
+      },
+      "cg_delta": {
+        "type": [
+          "number",
+          "null"
+        ]
+      },
+      "cg_tier": {
+        "type": "string"
+      },
+      "empathy_state": {
+        "type": "string"
+      },
+      "empathy_on": {
+        "type": [
+          "boolean",
+          "null"
+        ]
+      },
+      "empathy_ratio": {
+        "type": [
+          "number",
+          "null"
+        ]
+      }
+    },
+    "required": [
+      "timestamp",
+      "did",
+      "mode_principle",
+      "cg_delta"
+    ],
+    "additionalProperties": true
+  }
+}

@@ -114,10 +114,10 @@
       }
     ]
   },
-  "empathy_activation_rate": 0.2,
+  "empathy_activation_rate": 0.190476,
   "mode_principle_counts": {
+    "Decision × Risk": 3,
     "Assumption × Evidence": 2,
-    "Decision × Risk": 2,
     "Perspective × Impact": 2
   }
 }

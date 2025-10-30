@@ -1,0 +1,4 @@
+timestamp,did,mode,principle,mode_principle,cg_pre,cg_post,cg_delta,cg_tier,empathy_state,empathy_on,empathy_ratio
+2025-10-12T10:40:00Z,DID-2025-0012,Assumption,Evidence,Assumption × Evidence,0.42,0.78,0.36,>=+0.3,on,True,
+2025-10-12T11:05:00Z,DID-2025-0013,Perspective,Impact,Perspective × Impact,0.55,0.74,0.19,+0.1–0.2,off,False,
+2025-10-12T11:30:00Z,DID-2025-0014,Decision,Risk,Decision × Risk,0.31,0.81,0.5,>=+0.3,on,True,

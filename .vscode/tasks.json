@@ -2,6 +2,27 @@
     "version": "2.0.0",
     "tasks": [
         {
+            "label": "T5-S4: Watch Agent (auto-run on change)",
+            "type": "shell",
+            "command": "python -u scripts/t5_s4_watch_agent.py",
+            "problemMatcher": []
+        },
+        {
+            "label": "T5-S4: Agent loop + Nudge Cards",
+            "type": "shell",
+            "command": "python -u scripts/t5_s4_agent_loop_sim.py",
+            "problemMatcher": []
+        },
+        {
+            "label": "L3 — Emit Insight Events",
+            "type": "shell",
+            "command": "python -u scripts/insight_engine_hook.py --in_json data/metrics/clarity_gain_dashboard.json --aggregates_glob \"data/metrics/aggregates_*.json\" --out_jsonl data/runtime/insight_events.jsonl",
+            "group": "build",
+            "presentation": {
+                "reveal": "always"
+            }
+        },
+        {
             "label": "Run: Validate Schemas",
             "type": "shell",
             "command": "python -u scripts/validate_schemas.py",
@@ -157,6 +178,101 @@
                 "cwd": "${workspaceFolder}"
             },
             "problemMatcher": []
+        },
+        {
+            "label": "Empathy • 1) Backup current weights",
+            "type": "shell",
+            "command": "Copy-Item -Path data/weights/empathy_weights.json -Destination data/weights/empathy_weights_backup.json -Force",
+            "problemMatcher": []
+        },
+        {
+            "label": "Empathy • 2) Learn v0.1 (auto-create)",
+            "type": "shell",
+            "command": "python -u scripts/learn_empathy_weights_v01.py --logs data/logs/clarity_gain_samples.jsonl --weights data/weights/empathy_weights.json --out data/weights/empathy_weights.json",
+            "problemMatcher": []
+        },
+        {
+            "label": "Empathy • 2) Learn v0.1 (auto-create, no_timestamp)",
+            "type": "shell",
+            "command": "python -u scripts/learn_empathy_weights_v01.py --logs data/logs/clarity_gain_samples.jsonl --weights data/weights/empathy_weights.json --out data/weights/empathy_weights.json --no_timestamp",
+            "problemMatcher": []
+        },
+        {
+            "label": "Empathy • 3) Report diff (backup → current)",
+            "type": "shell",
+            "command": "python -u scripts/report_empathy_weight_changes.py --before data/weights/empathy_weights_backup.json --after data/weights/empathy_weights.json --top 20 --min_delta 0.000001",
+            "problemMatcher": []
+        },
+        {
+            "label": "Empathy • 4) Export CSV",
+            "type": "shell",
+            "command": "python -u scripts/export_empathy_weights_csv.py --in data/weights/empathy_weights.json --out reports/empathy_weights_export.csv",
+            "problemMatcher": []
+        },
+        {
+            "label": "Empathy Pipeline • Learn→Report→Export→Summary",
+            "dependsOn": [
+                "Empathy • 1) Backup current weights",
+                "Empathy • 2) Learn v0.1 (auto-create)",
+                "Empathy • 3) Report diff (backup → current)",
+                "Empathy • 4) Export CSV",
+                "Empathy • 5) Summarize by Cell"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Empathy Pipeline • Learn(no_ts)→Report→Export→Summary",
+            "dependsOn": [
+                "Empathy • 1) Backup current weights",
+                "Empathy • 2) Learn v0.1 (auto-create, no_timestamp)",
+                "Empathy • 3) Report diff (backup → current)",
+                "Empathy • 4) Export CSV",
+                "Empathy • 5) Summarize by Cell"
+            ],
+            "problemMatcher": []
+        },
+        ,
+        // === 🦉 OWLUME — EMPATHY MODEL TUNING (post-learning steps) ===
+        {
+            "label": "Empathy • 6) Validate weights (schema)",
+            "type": "shell",
+            "command": "python -u scripts/validate_json.py --schemas schemas/empathy_weights.schema.json --data data/weights/empathy_weights.json",
+            "problemMatcher": []
+        },
+        {
+            "label": "Empathy • 7) Dashboard refresh",
+            "type": "shell",
+            "command": "python -u scripts/dashboard_watch.py",
+            "problemMatcher": []
+        },
+        // === Pipelines (extended) ===
+        {
+            "label": "Empathy Pipeline • Full (Learn→Report→Export→Summary→Validate→Dashboard→Plot)",
+            "dependsOn": [
+                "Empathy • 1) Backup current weights",
+                "Empathy • 2) Learn v0.1 (auto-create)",
+                "Empathy • 3) Report diff (backup → current)",
+                "Empathy • 4) Export CSV",
+                "Empathy • 5) Summarize by Cell",
+                "Empathy • 6) Validate weights (schema)",
+                "Empathy • 7) Dashboard refresh",
+                "Empathy • 8) Plot Cell Summary"
+            ],
+            "problemMatcher": []
+        },
+        {
+            "label": "Empathy Pipeline • Full(Learn(no_ts)→Report→Export→Summary→Validate→Dashboard→Plot)",
+            "dependsOn": [
+                "Empathy • 1) Backup current weights",
+                "Empathy • 2) Learn v0.1 (auto-create, no_timestamp)",
+                "Empathy • 3) Report diff (backup → current)",
+                "Empathy • 4) Export CSV",
+                "Empathy • 5) Summarize by Cell",
+                "Empathy • 6) Validate weights (schema)",
+                "Empathy • 7) Dashboard refresh",
+                "Empathy • 8) Plot Cell Summary"
+            ],
+            "problemMatcher": []
         }
     ],
     "inputs": [
@@ -169,7 +285,6 @@
         }
     ]
 }
-
 
 {
     "label": "Watch: Auto-refresh dashboard (T4-S3→S4)",

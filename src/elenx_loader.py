@@ -9,6 +9,24 @@ try:
 except Exception:
     HAS_JSONSCHEMA = False
 
+    # Canonical sets for Questioncraft Matrix (Tightened)
+VALID_MODES = {
+    "Analytical",
+    "Critical",
+    "Creative",
+    "Reflective",
+    "Growth"
+}
+
+VALID_PRINCIPLES = {
+    "Assumption",
+    "Evidence",
+    "Risk",
+    "Clarity",
+    "Efficiency",
+    "Action"
+}
+
 ROOT = Path(__file__).resolve().parents[1]
 DATA_DIR = ROOT / "data"
 SCHEMA_DIR = ROOT / "schemas"

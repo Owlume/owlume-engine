@@ -1,0 +1,355 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "https://owlume-engine/schemas/learning_agent.schema.json",
+    "title": "Owlume — Learning Agent Log (Stage 4 · L5)",
+    "description": "Schema for autonomous learning events produced by the Owlume Learning Agent. Each record captures context, inputs, the policy update, meta-evaluation, and safety guards.",
+    "type": "object",
+    "required": [
+        "spec",
+        "records"
+    ],
+    "additionalProperties": false,
+    "properties": {
+        "$schema": {
+            "type": "string"
+        },
+        "spec": {
+            "type": "object",
+            "required": [
+                "name",
+                "version",
+                "stage",
+                "track",
+                "created_with"
+            ],
+            "additionalProperties": false,
+            "properties": {
+                "name": {
+                    "type": "string",
+                    "const": "learning_agent"
+                },
+                "version": {
+                    "type": "string",
+                    "pattern": "^[0-9]+\\.[0-9]+(\\.[0-9]+)?$"
+                },
+                "stage": {
+                    "type": "string",
+                    "const": "Stage 4"
+                },
+                "track": {
+                    "type": "string",
+                    "const": "L5"
+                },
+                "created_with": {
+                    "type": "string"
+                },
+                "notes": {
+                    "type": "string"
+                },
+                "timestamp": {
+                    "type": "string",
+                    "description": "ISO 8601 timestamp (UTC preferred).",
+                    "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|[\\+\\-]\\d{2}:\\d{2})$"
+                }
+            }
+        },
+        "records": {
+            "type": "array",
+            "items": {
+                "$ref": "#/definitions/record"
+            }
+        }
+    },
+    "definitions": {
+        "timestamp": {
+            "type": "string",
+            "description": "ISO 8601 timestamp (UTC preferred).",
+            "pattern": "^\\d{4}-\\d{2}-\\d{2}T\\d{2}:\\d{2}:\\d{2}(\\.\\d+)?(Z|[\\+\\-]\\d{2}:\\d{2})$"
+        },
+        "empathy_state_obj": {
+            "type": "object",
+            "description": "Structured empathy state (post-L4 migration).",
+            "required": [
+                "state"
+            ],
+            "additionalProperties": true,
+            "properties": {
+                "state": {
+                    "type": "string",
+                    "enum": [
+                        "ON",
+                        "OFF",
+                        "AUTO"
+                    ]
+                },
+                "intensity": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "rationale": {
+                    "type": "string"
+                }
+            }
+        },
+        "context_state": {
+            "type": "object",
+            "required": [
+                "mode",
+                "principle",
+                "empathy_state"
+            ],
+            "additionalProperties": false,
+            "properties": {
+                "mode": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "principle": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "empathy_state": {
+                    "$ref": "#/definitions/empathy_state_obj"
+                }
+            }
+        },
+        "clarity_block": {
+            "type": "object",
+            "required": [
+                "cg_pre",
+                "cg_post",
+                "cg_delta"
+            ],
+            "additionalProperties": false,
+            "properties": {
+                "cg_pre": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "cg_post": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "cg_delta": {
+                    "type": "number",
+                    "minimum": -1,
+                    "maximum": 1
+                }
+            }
+        },
+        "empathy_block": {
+            "type": "object",
+            "required": [
+                "E"
+            ],
+            "additionalProperties": false,
+            "properties": {
+                "E": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                },
+                "feedback": {
+                    "type": "object",
+                    "description": "Subset of empathy_feedback captured at session end.",
+                    "additionalProperties": true
+                }
+            }
+        },
+        "policy_vector": {
+            "type": "object",
+            "description": "Opaque but typed container of policy weights/knobs.",
+            "additionalProperties": {
+                "type": "number"
+            }
+        },
+        "policy_update": {
+            "type": "object",
+            "required": [
+                "changed_keys",
+                "delta",
+                "reason"
+            ],
+            "additionalProperties": false,
+            "properties": {
+                "changed_keys": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "delta": {
+                    "type": "object",
+                    "description": "Sparse map of key → change value applied.",
+                    "additionalProperties": {
+                        "type": "number"
+                    }
+                },
+                "reason": {
+                    "type": "string"
+                }
+            }
+        },
+        "meta_eval": {
+            "type": "object",
+            "required": [
+                "predicted_cg_delta",
+                "actual_cg_delta",
+                "error",
+                "meta_score"
+            ],
+            "additionalProperties": false,
+            "properties": {
+                "predicted_cg_delta": {
+                    "type": "number",
+                    "minimum": -1,
+                    "maximum": 1
+                },
+                "actual_cg_delta": {
+                    "type": "number",
+                    "minimum": -1,
+                    "maximum": 1
+                },
+                "error": {
+                    "type": "number",
+                    "minimum": 0
+                },
+                "meta_score": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1,
+                    "description": "Composite effectiveness score used for stability checks."
+                }
+            }
+        },
+        "safety": {
+            "type": "object",
+            "required": [
+                "ok"
+            ],
+            "additionalProperties": false,
+            "properties": {
+                "ok": {
+                    "type": "boolean"
+                },
+                "poc_signals": {
+                    "type": "array",
+                    "description": "Proof-of-Clarity signals that justified the update.",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "notes": {
+                    "type": "string"
+                }
+            }
+        },
+        "record": {
+            "type": "object",
+            "required": [
+                "timestamp",
+                "agent_version",
+                "intent",
+                "context_state",
+                "inputs",
+                "policy",
+                "update",
+                "meta_eval",
+                "safety"
+            ],
+            "additionalProperties": false,
+            "properties": {
+                "timestamp": {
+                    "$ref": "#/definitions/timestamp"
+                },
+                "agent_version": {
+                    "type": "string",
+                    "pattern": "^[0-9]+\\.[0-9]+(\\.[0-9]+)?$"
+                },
+                "intent": {
+                    "type": "string",
+                    "enum": [
+                        "reflective_update",
+                        "periodic_consolidation",
+                        "post_session_adjustment",
+                        "rollback",
+                        "dry_run_test"
+                    ]
+                },
+                "ids": {
+                    "type": "object",
+                    "additionalProperties": false,
+                    "properties": {
+                        "did": {
+                            "type": "string"
+                        },
+                        "session_id": {
+                            "type": "string"
+                        },
+                        "user_hash": {
+                            "type": "string",
+                            "description": "Pseudonymous user id if available."
+                        }
+                    }
+                },
+                "context_state": {
+                    "$ref": "#/definitions/context_state"
+                },
+                "inputs": {
+                    "type": "object",
+                    "required": [
+                        "empathy",
+                        "clarity"
+                    ],
+                    "additionalProperties": false,
+                    "properties": {
+                        "empathy": {
+                            "$ref": "#/definitions/empathy_block"
+                        },
+                        "clarity": {
+                            "$ref": "#/definitions/clarity_block"
+                        }
+                    }
+                },
+                "policy": {
+                    "type": "object",
+                    "required": [
+                        "before",
+                        "after"
+                    ],
+                    "additionalProperties": false,
+                    "properties": {
+                        "before": {
+                            "$ref": "#/definitions/policy_vector"
+                        },
+                        "after": {
+                            "$ref": "#/definitions/policy_vector"
+                        }
+                    }
+                },
+                "update": {
+                    "$ref": "#/definitions/policy_update"
+                },
+                "meta_eval": {
+                    "$ref": "#/definitions/meta_eval"
+                },
+                "belief_map_touch": {
+                    "type": "array",
+                    "description": "Labels/IDs of belief nodes that were updated or consulted.",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "safety": {
+                    "$ref": "#/definitions/safety"
+                },
+                "notes": {
+                    "type": "string"
+                }
+            }
+        }
+    }
+}

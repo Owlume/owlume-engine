@@ -1,0 +1,78 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "empathy_weights",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "spec",
+        "updated_at",
+        "weights"
+    ],
+    "properties": {
+        "$schema": {
+            "type": "string",
+            "description": "Editor hint; not required"
+        },
+        "spec": {
+            "type": "string",
+            "description": "Schema or version reference"
+        },
+        "updated_at": {
+            "type": "string",
+            "format": "date-time"
+        },
+        "adaptive_rules": {
+            "type": "array",
+            "description": "Reserved for L4 tuning; optional",
+            "items": {
+                "type": "object",
+                "additionalProperties": true
+            },
+            "default": []
+        },
+        "weights": {
+            "type": "array",
+            "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                    "move_id",
+                    "mode",
+                    "principle",
+                    "score",
+                    "n"
+                ],
+                "properties": {
+                    "move_id": {
+                        "type": "string"
+                    },
+                    "mode": {
+                        "type": "string"
+                    },
+                    "principle": {
+                        "type": "string"
+                    },
+                    "score": {
+                        "type": "number"
+                    },
+                    "n": {
+                        "type": "integer",
+                        "minimum": 0
+                    },
+                    "mean": {
+                        "type": "number"
+                    },
+                    "m2": {
+                        "type": "number"
+                    },
+                    "ci_low": {
+                        "type": "number"
+                    },
+                    "ci_high": {
+                        "type": "number"
+                    }
+                }
+            }
+        }
+    }
+}
