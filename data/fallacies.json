@@ -52,7 +52,7 @@
         {
             "id": "straw_man",
             "label": "Straw Man",
-            "definition": "Misrepresenting someone’s argument to make it easier to attack."
+            "definition": "Misrepresenting someoneâ€™s argument to make it easier to attack."
         },
         {
             "id": "appeal_to_emotion",
@@ -82,12 +82,12 @@
         {
             "id": "appeal_to_tradition",
             "label": "Appeal to Tradition",
-            "definition": "Claiming something is correct because it’s long-standing."
+            "definition": "Claiming something is correct because itâ€™s long-standing."
         },
         {
             "id": "appeal_to_nature",
             "label": "Appeal to Nature",
-            "definition": "Arguing something is good because it’s natural."
+            "definition": "Arguing something is good because itâ€™s natural."
         },
         {
             "id": "false_analogy",
@@ -107,7 +107,7 @@
         {
             "id": "appeal_to_ignorance",
             "label": "Appeal to Ignorance",
-            "definition": "Arguing something is true because it hasn’t been proven false."
+            "definition": "Arguing something is true because it hasnâ€™t been proven false."
         }
     ]
 }

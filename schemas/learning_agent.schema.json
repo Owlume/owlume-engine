@@ -1,7 +1,7 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
     "$id": "https://owlume-engine/schemas/learning_agent.schema.json",
-    "title": "Owlume — Learning Agent Log (Stage 4 · L5)",
+    "title": "Owlume â€” Learning Agent Log (Stage 4 Â· L5)",
     "description": "Schema for autonomous learning events produced by the Owlume Learning Agent. Each record captures context, inputs, the policy update, meta-evaluation, and safety guards.",
     "type": "object",
     "required": [
@@ -183,7 +183,7 @@
                 },
                 "delta": {
                     "type": "object",
-                    "description": "Sparse map of key → change value applied.",
+                    "description": "Sparse map of key â†’ change value applied.",
                     "additionalProperties": {
                         "type": "number"
                     }

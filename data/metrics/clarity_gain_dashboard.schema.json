@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "clarity_gain_dashboard.schema.json",
-  "title": "Owlume Clarity Gain Dashboard — Row Schema",
+  "title": "Owlume Clarity Gain Dashboard â€” Row Schema",
   "type": "array",
   "items": {
     "type": "object",

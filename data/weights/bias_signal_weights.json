@@ -1,0 +1,19 @@
+{
+    "$schema": "https://owlume/schemas/bias_signal_weights.schema.json",
+    "spec": {
+        "version": "v0.1",
+        "notes": "Initial hand-tuned BSE weights"
+    },
+    "weights": {
+        "evidence": 1.0,
+        "agency": 0.8,
+        "risk": 0.9,
+        "conflict": 0.9,
+        "identity": 0.7,
+        "ambiguity": 1.0,
+        "fallacy": 1.1,
+        "context": 0.9,
+        "empathy": 0.6
+    },
+    "updated_at": "2025-11-02T00:00:00Z"
+}

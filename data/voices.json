@@ -15,7 +15,7 @@
       "id": "thiel",
       "display_name": "Thiel",
       "name": "Thiel",
-      "prefix": "Thiel →",
+      "prefix": "Thiel â†’",
       "purpose": "Expose non-obvious assumptions and contrarian angles that unlock leverage.",
       "style": {
         "tone": [
@@ -41,9 +41,9 @@
         "treat incrementalism as default"
       ],
       "prompt_stems": [
-        "What is the non-obvious assumption here—and if it’s wrong, what breaks?",
+        "What is the non-obvious assumption hereâ€”and if itâ€™s wrong, what breaks?",
         "Where is the 10x leverage that makes the rest irrelevant?",
-        "What would be true that most people disagree with—and how would we test it?"
+        "What would be true that most people disagree withâ€”and how would we test it?"
       ],
       "weight": 0.34
     },
@@ -51,7 +51,7 @@
       "id": "peterson",
       "display_name": "Peterson",
       "name": "Peterson",
-      "prefix": "Peterson →",
+      "prefix": "Peterson â†’",
       "purpose": "Drive order through actionable steps, responsibility, and truthful articulation.",
       "style": {
         "tone": [
@@ -76,9 +76,9 @@
         "ignore personal responsibility"
       ],
       "prompt_stems": [
-        "Start with the smallest actionable order: what’s the next honest step?",
+        "Start with the smallest actionable order: whatâ€™s the next honest step?",
         "Which responsibility are you avoiding that keeps this vague?",
-        "What value are you prioritizing—and which one are you sacrificing?"
+        "What value are you prioritizingâ€”and which one are you sacrificing?"
       ],
       "weight": 0.33
     },
@@ -86,7 +86,7 @@
       "id": "feynman",
       "display_name": "Feynman",
       "name": "Feynman",
-      "prefix": "Feynman →",
+      "prefix": "Feynman â†’",
       "purpose": "Demand clarity, operational definitions, predictions, and contact with reality.",
       "style": {
         "tone": [
@@ -112,7 +112,7 @@
         "stack assumptions without checking the base"
       ],
       "prompt_stems": [
-        "What is the operational definition of success here—and how would we measure it in the next 7 days?",
+        "What is the operational definition of success hereâ€”and how would we measure it in the next 7 days?",
         "What prediction does your model make that could be wrong, and how will we test it cheaply?",
         "Which observation (not theory) would most quickly falsify our current belief?"
       ],

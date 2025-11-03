@@ -1,0 +1,35 @@
+{
+    "$schema": "https://owlume/schemas/bridge_stub.schema.json",
+    "spec": {
+        "version": "v1.0",
+        "purpose": "Minimal contract for clarity exchange between Owlume Core and external bridge"
+    },
+    "contract": {
+        "input": {
+            "did": "string",
+            "user": "string",
+            "text": "string",
+            "timestamp": "ISO8601"
+        },
+        "output": {
+            "mode_detected": "string",
+            "principle_detected": "string",
+            "cg_delta": "number",
+            "bse_vector": {
+                "evidence": "number",
+                "agency": "number",
+                "risk": "number",
+                "conflict": "number",
+                "identity": "number"
+            },
+            "empathy_state": "object",
+            "bridge_id": "string",
+            "timestamp": "ISO8601"
+        },
+        "metadata": {
+            "bridge_name": "string",
+            "direction": "inbound|outbound|reciprocal",
+            "privacy_level": "trusted|minimal|anonymous"
+        }
+    }
+}

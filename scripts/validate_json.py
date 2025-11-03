@@ -9,6 +9,7 @@ Usage:
 """
 
 import json
+import os, glob
 import sys
 import argparse
 from pathlib import Path
@@ -42,6 +43,20 @@ def load_jsonl(path: Path):
                 print(f"{WARN} Skipping malformed line {i}: {e}")
     return records
 
+def expand_arg_paths(paths):
+    expanded = []
+    for p in paths:
+        if os.path.isdir(p):
+            if os.path.basename(p).lower() == "schemas":
+                expanded += glob.glob(os.path.join(p, "*.schema.json"))
+            else:
+                expanded += glob.glob(os.path.join(p, "**", "*.json"), recursive=True)
+        elif any(ch in p for ch in "*?[]"):
+            expanded += glob.glob(p, recursive=True)
+        else:
+            expanded.append(p)
+    # de-dupe + keep only files
+    return [x for x in dict.fromkeys(expanded) if os.path.isfile(x)]
 
 def validate_file(schema_path, data_path):
     """Validate JSON or JSONL data against a schema. Returns True if all good."""
@@ -82,31 +97,98 @@ def validate_file(schema_path, data_path):
 # CLI entry point
 # ----------------------------------------------------
 def main():
-    parser = argparse.ArgumentParser()
-    parser.add_argument("--schemas", required=True, help="Path to schema file")
-    parser.add_argument("--data", required=True, help="Path to data file (.json or .jsonl)")
+    import argparse, sys, json
+    from pathlib import Path
+    import jsonschema  # ensure this is installed
+    # assumes expand_arg_paths(paths: List[str]) is already defined above
+
+    parser = argparse.ArgumentParser(
+        description="Validate JSON data files against JSON Schemas."
+    )
+    parser.add_argument(
+        "--schemas", nargs="+", required=True,
+        help="Schema files, globs, or directories (e.g., schemas or schemas/*.schema.json)"
+    )
+    parser.add_argument(
+        "--data", nargs="+", required=True,
+        help="Data files, globs, or directories (e.g., data or data/**/*.json)"
+    )
     args = parser.parse_args()
 
-    schema_path = Path(args.schemas)
-    data_path = Path(args.data)
+    # Expand directories and globs into concrete file lists
+    args.schemas = expand_arg_paths(args.schemas)
+    args.data    = expand_arg_paths(args.data)
 
-    if not schema_path.exists():
-        print(f"{ERR} Schema not found: {schema_path}")
-        sys.exit(1)
+    if not args.schemas:
+        raise SystemExit("[X] No schema files found after expansion.")
+    if not args.data:
+        raise SystemExit("[X] No data files found after expansion.")
 
-    if not data_path.exists():
-        print(f"{ERR} Data file not found: {data_path}")
-        sys.exit(1)
+    # Build a lookup for data files by basename
+    data_by_name = {Path(p).name: p for p in args.data}
 
-    ok = False
-    try:
-        ok = validate_file(schema_path, data_path)
-    except Exception as err:
-        print(f"{ERR} Unexpected validation error: {err}")
-        sys.exit(1)
+    any_failed = False
+    total_checks = 0
 
-    if not ok:
-        sys.exit(1)
+    for schema_path_str in args.schemas:
+        schema_path = Path(schema_path_str)
+        schema_name = schema_path.name
+
+        # Load schema
+        try:
+            with schema_path.open("r", encoding="utf-8") as f:
+                schema = json.load(f)
+        except Exception as e:
+            print(f"[X] Failed to read schema {schema_name}: {e}")
+            any_failed = True
+            continue
+
+        # Heuristic mapping: matrix.schema.json → matrix.json, etc.
+        stem = schema_path.stem.replace(".schema", "")
+        candidates = [f"{stem}.json", f"{stem}.jsonc"]  # add more if you use them
+
+        # Select targets: matching file(s) if present; else validate *all* data JSONs
+        targets = [data_by_name[n] for n in candidates if n in data_by_name]
+        if not targets:
+            # fall back to all .json files (skip .jsonl)
+            targets = [p for p in args.data if p.lower().endswith(".json")]
+
+        if not targets:
+            print(f"[!] No data files found to validate for schema {schema_name}")
+            continue
+
+        for data_path_str in targets:
+            data_path = Path(data_path_str)
+            if data_path.suffix.lower() == ".jsonl":
+                continue  # skip JSONL in this validator
+
+            # Load data
+            try:
+                with data_path.open("r", encoding="utf-8") as f:
+                    data = json.load(f)
+            except Exception as e:
+                print(f"[X] Failed to read data {data_path.name}: {e}")
+                any_failed = True
+                continue
+
+            # Validate
+            try:
+                jsonschema.validate(instance=data, schema=schema)
+                print(f"[✓] {data_path.name} — valid against {schema_name}")
+            except Exception as e:
+                print(f"[X] {data_path.name} — INVALID against {schema_name}: {e}")
+                any_failed = True
+            finally:
+                total_checks += 1
+
+    if total_checks == 0:
+        print("[!] No validations were performed (no matching data files).")
+        raise SystemExit(1 if any_failed else 0)
+
+    if any_failed:
+        raise SystemExit(1)
+
+    print("All validations completed.")
 
 
 if __name__ == "__main__":

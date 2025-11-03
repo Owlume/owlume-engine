@@ -16,3 +16,4 @@
 {"timestamp": "2025-10-30T03:54:51.066906+00:00", "did": "DID-2025-0012", "action_id": "share", "action_type": "SHARE_CARD", "mode": "Assumption", "principle": "Evidence", "artifact": "reports\\clarity_cards\\clarity_card_DID-2025-0012.md"}
 {"timestamp": "2025-10-30T03:54:51.073822+00:00", "did": "DID-2025-0014", "action_id": "share", "action_type": "SHARE_CARD", "mode": "Decision", "principle": "Risk"}
 {"timestamp": "2025-10-30T03:54:51.073822+00:00", "did": "DID-2025-0014", "action_id": "share", "action_type": "SHARE_CARD", "mode": "Decision", "principle": "Risk", "artifact": "reports\\clarity_cards\\clarity_card_DID-2025-0014.md"}
+{"timestamp": "2025-10-30T05:01:32.402159+00:00", "did": "DID-b636738a", "user": "local", "mode": "Analytical", "principle": "Assumption", "conf": 0.55, "cg_pre": 0.4, "cg_post": 0.5, "cg_delta": 0.09999999999999998}

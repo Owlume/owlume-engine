@@ -14,7 +14,7 @@
     "Assumption": "Which assumptions could be flawed, biased, or circular?",
     "Stakeholder": "Whose interests or incentives could distort this reasoning?",
     "Evidence": "What counter-evidence or missing data could overturn this?",
-    "Risk": "What is the hidden downside or worst-case that’s ignored?",
+    "Risk": "What is the hidden downside or worst-case thatâ€™s ignored?",
     "Clarity": "Where is the ambiguity that could conceal an error?",
     "Efficiency": "What is over-engineered or unnecessarily constrained?",
     "Action": "Which action here may backfire or cause harm?"
@@ -29,11 +29,11 @@
     "Action": "What bold step would radically change the outcome?"
   },
   "Reflective": {
-    "Root Cause": "What’s the underlying cause behind this recurring issue?",
+    "Root Cause": "Whatâ€™s the underlying cause behind this recurring issue?",
     "Assumption": "How do my own biases shape these assumptions?",
-    "Evidence": "Why do I trust this evidence — and could I be wrong?",
+    "Evidence": "Why do I trust this evidence â€” and could I be wrong?",
     "Risk": "What past failures mirror the risks here?",
-    "Clarity": "What am I avoiding seeing clearly because it’s uncomfortable?",
+    "Clarity": "What am I avoiding seeing clearly because itâ€™s uncomfortable?",
     "Efficiency": "Where am I overcomplicating because of ego or habit?",
     "Action": "Am I acting for clarity, or for comfort and identity?"
   },

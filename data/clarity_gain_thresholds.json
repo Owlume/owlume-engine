@@ -2,7 +2,7 @@
     "$schema": "../schemas/clarity_gain_thresholds.schema.json",
     "spec": "owlume.clarity.thresholds.v1",
     "version": "1.0.0",
-    "description": "Thresholds for interpreting clarity gain (Δ) into qualitative tiers used across dashboards and nudges.",
+    "description": "Thresholds for interpreting clarity gain (Î”) into qualitative tiers used across dashboards and nudges.",
     "thresholds": {
         "very_low": 0.05,
         "low": 0.10,

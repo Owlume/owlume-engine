@@ -1,0 +1,769 @@
+{
+  "spec": "owlume.fallacy_alias_index.v1",
+  "version": "1.0.0",
+  "built_from": "data\\fallacies_v2.json",
+  "count_tokens": 145,
+  "count_variants": 32,
+  "alias_index": {
+    "weak man": [
+      "F-STRAW-1"
+    ],
+    "misrepresentation": [
+      "F-STRAW-1"
+    ],
+    "exaggerate": [
+      "F-STRAW-1"
+    ],
+    "distort": [
+      "F-STRAW-1"
+    ],
+    "twist": [
+      "F-STRAW-1"
+    ],
+    "so you're saying": [
+      "F-STRAW-1"
+    ],
+    "what you really mean": [
+      "F-STRAW-1"
+    ],
+    "basically they claim": [
+      "F-STRAW-1"
+    ],
+    "fabricated opponent": [
+      "F-STRAW-2"
+    ],
+    "nobody": [
+      "F-STRAW-2"
+    ],
+    "everybody": [
+      "F-STRAW-2"
+    ],
+    "always": [
+      "F-STRAW-2",
+      "F-TRAD-1"
+    ],
+    "some people say": [
+      "F-STRAW-2"
+    ],
+    "everyone knows": [
+      "F-STRAW-2"
+    ],
+    "insult": [
+      "F-ADHOM-1"
+    ],
+    "name-calling": [
+      "F-ADHOM-1"
+    ],
+    "idiot": [
+      "F-ADHOM-1"
+    ],
+    "clown": [
+      "F-ADHOM-1"
+    ],
+    "stupid": [
+      "F-ADHOM-1"
+    ],
+    "appeal to hypocrisy": [
+      "F-ADHOM-2"
+    ],
+    "hypocrite": [
+      "F-ADHOM-2"
+    ],
+    "double standard": [
+      "F-ADHOM-2"
+    ],
+    "you also": [
+      "F-ADHOM-2"
+    ],
+    "you did the same": [
+      "F-ADHOM-2"
+    ],
+    "false cause": [
+      "F-POSTHOC-1"
+    ],
+    "caused": [
+      "F-POSTHOC-1"
+    ],
+    "therefore": [
+      "F-POSTHOC-1"
+    ],
+    "after we": [
+      "F-POSTHOC-1"
+    ],
+    "since then": [
+      "F-POSTHOC-1"
+    ],
+    "black-and-white": [
+      "F-FALSEDICH-1"
+    ],
+    "only": [
+      "F-CONFIRM-1",
+      "F-FALSEDICH-1",
+      "F-HASTY-1"
+    ],
+    "must": [
+      "F-FALSEDICH-1"
+    ],
+    "cannot": [
+      "F-FALSEDICH-1"
+    ],
+    "either…or": [
+      "F-FALSEDICH-1"
+    ],
+    "if not x then y": [
+      "F-FALSEDICH-1"
+    ],
+    "chain reaction": [
+      "F-SLIPPERY-1"
+    ],
+    "inevitable": [
+      "F-SLIPPERY-1"
+    ],
+    "cascade": [
+      "F-SLIPPERY-1"
+    ],
+    "if we allow": [
+      "F-SLIPPERY-1"
+    ],
+    "it will lead to": [
+      "F-SLIPPERY-1"
+    ],
+    "selective evidence": [
+      "F-CONFIRM-1"
+    ],
+    "just these": [
+      "F-CONFIRM-1"
+    ],
+    "handpicked": [
+      "F-CONFIRM-1"
+    ],
+    "false authority": [
+      "F-AUTH-1"
+    ],
+    "expert": [
+      "F-AUTH-1"
+    ],
+    "famous": [
+      "F-AUTH-1"
+    ],
+    "professor": [
+      "F-AUTH-1"
+    ],
+    "as said by": [
+      "F-AUTH-1"
+    ],
+    "absence fallacy": [
+      "F-IGNOR-1"
+    ],
+    "disprove": [
+      "F-IGNOR-1"
+    ],
+    "absence": [
+      "F-IGNOR-1"
+    ],
+    "no one proved": [
+      "F-IGNOR-1"
+    ],
+    "never shown": [
+      "F-IGNOR-1"
+    ],
+    "consensus fallacy": [
+      "F-BAND-1"
+    ],
+    "trending": [
+      "F-BAND-1"
+    ],
+    "viral": [
+      "F-BAND-1"
+    ],
+    "everyone": [
+      "F-BAND-1"
+    ],
+    "most people": [
+      "F-BAND-1"
+    ],
+    "whataboutism": [
+      "F-REDHERR-1"
+    ],
+    "but what about": [
+      "F-REDHERR-1"
+    ],
+    "meanwhile": [
+      "F-REDHERR-1"
+    ],
+    "on another note": [
+      "F-REDHERR-1"
+    ],
+    "tautology": [
+      "F-CIRC-1"
+    ],
+    "because it is": [
+      "F-CIRC-1"
+    ],
+    "since it is": [
+      "F-CIRC-1"
+    ],
+    "obviously true": [
+      "F-CIRC-1"
+    ],
+    "each": [
+      "F-COMP-1"
+    ],
+    "therefore all": [
+      "F-COMP-1"
+    ],
+    "since every": [
+      "F-COMP-1"
+    ],
+    "one case fallacy": [
+      "F-ANEC-1"
+    ],
+    "personally": [
+      "F-ANEC-1"
+    ],
+    "story": [
+      "F-ANEC-1"
+    ],
+    "i know someone": [
+      "F-ANEC-1"
+    ],
+    "in my experience": [
+      "F-ANEC-1"
+    ],
+    "semantic shift": [
+      "F-AMBIG-1"
+    ],
+    "means": [
+      "F-AMBIG-1"
+    ],
+    "define": [
+      "F-AMBIG-1"
+    ],
+    "by freedom i mean": [
+      "F-AMBIG-1"
+    ],
+    "trap question": [
+      "F-LOADEQ-1"
+    ],
+    "stop": [
+      "F-LOADEQ-1"
+    ],
+    "continue": [
+      "F-LOADEQ-1"
+    ],
+    "when did you": [
+      "F-LOADEQ-1"
+    ],
+    "why do you still": [
+      "F-LOADEQ-1"
+    ],
+    "few": [
+      "F-HASTY-1"
+    ],
+    "every time": [
+      "F-HASTY-1"
+    ],
+    "scare tactic": [
+      "F-AFFECT-1"
+    ],
+    "fear": [
+      "F-AFFECT-1"
+    ],
+    "disaster": [
+      "F-AFFECT-1"
+    ],
+    "if we don’t": [
+      "F-AFFECT-1"
+    ],
+    "catastrophic": [
+      "F-AFFECT-1"
+    ],
+    "throwing good after bad": [
+      "F-COST-1"
+    ],
+    "already spent": [
+      "F-COST-1"
+    ],
+    "can’t quit": [
+      "F-COST-1"
+    ],
+    "we’ve come too far": [
+      "F-COST-1"
+    ],
+    "natural": [
+      "F-NORM-1"
+    ],
+    "organic": [
+      "F-NORM-1"
+    ],
+    "as nature intended": [
+      "F-NORM-1"
+    ],
+    "apples to oranges": [
+      "F-FALSEEQUIV-1"
+    ],
+    "same as": [
+      "F-FALSEEQUIV-1"
+    ],
+    "no different": [
+      "F-FALSEEQUIV-1"
+    ],
+    "just like": [
+      "F-FALSEEQUIV-1"
+    ],
+    "equally": [
+      "F-FALSEEQUIV-1"
+    ],
+    "purity fallacy": [
+      "F-SCOTSMAN-1"
+    ],
+    "real": [
+      "F-SCOTSMAN-1"
+    ],
+    "true": [
+      "F-SCOTSMAN-1"
+    ],
+    "proper": [
+      "F-SCOTSMAN-1"
+    ],
+    "no true": [
+      "F-SCOTSMAN-1"
+    ],
+    "real x would never": [
+      "F-SCOTSMAN-1"
+    ],
+    "poisoning the well": [
+      "F-GENETIC-1"
+    ],
+    "came from": [
+      "F-GENETIC-1"
+    ],
+    "origin": [
+      "F-GENETIC-1"
+    ],
+    "because it’s from": [
+      "F-GENETIC-1"
+    ],
+    "tradition": [
+      "F-TRAD-1"
+    ],
+    "we’ve always": [
+      "F-TRAD-1"
+    ],
+    "since the beginning": [
+      "F-TRAD-1"
+    ],
+    "innovation bias": [
+      "F-NOVEL-1"
+    ],
+    "new": [
+      "F-NOVEL-1"
+    ],
+    "latest": [
+      "F-NOVEL-1"
+    ],
+    "next-gen": [
+      "F-NOVEL-1"
+    ],
+    "cutting-edge": [
+      "F-NOVEL-1"
+    ],
+    "state of the art": [
+      "F-NOVEL-1"
+    ],
+    "cherry target": [
+      "F-SHARP-1"
+    ],
+    "pattern": [
+      "F-SHARP-1"
+    ],
+    "cluster": [
+      "F-SHARP-1"
+    ],
+    "if you look here": [
+      "F-SHARP-1"
+    ],
+    "successful": [
+      "F-SURVIVOR-1"
+    ],
+    "winners": [
+      "F-SURVIVOR-1"
+    ],
+    "look at these successes": [
+      "F-SURVIVOR-1"
+    ],
+    "base-rate fallacy": [
+      "F-BASERATE-1"
+    ],
+    "accuracy": [
+      "F-BASERATE-1"
+    ],
+    "chance": [
+      "F-BASERATE-1"
+    ],
+    "ignoring prevalence": [
+      "F-BASERATE-1"
+    ],
+    "regardless of base rate": [
+      "F-BASERATE-1"
+    ],
+    "monte carlo fallacy": [
+      "F-GAMBLER-1"
+    ],
+    "due": [
+      "F-GAMBLER-1"
+    ],
+    "streak": [
+      "F-GAMBLER-1"
+    ],
+    "bound to happen": [
+      "F-GAMBLER-1"
+    ],
+    "about time": [
+      "F-GAMBLER-1"
+    ],
+    "argumentum ad consequentiam": [
+      "F-CONSEQ-1"
+    ],
+    "would mean": [
+      "F-CONSEQ-1"
+    ],
+    "otherwise": [
+      "F-CONSEQ-1"
+    ],
+    "can’t be true because": [
+      "F-CONSEQ-1"
+    ],
+    "split": [
+      "F-MIDDLE-1"
+    ],
+    "meet in the middle": [
+      "F-MIDDLE-1"
+    ],
+    "halfway between": [
+      "F-MIDDLE-1"
+    ]
+  },
+  "variant_meta": {
+    "F-STRAW-1": {
+      "root_id": "F-STRAW",
+      "principles": [
+        "Evidence"
+      ],
+      "drivers": [
+        "identity_protection"
+      ],
+      "severity": "high"
+    },
+    "F-STRAW-2": {
+      "root_id": "F-STRAW",
+      "principles": [
+        "Representation"
+      ],
+      "drivers": [
+        "overload_complexity"
+      ],
+      "severity": "medium"
+    },
+    "F-ADHOM-1": {
+      "root_id": "F-ADHOM",
+      "principles": [
+        "Respect"
+      ],
+      "drivers": [
+        "status_games"
+      ],
+      "severity": "high"
+    },
+    "F-ADHOM-2": {
+      "root_id": "F-ADHOM",
+      "principles": [
+        "Evidence"
+      ],
+      "drivers": [
+        "identity_protection"
+      ],
+      "severity": "medium"
+    },
+    "F-POSTHOC-1": {
+      "root_id": "F-POSTHOC",
+      "principles": [
+        "Causality"
+      ],
+      "drivers": [
+        "pattern_bias"
+      ],
+      "severity": "medium"
+    },
+    "F-FALSEDICH-1": {
+      "root_id": "F-FALSEDICH",
+      "principles": [
+        "Alternatives"
+      ],
+      "drivers": [
+        "time_pressure"
+      ],
+      "severity": "high"
+    },
+    "F-SLIPPERY-1": {
+      "root_id": "F-SLIPPERY",
+      "principles": [
+        "Risk"
+      ],
+      "drivers": [
+        "fear_bias"
+      ],
+      "severity": "medium"
+    },
+    "F-CONFIRM-1": {
+      "root_id": "F-CONFIRM",
+      "principles": [
+        "Evidence"
+      ],
+      "drivers": [
+        "identity_protection"
+      ],
+      "severity": "high"
+    },
+    "F-AUTH-1": {
+      "root_id": "F-AUTH",
+      "principles": [
+        "Credibility"
+      ],
+      "drivers": [
+        "deference_to_authority"
+      ],
+      "severity": "medium"
+    },
+    "F-IGNOR-1": {
+      "root_id": "F-IGNOR",
+      "principles": [
+        "Burden"
+      ],
+      "drivers": [
+        "over_simplification"
+      ],
+      "severity": "medium"
+    },
+    "F-BAND-1": {
+      "root_id": "F-BAND",
+      "principles": [
+        "Influence"
+      ],
+      "drivers": [
+        "social_conformity"
+      ],
+      "severity": "medium"
+    },
+    "F-REDHERR-1": {
+      "root_id": "F-REDHERR",
+      "principles": [
+        "Focus"
+      ],
+      "drivers": [
+        "complexity_avoidance"
+      ],
+      "severity": "medium"
+    },
+    "F-CIRC-1": {
+      "root_id": "F-CIRC",
+      "principles": [
+        "Logic"
+      ],
+      "drivers": [
+        "identity_protection"
+      ],
+      "severity": "medium"
+    },
+    "F-COMP-1": {
+      "root_id": "F-COMP",
+      "principles": [
+        "Generalization"
+      ],
+      "drivers": [
+        "pattern_bias"
+      ],
+      "severity": "low"
+    },
+    "F-ANEC-1": {
+      "root_id": "F-ANEC",
+      "principles": [
+        "Sample"
+      ],
+      "drivers": [
+        "availability_bias"
+      ],
+      "severity": "medium"
+    },
+    "F-AMBIG-1": {
+      "root_id": "F-AMBIG",
+      "principles": [
+        "Definition"
+      ],
+      "drivers": [
+        "communication_noise"
+      ],
+      "severity": "medium"
+    },
+    "F-LOADEQ-1": {
+      "root_id": "F-LOADEQ",
+      "principles": [
+        "Framing"
+      ],
+      "drivers": [
+        "status_games"
+      ],
+      "severity": "high"
+    },
+    "F-HASTY-1": {
+      "root_id": "F-HASTY",
+      "principles": [
+        "Sample"
+      ],
+      "drivers": [
+        "over_simplification"
+      ],
+      "severity": "medium"
+    },
+    "F-AFFECT-1": {
+      "root_id": "F-AFFECT",
+      "principles": [
+        "Motivation"
+      ],
+      "drivers": [
+        "fear_bias"
+      ],
+      "severity": "medium"
+    },
+    "F-COST-1": {
+      "root_id": "F-COST",
+      "principles": [
+        "Decision"
+      ],
+      "drivers": [
+        "loss_aversion"
+      ],
+      "severity": "high"
+    },
+    "F-NORM-1": {
+      "root_id": "F-NORM",
+      "principles": [
+        "Value"
+      ],
+      "drivers": [
+        "moral_simplification"
+      ],
+      "severity": "low"
+    },
+    "F-FALSEEQUIV-1": {
+      "root_id": "F-FALSEEQUIV",
+      "principles": [
+        "Relevance"
+      ],
+      "drivers": [
+        "over_simplification"
+      ],
+      "severity": "medium"
+    },
+    "F-SCOTSMAN-1": {
+      "root_id": "F-SCOTSMAN",
+      "principles": [
+        "Definition"
+      ],
+      "drivers": [
+        "identity_protection"
+      ],
+      "severity": "medium"
+    },
+    "F-GENETIC-1": {
+      "root_id": "F-GENETIC",
+      "principles": [
+        "Credibility"
+      ],
+      "drivers": [
+        "status_games"
+      ],
+      "severity": "low"
+    },
+    "F-TRAD-1": {
+      "root_id": "F-TRAD",
+      "principles": [
+        "Alternatives"
+      ],
+      "drivers": [
+        "institutional_inertia"
+      ],
+      "severity": "low"
+    },
+    "F-NOVEL-1": {
+      "root_id": "F-NOVEL",
+      "principles": [
+        "Value"
+      ],
+      "drivers": [
+        "shiny_object_bias"
+      ],
+      "severity": "low"
+    },
+    "F-SHARP-1": {
+      "root_id": "F-SHARP",
+      "principles": [
+        "Sample"
+      ],
+      "drivers": [
+        "pattern_bias"
+      ],
+      "severity": "medium"
+    },
+    "F-SURVIVOR-1": {
+      "root_id": "F-SURVIVOR",
+      "principles": [
+        "Sample"
+      ],
+      "drivers": [
+        "availability_bias"
+      ],
+      "severity": "medium"
+    },
+    "F-BASERATE-1": {
+      "root_id": "F-BASERATE",
+      "principles": [
+        "Risk"
+      ],
+      "drivers": [
+        "overconfidence_bias"
+      ],
+      "severity": "medium"
+    },
+    "F-GAMBLER-1": {
+      "root_id": "F-GAMBLER",
+      "principles": [
+        "Risk"
+      ],
+      "drivers": [
+        "pattern_bias"
+      ],
+      "severity": "low"
+    },
+    "F-CONSEQ-1": {
+      "root_id": "F-CONSEQ",
+      "principles": [
+        "Framing"
+      ],
+      "drivers": [
+        "moral_simplification"
+      ],
+      "severity": "medium"
+    },
+    "F-MIDDLE-1": {
+      "root_id": "F-MIDDLE",
+      "principles": [
+        "Alternatives"
+      ],
+      "drivers": [
+        "conflict_avoidance"
+      ],
+      "severity": "low"
+    }
+  }
+}

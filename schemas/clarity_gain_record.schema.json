@@ -1,20 +1,21 @@
-﻿{
+{
     "$schema": "http://json-schema.org/draft-07/schema#",
-    "title": "Owlume — Clarity Gain Record",
+    "title": "clarity_gain_record",
     "type": "object",
+    "additionalProperties": true,
     "properties": {
         "did": {
             "type": "string"
-        },
-        "timestamp": {
-            "type": "string",
-            "format": "date-time"
         },
         "mode_detected": {
             "type": "string"
         },
         "principle_detected": {
             "type": "string"
+        },
+        "timestamp": {
+            "type": "string",
+            "format": "date-time"
         },
         "cg_pre": {
             "type": "number"
@@ -24,6 +25,31 @@
         },
         "cg_delta": {
             "type": "number"
+        },
+        "proof_signals": {
+            "type": "array",
+            "items": {
+                "type": "string"
+            }
+        },
+        "share": {
+            "type": "object",
+            "properties": {
+                "status": {
+                    "type": "string"
+                },
+                "channel": {
+                    "type": "string"
+                },
+                "consent": {
+                    "type": "boolean"
+                },
+                "timestamp": {
+                    "type": "string",
+                    "format": "date-time"
+                }
+            },
+            "additionalProperties": true
         },
         "empathy_state": {
             "oneOf": [
@@ -40,92 +66,68 @@
                         "active": {
                             "type": "boolean"
                         },
-                        "rel": {
-                            "type": "number"
-                        },
-                        "mor": {
-                            "type": "number"
-                        },
-                        "ctx": {
-                            "type": "number"
-                        },
-                        "adapt": {
+                        "strength": {
                             "type": "number"
                         }
                     },
                     "required": [
                         "active"
                     ],
-                    "additionalProperties": false
+                    "additionalProperties": true
                 }
             ]
         },
-
-    "empathy_feedback": {
+        "empathy_feedback": {
             "type": "object",
-            "required": [
-                "resonance",
-                "comfort",
-                "trust_shift",
-                "tone_fit",
-                "timestamp"
-            ],
             "properties": {
-                "resonance": {
-                    "type": "integer",
-                    "minimum": 1,
-                    "maximum": 5
+                "strength": {
+                    "type": "number"
                 },
-                "comfort": {
-                    "type": "integer",
-                    "minimum": 1,
-                    "maximum": 5
-                },
-                "trust_shift": {
-                    "type": "integer",
-                    "minimum": -2,
-                    "maximum": 2
-                },
-                "tone_fit": {
-                    "type": "integer",
-                    "minimum": 1,
-                    "maximum": 5
-                },
-                "notes": {
-                    "type": "string",
-                    "maxLength": 8000
-                },
-                "opt_in_training": {
+                "helpful": {
                     "type": "boolean"
-                },
-                "source": {
-                    "type": "string",
-                    "enum": [
-                        "card_ui",
-                        "cli",
-                        "api",
-                        "test"
-                    ]
-                },
-                "timestamp": {
+                }
+            },
+            "additionalProperties": true
+        },
+        "cg_live": {
+            "type": "object",
+            "properties": {
+                "last_feedback_ts": {
                     "type": "string",
                     "format": "date-time"
                 },
-                "version": {
-                    "type": "string",
-                    "default": "v1.0"
+                "replies": {
+                    "type": "integer"
+                },
+                "shares": {
+                    "type": "integer"
+                },
+                "signals": {
+                    "type": "object",
+                    "properties": {
+                        "views": {
+                            "type": "integer"
+                        },
+                        "likes": {
+                            "type": "integer"
+                        },
+                        "bookmarks": {
+                            "type": "integer"
+                        },
+                        "nudges_clicked": {
+                            "type": "integer"
+                        },
+                        "followups": {
+                            "type": "integer"
+                        }
+                    },
+                    "additionalProperties": false
+                },
+                "cg_adjust": {
+                    "type": "number"
                 }
             },
             "additionalProperties": false
         }
-    },
-    "required": [
-        "did",
-        "mode_detected",
-        "principle_detected",
-        "cg_pre",
-        "cg_post",
-        "cg_delta"
-    ],
-    "additionalProperties": true
+    }
 }

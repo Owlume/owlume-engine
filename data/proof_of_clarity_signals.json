@@ -6,21 +6,21 @@
             "id": "cg_small",
             "label": "Small Clarity Gain",
             "meaning": "A slight clarity shift indicating early progress that can compound with continued reflection.",
-            "example_feedback": "A slight shift — I’m starting to see things more clearly.",
+            "example_feedback": "A slight shift â€” Iâ€™m starting to see things more clearly.",
             "source_metric": "cg_delta"
         },
         {
             "id": "cg_medium",
             "label": "Medium Clarity Gain",
             "meaning": "A noticeable improvement in perspective that helped resolve some uncertainty.",
-            "example_feedback": "Nice — that reflection gave me clearer perspective and resolved some uncertainty.",
+            "example_feedback": "Nice â€” that reflection gave me clearer perspective and resolved some uncertainty.",
             "source_metric": "cg_delta"
         },
         {
             "id": "cg_large",
             "label": "Large Clarity Gain",
             "meaning": "A strong clarity jump indicating a meaningful reframing or new insight.",
-            "example_feedback": "Strong clarity jump — I reframed my thinking and found a real insight.",
+            "example_feedback": "Strong clarity jump â€” I reframed my thinking and found a real insight.",
             "source_metric": "cg_delta"
         }
     ]

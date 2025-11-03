@@ -1,0 +1,36 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "reciprocity_feedback",
+    "type": "object",
+    "required": [
+        "reciprocity_id",
+        "usage_context",
+        "clarity_effect",
+        "empathy_response",
+        "timestamp"
+    ],
+    "properties": {
+        "reciprocity_id": {
+            "type": "string",
+            "pattern": "^RCP-[0-9]{4}-[0-9]{4,}$"
+        },
+        "usage_context": {
+            "type": "string"
+        },
+        "resulting_action": {
+            "type": "string"
+        },
+        "clarity_effect": {
+            "type": "number"
+        },
+        "empathy_response": {
+            "type": "number",
+            "minimum": 0,
+            "maximum": 1
+        },
+        "timestamp": {
+            "type": "string",
+            "format": "date-time"
+        }
+    }
+}

@@ -69,19 +69,19 @@
     ],
     "mode_x_principle": [
       {
-        "label": "- × -",
+        "label": "- Ã— -",
         "count": 14
       },
       {
-        "label": "Assumption × Evidence",
+        "label": "Assumption Ã— Evidence",
         "count": 2
       },
       {
-        "label": "Perspective × Impact",
+        "label": "Perspective Ã— Impact",
         "count": 2
       },
       {
-        "label": "Decision × Risk",
+        "label": "Decision Ã— Risk",
         "count": 2
       }
     ],
@@ -116,8 +116,8 @@
   },
   "empathy_activation_rate": 0.190476,
   "mode_principle_counts": {
-    "Decision × Risk": 3,
-    "Assumption × Evidence": 2,
-    "Perspective × Impact": 2
+    "Decision Ã— Risk": 3,
+    "Assumption Ã— Evidence": 2,
+    "Perspective Ã— Impact": 2
   }
 }

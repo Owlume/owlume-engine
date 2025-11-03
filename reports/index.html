@@ -1,0 +1,153 @@
+<!doctype html>
+<html lang="en">
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>Owlume — Live Dashboard v3</title>
+<style>
+  body {
+    font-family: system-ui, -apple-system, Segoe UI, Roboto, Arial, sans-serif;
+    max-width: 900px;
+    margin: 32px auto;
+    padding: 0 16px
+  }
+
+  .card {
+    border: 1px solid #e5e7eb;
+    border-radius: 16px;
+    padding: 16px;
+    margin: 12px 0;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, .04)
+  }
+
+  h1 {
+    margin: 0 0 8px 0
+  }
+
+  .grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px
+  }
+
+  .pill {
+    display: inline-block;
+    border: 1px solid #e5e7eb;
+    border-radius: 999px;
+    padding: 6px 10px;
+    margin: 4px 6px 0 0;
+    font-size: 14px
+  }
+
+  a {
+    color: #2563eb;
+    text-decoration: none
+  }
+</style>
+<h1>Owlume — Live Dashboard v3</h1>
+<p style="margin:4px 0 12px 0; color:#6b7280; font-size:0.85rem;">
+  Ecosystem overlay below shows reciprocity status &amp; learning trends
+  (<em>Stage 7 — Ecosystem Learning Overlay</em>).
+</p>
+<div id="vitals" class="card">Loading…</div>
+<div class="card">
+  <strong>Quick Links</strong>
+  <div id="links"></div>
+</div>
+<script>
+  (async () => {
+    try {
+      const res = await fetch('summary.json?cachebust=' + Date.now());
+      const data = await res.json();
+      const v = data.vitals || {};
+      const stamp = new Date(data.timestamp || Date.now()).toLocaleString();
+      const vitals = document.getElementById('vitals');
+      vitals.innerHTML = `
+      <div><em>Updated:</em> ${stamp}</div>
+      <div class="grid">
+        <div class="pill">Δavg: ${Number(v.delta_avg ?? 0).toFixed(3)}</div>
+        <div class="pill">Empathy: ${Number((v.empathy_rate ?? 0) * 100).toFixed(1)}%</div>
+        <div class="pill">Positive: ${Number((v.positive_rate ?? 0) * 100).toFixed(1)}%</div>
+        <div class="pill">Drift: ${Number(v.drift ?? 0).toFixed(3)}</div>
+        <div class="pill">Tunnel: ${Number(v.tunnel ?? 0).toFixed(3)}</div>
+        <div class="pill">Aim: ${v.aim ?? '—'}</div>
+      </div>`;
+      const L = data.links || {};
+      const links = document.getElementById('links');
+      links.innerHTML = `
+      <ul>
+        <li><a href="${L.last_snapshot || '#'}">Last Snapshot</a></li>
+        <li><a href="${L.clarity_trend || '#'}">Clarity Trend</a></li>
+        <li><a href="${L.empathy_curve || '#'}">Empathy Curve</a></li>
+        <li><a href="${L.dashboard_v2 || '#'}">Dashboard v2</a></li>
+      </ul>`;
+    } catch (e) {
+      document.getElementById('vitals').textContent = 'summary.json not found';
+    }
+  })();
+</script>
+<!-- S7-S6 OVERLAY START -->
+<div class="card">
+  <div style="display:flex; justify-content:space-between; align-items:center;">
+    <h2 style="margin:0;">Stage 7 — Ecosystem Learning Overlay</h2>
+    <span class="pill" style="
+      background:#6b7280;
+      color:#ffffff;
+      padding:2px 10px;
+      border-radius:999px;
+      font-size:0.75rem;
+      font-weight:500;
+      white-space:nowrap;">
+      Ecosystem: HEARTBEAT ONLY
+    </span>
+  </div>
+  <p style="margin-top:4px; color:#6b7280; font-size:0.85rem;">
+    Source: <code>S7-S6_ecosystem_learning_summary.md</code> • Generated: 2025-11-03T21:27:15.140726+00:00
+  </p>
+
+  <div class="grid" style="margin-top:8px;">
+    <div>
+      <h3 style="margin:0 0 4px 0; font-size:0.95rem;">Clarity Δ</h3>
+      <p style="margin:0; font-size:0.9rem;">
+        EMA last: <strong>0.000</strong><br />
+        Trend slope: <span>+0.0000</span><br />
+        State: <span style="text-transform:capitalize;">flattening</span>
+      </p>
+    </div>
+    <div>
+      <h3 style="margin:0 0 4px 0; font-size:0.95rem;">Empathy</h3>
+      <p style="margin:0; font-size:0.9rem;">
+        EMA last: <strong>0.000</strong><br />
+        Trend slope: <span>+0.0000</span><br />
+        State: <span style="text-transform:capitalize;">flattening</span>
+      </p>
+    </div>
+    <div>
+      <h3 style="margin:0 0 4px 0; font-size:0.95rem;">Ecosystem Vitals</h3>
+      <p style="margin:0; font-size:0.9rem;">
+        Reciprocity Return Ratio: <strong>0.0%</strong><br />
+        Bias Drift (L2): <strong>0.012</strong>
+      </p>
+    </div>
+  </div>
+
+  <div style="margin-top:12px;">
+    <h3 style="margin:0 0 4px 0; font-size:0.95rem;">Learning Trend — Clarity Δ vs Empathy</h3>
+    <p style="margin:0; font-size:0.8rem; color:#6b7280;">
+      ASCII sparkline chart over the rolling window (same points used in S7-S6).
+    </p>
+    <pre
+      style="margin:4px 0 0 0; font-size:0.85rem; font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, 'Liberation Mono', 'Courier New', monospace;">
+Clarity Δ: ··················
+Empathy : ··················
+    </pre>
+  </div>
+
+  <div style="margin-top:12px;">
+    <h3 style="margin:0 0 4px 0; font-size:0.95rem;">What the System Is Learning</h3>
+    <p style="margin:0; font-size:0.9rem; line-height:1.45;">
+      No reciprocity events were found in the last 14 days. Vitals are shown as 0.000 by design; this summary is a
+      structural heartbeat, not a learning update.
+    </p>
+  </div>
+</div>
+<!-- S7-S6 OVERLAY END -->

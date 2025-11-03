@@ -32,7 +32,7 @@
         "empathy": {
           "E": 0.72,
           "feedback": {
-            "tone": "too direct → softened"
+            "tone": "too direct â†’ softened"
           }
         },
         "clarity": {
@@ -64,7 +64,7 @@
           "assumption_challenge": -0.02,
           "empathy_weight": 0.05
         },
-        "reason": "Empathy × Δ positive; risk probes predicted higher CG."
+        "reason": "Empathy Ã— Î” positive; risk probes predicted higher CG."
       },
       "meta_eval": {
         "predicted_cg_delta": 0.12,
@@ -79,7 +79,7 @@
       "safety": {
         "ok": true,
         "poc_signals": [
-          "depth_of_reflection↑",
+          "depth_of_reflectionâ†‘",
           "rare_question_surface"
         ],
         "notes": "Within safe bounds."

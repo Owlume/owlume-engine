@@ -4,7 +4,7 @@
         {
             "id": "STALLED_SESSION_NUDGE",
             "when": "event.type == 'LOW_CG_SESSION'",
-            "title": "Stuck on {{mode}} × {{principle}}?",
+            "title": "Stuck on {{mode}} Ã— {{principle}}?",
             "subtitle": "Try one sharper probe to unblock.",
             "actions": [
                 {
@@ -22,8 +22,8 @@
         {
             "id": "POST_SESSION_BOOST",
             "when": "event.type == 'HIGH_CG_SESSION'",
-            "title": "Nice clarity lift on {{mode}} × {{principle}}",
-            "subtitle": "CG Δ={{cg_delta}}. Keep the momentum going?",
+            "title": "Nice clarity lift on {{mode}} Ã— {{principle}}",
+            "subtitle": "CG Î”={{cg_delta}}. Keep the momentum going?",
             "actions": [
                 {
                     "id": "replay",
@@ -40,7 +40,7 @@
         {
             "id": "STALLED_SESSION_NUDGE",
             "when": "event.type == 'LOW_CG_SESSION'",
-            "title": "Stuck on {{mode}} × {{principle}}?",
+            "title": "Stuck on {{mode}} Ã— {{principle}}?",
             "subtitle": "Try one sharper probe to unblock.",
             "actions": [
                 {

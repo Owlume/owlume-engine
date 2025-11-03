@@ -1,0 +1,40 @@
+[
+  {
+    "ts": "2025-11-03T03:46:37.621595+00:00",
+    "processed": 7,
+    "new_ids": [
+      "RCP-6120518-0",
+      "RCP-6120527-1",
+      "RCP-6642536-0",
+      "RCP-6642548-1",
+      "RCP-8500812-0",
+      "RCP-8500817-1",
+      "RCP-test-001"
+    ],
+    "last_event_ts": "2025-11-03T03:20:00+00:00",
+    "clarity_avg_batch": 0.31142857142857144,
+    "empathy_avg_batch": 0.8214285714285714,
+    "snapshot_vitals": {
+      "Reciprocity ClarityΔ": 0.311,
+      "Reciprocity Empathy": 82.1,
+      "Reciprocity Events": 7
+    }
+  },
+  {
+    "ts": "2025-11-03T03:53:02.921204+00:00",
+    "processed": 3,
+    "new_ids": [
+      "RCP-test-1459270066",
+      "RCP-test-1890804120",
+      "RCP-test-715328412"
+    ],
+    "last_event_ts": "2025-11-03T03:51:14+00:00",
+    "clarity_avg_batch": 0.30000000000000004,
+    "empathy_avg_batch": 1.0,
+    "snapshot_vitals": {
+      "Reciprocity ClarityΔ": 0.309,
+      "Reciprocity Empathy": 85.7,
+      "Reciprocity Events": 10
+    }
+  }
+]

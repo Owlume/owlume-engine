@@ -1,11 +1,11 @@
 from __future__ import annotations
-from typing import Callable, Optional, Any, Dict, List, Tuple
 
 import os
 import re
 import json
 from pathlib import Path
 from typing import Callable, Optional, Any, Dict, List, Tuple
+from types import SimpleNamespace
 
 from src.policy_utils import load_current_policy
 from src.agent_core import self_prompt, ContextState, EmpathyState
@@ -14,11 +14,6 @@ from src.agent_core import self_prompt, ContextState, EmpathyState
 from dataclasses import dataclass
 
 ELENX_DEBUG_POLICY = True  # set False to silence
-
-# … inside _render_questions(), after out.extend(policy_variants[:3])
-if ELENX_DEBUG_POLICY:
-    print(f"[L5] injected={min(3, len(policy_variants))} policy_variants for {det.mode}:{det.principle}")
-
 
 # Canonical sets for Questioncraft Matrix (Tightened)
 VALID_MODES = {
@@ -169,6 +164,47 @@ def update_weights(cells, effective_delta, weights):
         weights[key] = weights.get(key, 0.0) + effective_delta
 
     return weights
+
+# --- Fallacy v2 fusion helpers (safe no-ops if v2/index missing) ---
+
+from typing import Dict, List, Tuple
+
+def match_fallacy_variants_by_index(user_text: str, idx: Dict, k: int = 3) -> List[Tuple[str, float]]:
+    if not idx:
+        return []
+    t = user_text.lower()
+    scores = {}
+    for token, vids in idx.get("alias_index", {}).items():
+        if token and token in t:
+            w = 1.0 + (0.25 if " " in token else 0.0)  # phrases get a tiny boost
+            for vid in vids:
+                scores[vid] = scores.get(vid, 0.0) + w
+    return sorted(scores.items(), key=lambda x: x[1], reverse=True)[:k]
+
+def fuse_fallacy_priors_if_any(user_text: str,
+                               semantic_conf: float,
+                               principle_scores: Dict[str, float],
+                               packs: Dict[str, Dict]) -> None:
+    """Gentle, bounded nudge of principle_scores using v2 alias index."""
+    if packs.get("fallacies_version") != "v2":
+        return
+    idx = packs.get("fallacy_index")
+    if not idx:
+        return
+    if not (0.35 <= semantic_conf <= 0.75):
+        return
+
+    hits = match_fallacy_variants_by_index(user_text, idx, k=3)
+    if not hits:
+        return
+
+    prior_weight = min(0.25, 0.10 + 0.05 * (len(hits) - 1))  # ≤25%
+    variant_meta = idx.get("variant_meta", {})
+    for vid, _ in hits:
+        meta = variant_meta.get(vid, {})
+        for pr in (meta.get("principles") or []):
+            principle_scores[pr] = principle_scores.get(pr, 0.0) * (1.0 + prior_weight)
+
 
 # === L1: Learned Weights hook ===
 _LEARNED_PATH = Path(__file__).resolve().parents[1] / "data" / "metrics" / "learned_weights.json"
@@ -334,6 +370,8 @@ def _coerce_context_pack(raw) -> Dict[str, Any]:
 
     return {"drivers": []}
 
+    # === FUSION STEP: Fallacy v2 priors → principle_scores (bounded; no-ops if v2/index missing) ===
+    fuse_fallacy_priors_if_any(user_text, semantic_conf, principle_scores, packs)
 
 # --- Context driver detection (label-aware, low-regret) ---
 def _detect_context_drivers(text: str, drivers_pack: Dict[str, Any]) -> List[str]:
@@ -442,22 +480,31 @@ class ElenxEngine:
     - Contextual follow-up if incentives/stakeholders/risk are detected
     """
 
-    def __init__(self, packs: Dict[str, Any]):
-        # Raw packs (loader may pass dict/tuple/list/str)
+    def __init__(self, packs: Dict[str, Any], cfg: Optional[Dict[str, Any]] = None):
+        # 0) config first (so later lines can read it)
+        self.cfg: Dict[str, Any] = cfg or {}
+        self.debug: bool = bool(os.getenv("ELENX_DEBUG", False))
+        self.loaded: bool = True
+
+        # 1) raw packs (loader may pass dict/tuple/list/str)
         self._matrix_raw: Any = packs.get("matrix", {}) or {}
         self.voices: Dict[str, Any] = packs.get("voices", {}) or {}
         self.fallacies_pack: Dict[str, Any] = packs.get("fallacies", {}) or {}
+
         _raw_ctx = packs.get("context_drivers", {}) or {}
         self.context_pack: Dict[str, Any] = _coerce_context_pack(_raw_ctx)
         self.context_drivers: Dict[str, Any] = self.context_pack  # alias for clarity
-        self.context_drivers: Dict[str, Any] = self.context_pack
 
+        # 2) empathy default (reads from cfg; default True)
+        self.empathy_on: bool = bool(self.cfg.get("EMPATHY_DEFAULT_ON", True))   
+        
         # Config
         self.cfg: Dict[str, Any] = {}
         self.cfg.update({
             "LINGUISTIC_STARTER_CONF": 0.60,   # starter confidence for cue-detected mode
             "LINGUISTIC_MAX_BOOST": 0.15,      # cap how much cues can boost
             "LINGUISTIC_MIN_MATCHES": 1,       # at least N regex matches to count
+        
         })
 
         # Preferred mode bias (your Matrix order)
@@ -501,14 +548,60 @@ class ElenxEngine:
 
     # ---------- Public API ----------
 
-    def analyze(self, text: str, empathy_on: bool = True) -> Tuple[DetectionResult, List[str]]:
-        text = (text or "").strip()
+    def analyze(self, text):
+        meta = {}  # make sure it always exists
+
+        try:
+            # 1️⃣ normal detect path
+            mode, principle, confidence, rtn_meta = self._detect_mode_principle(text)
+            if isinstance(rtn_meta, dict):
+                meta.update(rtn_meta)
+
+        except Exception as e:
+            # 2️⃣ fallback if detection fails
+            mode, principle, confidence = "Analytical", "Assumption", 0.50
+            meta["error"] = f"_detect_mode_principle failed: {e!r}"
+            # optional: print or log here for debug
+            print(f"[L1] analyze fallback: {e!r}")
+
+        # 3️⃣ derive runtime flags safely (works in both normal and fallback cases)
+        empathy_on = bool(
+            getattr(self, "empathy_on", None)
+            if hasattr(self, "empathy_on") else
+            meta.get("empathy_on", None)
+            if isinstance(meta, dict) else
+            self.cfg.get("EMPATHY_DEFAULT_ON", False)
+        )
+        priors_used = bool(meta.get("priors_used", False)) if isinstance(meta, dict) else False
+        tags = meta.get("tags", []) if isinstance(meta, dict) else []
+
+        # 4️⃣ build the detection object
+        det = SimpleNamespace(
+            mode=mode,
+            principle=principle,
+            confidence=confidence,
+            priors_used=priors_used,
+            empathy_on=empathy_on,
+            tags=tags,
+        )
+        det.meta = meta
+        det.dual_reasoning = meta.get("dual_reasoning")
+
+        # 5️⃣ render questions and return
+        qs = self._render_questions(det)
+        return det, qs
+
 
         # 1️⃣ Pre-scan for priors
         tags, priors_used = self._pre_scan_priors(text)
 
         # 2️⃣ Semantic detection
         mode, principle, confidence, alt_stub = self._detect_mode_principle(text)
+        # Ensure meta is carried through:
+        if not isinstance(meta, dict):
+            meta = {}
+        det.meta = meta
+        det.dual_reasoning = meta.get("dual_reasoning")
 
         # 3️⃣ Context driver detection (NEW)
         contexts = _detect_context_drivers(text, self.context_drivers)
@@ -824,12 +917,52 @@ class ElenxEngine:
             except Exception as _e:
                 print(f"[L1] debug print failed: {_e!r}")
 
+        # [T5-S8] Dual-Reasoning balance insert START
+        # --- Compute lightweight depth/breadth proxies ---
+        text_ref = None
+        for k in ("text", "input_text", "context"):
+            if k in locals():
+                text_ref = locals()[k]
+                break
+        if isinstance(text_ref, dict):
+            text_ref = text_ref.get("text", "")
+
+        src_text = str(text_ref or "")
+
+        markers = r"\b(because|therefore|thus|hence|so that|as a result|leads to|criteria|evidence)\b"
+        depth_score = min(1.0, len(re.findall(markers, src_text.lower())) / 12.0)
+
+        STOP = {"the","and","to","of","in","a","for","that","is","it","on","as","with","be","by","are","this","from"}
+        tokens = [t for t in re.findall(r"[A-Za-z]{3,}", src_text.lower()) if t not in STOP]
+        uniq = len(set(tokens))
+        ratio = uniq / max(1, len(tokens))
+        breadth_score = max(0.0, min(1.0, ratio * 1.5))  # 1.5 instead of 3.0
+
+        # --- balance & aim decision ---
+        delta = breadth_score - depth_score
+        aim = "structure" if delta > 0.25 else ("widen" if delta < -0.25 else "neutral")
+
+        # record for downstream
+        dual_reasoning = {
+            "depth_score": depth_score,
+            "breadth_score": breadth_score,
+            "tunnel_index": max(0.0, depth_score - breadth_score),
+            "drift_index":  max(0.0, breadth_score - depth_score),
+            "aim": aim
+
+        }
+
+        # [T5-S8] Dual-Reasoning balance insert END
+
         # --- 8) Return result ---
-        return mode, principle, confidence, {
+        meta = {
             "alt_mode": alt_mode,
             "alt_principle": alt_principle,
-            "alt_confidence": alt_conf
+            "alt_confidence": alt_conf,
+            "dual_reasoning": dual_reasoning,
         }
+        return mode, principle, confidence, meta
+    
         # [L1] debug — confirm learned weights being read for the chosen labels
         if _ELENX_DEBUG_WEIGHTS:
             try:

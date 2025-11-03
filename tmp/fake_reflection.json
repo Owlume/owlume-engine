@@ -1,0 +1,21 @@
+{
+    "user": "local",
+    "did": "DID-test-0001",
+    "timestamp": "2025-11-02T00:10:00Z",
+    "text": "Either we pivot now or we die.",
+    "cg_delta": 0.32,
+    "diagnostics": {
+        "fallacy_hits": [
+            "F-FALSEDICH-1"
+        ],
+        "context_hits": [
+            "INCENTIVE-01",
+            "STAKE-02"
+        ],
+        "ambiguity_score": 0.55,
+        "certainty_delta": 0.15
+    },
+    "empathy_state": {
+        "active": true
+    }
+}

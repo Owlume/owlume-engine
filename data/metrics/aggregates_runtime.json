@@ -1,0 +1,60 @@
+{
+  "avg_pre": 0.169,
+  "avg_post": 0.311,
+  "avg_delta": 0.157,
+  "empathy_activation_rate": 0.4,
+  "n_records": 30,
+  "top_mode_principle_counts": {
+    "mode": {
+      "Analytical": 8,
+      "Critical": 5
+    },
+    "principle": {
+      "Evidence & Validation": 8,
+      "Impact": 2,
+      "Risk": 3
+    }
+  },
+  "meta": {
+    "updated_at": "2025-10-30T22:01:11.421339+00:00",
+    "source": "runtime"
+  },
+  "counts": {
+    "events": 5,
+    "nudges": 0
+  },
+  "clarity": {
+    "avg_delta": 0.326,
+    "samples": 5
+  },
+  "empathy": {
+    "activation_rate": 1.0,
+    "samples": 5
+  },
+  "top_cells": {
+    "Decision × Risk": 3,
+    "Analytical × Clarity": 2
+  },
+  "reciprocity": {
+    "total_events": 10,
+    "last_event_ts": "2025-11-03T03:51:14+00:00",
+    "clarity_avg": 0.309143,
+    "empathy_avg": 0.857143,
+    "by_day": {
+      "2025-11-03": 10
+    },
+    "by_context": {
+      "UNKNOWN": 6,
+      "GPT_APP": 4
+    },
+    "by_action": {
+      "UNKNOWN": 6,
+      "CHANGED_DECISION": 4
+    }
+  },
+  "vitals": {
+    "Reciprocity ClarityΔ": 0.309,
+    "Reciprocity Empathy": 85.7,
+    "Reciprocity Events": 10
+  }
+}

@@ -1,2 +1,18 @@
 {"type":"HIGH_CG_SESSION","did":"DID-2025-0012","mode":"Assumption","principle":"Evidence","cg_delta":0.36}
 {"type":"HIGH_CG_SESSION","did":"DID-2025-0014","mode":"Decision","principle":"Risk","cg_delta":0.50}{"type":"LOW_CG_SESSION","did":"DID-2025-0100","mode":"Perspective","principle":"Impact","cg_delta":0.05}
+{"type": "NEW_REFLECTION", "timestamp": "2025-10-30T04:58:51.345152+00:00", "did": "DID-b636738a", "user": "local", "text": "Sanity check", "cg_pre": 0.4}
+{"type": "NUDGE_EFFECTIVE", "timestamp": "2025-10-30T09:49:52.638035+00:00", "did": "DID-2025-0012"}
+{"type": "BRIDGE_APPLIED", "timestamp": "2025-10-30T09:49:52.648390+00:00", "count": 3, "at": "2025-10-30T09:49:52.647789+00:00"}
+{"type": "NUDGE_EFFECTIVE", "timestamp": "2025-10-30T10:13:46.491699+00:00", "did": "DID-2025-0012"}
+{"type": "BRIDGE_APPLIED", "timestamp": "2025-10-30T10:13:46.497775+00:00", "count": 3, "at": "2025-10-30T10:13:46.497481+00:00"}
+{"timestamp": "2025-10-30T10:13:59Z", "type": "pattern_detected", "pattern": "HIGH_CG_SESSION", "detail": {"did": "DID-2025-0012", "cg_delta": 0.36, "mode": "Assumption", "principle": "Evidence"}}
+{"timestamp": "2025-10-30T10:13:59Z", "type": "pattern_detected", "pattern": "HIGH_CG_SESSION", "detail": {"did": "DID-2025-0014", "cg_delta": 0.5, "mode": "Decision", "principle": "Risk"}}
+{"type": "NUDGE_EFFECTIVE", "timestamp": "2025-10-30T10:23:34.866553+00:00", "did": "DID-2025-0012"}
+{"type": "BRIDGE_APPLIED", "timestamp": "2025-10-30T10:23:34.874997+00:00", "count": 3, "at": "2025-10-30T10:23:34.874593+00:00"}
+{"type": "BRIDGE_APPLIED", "timestamp": "2025-10-30T10:58:34.173857+00:00", "count": 1, "at": "2025-10-30T10:58:34.171812+00:00", "batch": "feedback_events_20251030_105834.jsonl"}
+{"type": "BRIDGE_APPLIED", "timestamp": "2025-10-30T11:01:36.887166+00:00", "count": 1, "at": "2025-10-30T11:01:36.886693+00:00", "batch": "feedback_events_20251030_110136.jsonl"}
+{"type":"NEW_REFLECTION","timestamp":"2025-10-31T19:34:42Z","did":"DID-test-001","text":"Quick reflection to trigger watcher.","cg_pre":0.42}
+{"type":"NEW_REFLECTION","timestamp":"2025-10-31T19:37:48Z","did":"DID-test-002","text":"Quick reflection to trigger watcher","cg_pre":0.5}
+{"type":"NEW_REFLECTION","timestamp":"2025-10-31T19:40:44Z","did":"DID-test-003","text":"Second trigger","cg_pre":0.55}
+{"type":"NEW_REFLECTION","timestamp":"2025-10-31T20:12:49Z","did":"DID-heartbeat-upgrade","text":"Trigger new heartbeat","cg_pre":0.6}
+{"type": "NEW_REFLECTION", "timestamp": "2025-10-31T10:48:27+00:00", "did": "DID-521171", "text": "Testing Stage 6 continuity nudges.", "cg_pre": 0.45}
