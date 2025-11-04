@@ -1,0 +1,107 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "https://owlume/schemas/bias_signature.schema.json",
+    "title": "Bias Signature Snapshot",
+    "type": "object",
+    "required": [
+        "user",
+        "spec",
+        "vector",
+        "norm",
+        "updated_at"
+    ],
+    "properties": {
+        "$schema": {
+            "type": "string"
+        },
+        "user": {
+            "type": "string"
+        },
+        "spec": {
+            "type": "object",
+            "required": [
+                "version",
+                "alpha"
+            ],
+            "properties": {
+                "version": {
+                    "type": "string"
+                },
+                "alpha": {
+                    "type": "number",
+                    "minimum": 0,
+                    "maximum": 1
+                }
+            },
+            "additionalProperties": false
+        },
+        "vector": {
+            "type": "object",
+            "required": [
+                "evidence",
+                "agency",
+                "risk",
+                "conflict",
+                "identity",
+                "ambiguity",
+                "fallacy",
+                "context",
+                "empathy"
+            ],
+            "properties": {
+                "evidence": {
+                    "type": "number"
+                },
+                "agency": {
+                    "type": "number"
+                },
+                "risk": {
+                    "type": "number"
+                },
+                "conflict": {
+                    "type": "number"
+                },
+                "identity": {
+                    "type": "number"
+                },
+                "ambiguity": {
+                    "type": "number"
+                },
+                "fallacy": {
+                    "type": "number"
+                },
+                "context": {
+                    "type": "number"
+                },
+                "empathy": {
+                    "type": "number"
+                }
+            },
+            "additionalProperties": false
+        },
+        "norm": {
+            "type": "number",
+            "minimum": 0
+        },
+        "updated_at": {
+            "type": "string",
+            "format": "date-time"
+        },
+        "meta": {
+            "type": "object",
+            "properties": {
+                "source": {
+                    "type": "string"
+                },
+                "did": {
+                    "type": "string"
+                },
+                "delta_cosine": {
+                    "type": "number"
+                }
+            },
+            "additionalProperties": true
+        }
+    },
+    "additionalProperties": false
+}

@@ -1,0 +1,2 @@
+{"mode":"Decision","did":"DID-test-123","type":"HIGH_CG_SESSION","timestamp":"2025-10-30T21:49:55Z","source":"bridge","id":"EVT-1724720718","cg_delta":0.27,"principle":"Risk","empathy_bias":0.15}
+{"mode":"Analytical","cg_delta":0.41,"empathy_bias":0.2,"did":"DID-test-456","timestamp":"2025-10-30T22:00:43Z","type":"HIGH_CG_SESSION","principle":"Clarity","source":"bridge","id":"EVT-1595688857"}

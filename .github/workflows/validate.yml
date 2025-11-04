@@ -33,8 +33,14 @@ jobs:
           python -m pip install --upgrade pip
           pip install jsonschema==4.23.0
 
-      - name: Run validator
+      - name: Run validator (core packs)
         run: python -u scripts/validate_packs.py
+
+      - name: Validate Owlume Insights export (S8-S3)
+        run: |
+          python -u scripts/validate_json.py \
+            --schemas schemas/owlume_insights.schema.json \
+            --data exports/owlume_insights.sample.json
 
       - name: Upload JUnit report
         if: always()
@@ -63,4 +69,5 @@ jobs:
 
       - name: Run smoke test
         run: python -u scripts/smoke_test_engine_fusion.py
+
 

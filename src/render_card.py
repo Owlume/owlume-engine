@@ -1,6 +1,7 @@
 # src/render_card.py
 from __future__ import annotations
 from typing import Any, Dict, List, Optional
+from pathlib import Path
 import json, os
 
 # ---------------------------------------------------------------------
@@ -14,6 +15,12 @@ def _get(d: Dict[str, Any], path: str, default: Any = None) -> Any:
         else:
             return default
     return cur
+
+def write_clarity_card_md(record: dict, out_path: Path) -> Path:
+    md = render_clarity_card(record)
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    out_path.write_text(md, encoding="utf-8")
+    return out_path
 
 def _fmt_delta(x: float) -> str:
     sign = "+" if x >= 0 else "-"
@@ -122,6 +129,16 @@ def render_clarity_card(record: Dict[str, Any],
     )
     return md
 
+# --- add near the bottom of src/render_card.py (above the __main__ block) ---
+
+from pathlib import Path
+
+def write_clarity_card_md(record: dict, out_path: Path) -> Path:
+    """Render a single record as Markdown and write it to disk."""
+    md = render_clarity_card(record)
+    out_path.parent.mkdir(parents=True, exist_ok=True)
+    out_path.write_text(md, encoding="utf-8")
+    return out_path
 
 
 # CLI single test

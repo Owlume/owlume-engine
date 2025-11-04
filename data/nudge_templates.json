@@ -8,7 +8,7 @@
             "id": "gentle_morning_ping",
             "tone": "gentle",
             "trigger_type": "daily_time",
-            "message": "Morning {{user_name}} — one small reflection today can prevent a big regret later. What’s the next decision on your mind?",
+            "message": "Morning {{user_name}} â€” one small reflection today can prevent a big regret later. Whatâ€™s the next decision on your mind?",
             "cooldown_hours": 24,
             "priority": 0,
             "channels": [
@@ -31,7 +31,7 @@
             "id": "gentle_weekend_review",
             "tone": "gentle",
             "trigger_type": "weekend",
-            "message": "Weekend reset: What shifted this week? Pick one decision to see clearer — before it costs you.",
+            "message": "Weekend reset: What shifted this week? Pick one decision to see clearer â€” before it costs you.",
             "cooldown_hours": 24,
             "priority": 0,
             "channels": [
@@ -127,7 +127,7 @@
             "id": "reactivation_soft",
             "tone": "gentle",
             "trigger_type": "reactivation_idle",
-            "message": "When you’re ready, I’m here. One reflection now can prevent a costly miss later.",
+            "message": "When youâ€™re ready, Iâ€™m here. One reflection now can prevent a costly miss later.",
             "cooldown_hours": 48,
             "priority": 1,
             "channels": [
@@ -142,7 +142,7 @@
             "id": "milestone_cheer",
             "tone": "gentle",
             "trigger_type": "milestone",
-            "message": "👏 Milestone unlocked — {{reflections_count}} reflections. Want a quick snapshot of your top Mode × Principle so far?",
+            "message": "ðŸ‘ Milestone unlocked â€” {{reflections_count}} reflections. Want a quick snapshot of your top Mode Ã— Principle so far?",
             "cooldown_hours": 168,
             "priority": 0,
             "channels": [

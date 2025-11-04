@@ -60,7 +60,7 @@
                 "Compare churn across cohorts and estimate the impact of the price change.",
                 "What evidence supports the claim?",
                 "Build a simple model to explain variance in user retention.",
-                "What’s the counterfactual if we don’t ship this?",
+                "Whatâ€™s the counterfactual if we donâ€™t ship this?",
                 "Show the baseline and confidence interval.",
                 "Which metrics moved and by how much?",
                 "Is this correlation or causation?",
@@ -103,12 +103,12 @@
                 "worst-case"
             ],
             "prototypes": [
-                "I’m worried we’re cherry-picking results—what breaks this claim?",
+                "Iâ€™m worried weâ€™re cherry-picking resultsâ€”what breaks this claim?",
                 "List the key assumptions and how they could fail.",
-                "What’s the worst-case outcome and our mitigation?",
+                "Whatâ€™s the worst-case outcome and our mitigation?",
                 "Where are we overfitting to past data?",
                 "Give me two counterexamples that invalidate the rule.",
-                "What’s the rollback plan if this deployment fails?",
+                "Whatâ€™s the rollback plan if this deployment fails?",
                 "Which risks are we not measuring?",
                 "What single point of failure exists here?"
             ]
@@ -246,11 +246,11 @@
             "prototypes": [
                 "Draft a two-week pilot plan with owners and checkpoints.",
                 "Define the KPI and expected lift for this experiment.",
-                "What’s the smallest shippable scope by Friday?",
+                "Whatâ€™s the smallest shippable scope by Friday?",
                 "List dependencies and likely blockers.",
                 "Create milestones with dates and acceptance criteria.",
                 "Propose a rollout and rollback plan.",
-                "What is the retro question we’ll ask after shipping?",
+                "What is the retro question weâ€™ll ask after shipping?",
                 "Turn this into three actionable tickets."
             ]
         }

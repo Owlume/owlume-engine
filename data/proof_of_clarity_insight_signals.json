@@ -6,14 +6,14 @@
             "id": "rarity_of_insight",
             "label": "Rarity of Insight",
             "example_feedback": "You caught what 82% of users in similar dilemmas overlook.",
-            "meaning": "Social validation — you are ahead of the curve.",
+            "meaning": "Social validation â€” you are ahead of the curve.",
             "source_metric": "dilemmanet_category_frequency"
         },
         {
             "id": "depth_of_reflection",
             "label": "Depth of Reflection",
             "example_feedback": "You went one layer deeper than most users exploring this topic.",
-            "meaning": "Self-efficacy — learning to think clearer.",
+            "meaning": "Self-efficacy â€” learning to think clearer.",
             "source_metric": "mode_principle_depth_score"
         },
         {
@@ -26,7 +26,7 @@
         {
             "id": "consistency_score",
             "label": "Consistency Score",
-            "example_feedback": "You have illuminated blind spots 5 days this week — clarity compounds.",
+            "example_feedback": "You have illuminated blind spots 5 days this week â€” clarity compounds.",
             "meaning": "Momentum anchor, not streak pressure.",
             "source_metric": "weekly_reflection_count"
         }

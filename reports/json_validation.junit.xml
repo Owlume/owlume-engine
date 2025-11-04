@@ -8,6 +8,8 @@
   </testcase>
   <testcase name="data\fallacies.json">
   </testcase>
+  <testcase name="data\fallacies_v2.json">
+  </testcase>
   <testcase name="data\matrix.json">
   </testcase>
   <testcase name="data\mode_detector_seed.json">
@@ -19,5 +21,7 @@
   <testcase name="data\proof_of_clarity_signals.json">
   </testcase>
   <testcase name="data\voices.json">
+  </testcase>
+  <testcase name="data\weights\empathy_weights.json">
   </testcase>
 </testsuite>

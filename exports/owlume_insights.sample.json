@@ -1,0 +1,35 @@
+{
+    "$schema": "https://owlume/schemas/owlume_insights.schema.json",
+    "export_spec": {
+        "version": "v1.0",
+        "generated": "2025-11-04T00:00:00Z",
+        "source_stage": "S8-S3",
+        "mode": "partner"
+    },
+    "metrics_summary": {
+        "clarity_delta_avg": 0.105,
+        "empathy_activation_rate": 0.200,
+        "bias_drift_index": 0.118,
+        "positive_outcome_rate": 0.300
+    },
+    "reciprocity_summary": {
+        "Reciprocity ClarityΔ": 0.309,
+        "Reciprocity Empathy": 85.7,
+        "Reciprocity Events": 10
+    },
+    "bse_summary": {
+        "dimensions": {
+            "evidence": 0.83,
+            "agency": 0.48,
+            "risk": 0.87,
+            "conflict": 0.29,
+            "identity": 0.41
+        },
+        "n_vectors": 15
+    },
+    "partner": {
+        "partner_id": "HR-PILOT-001",
+        "label": "HR Pilot v1 (sample)",
+        "export_scope": "aggregates_only"
+    }
+}

@@ -1,0 +1,1 @@
+{"type": "NUDGE_CARD", "timestamp": "2025-10-30T05:01:32.398331+00:00", "did": "DID-b636738a", "user": "local", "mode": "Analytical", "principle": "Assumption", "conf": 0.55, "empathy_state": {"active": true}, "nudge": "What assumption might be distorting your analytical reasoning here? (ref 6b1b1bfbc6ff)", "text_hash": "6b1b1bfbc6ff"}

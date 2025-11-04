@@ -1,0 +1,1449 @@
+{
+    "spec": "owlume.fallacies.v2",
+    "version": "2.0.0",
+    "updated_at": "2025-11-01",
+    "notes": "Clusters ~100 variants under ~20 roots. Keep roots aligned to Matrix Principles; use drivers for context weighting.",
+    "fallacy_groups": [
+        {
+            "group_id": "FG-STRWMN",
+            "root": {
+                "id": "F-STRAW",
+                "label": "Strawman",
+                "definition": "Misrepresenting an opponent’s position to make it easier to attack.",
+                "principles": [
+                    "Evidence",
+                    "Representation"
+                ],
+                "drivers": [
+                    "identity_protection",
+                    "incentive_alignment"
+                ],
+                "severity": "high"
+            },
+            "variants": [
+                {
+                    "id": "F-STRAW-1",
+                    "label": "Classic Strawman",
+                    "aliases": [
+                        "weak man",
+                        "misrepresentation"
+                    ],
+                    "definition": "Substitute a distorted version of the claim, then refute that instead.",
+                    "examples": [
+                        "She says we should invest in QA; apparently she wants to waste money testing every tiny thing."
+                    ],
+                    "cues": {
+                        "phrases": [
+                            "so you're saying",
+                            "what you really mean",
+                            "basically they claim"
+                        ],
+                        "keywords": [
+                            "exaggerate",
+                            "distort",
+                            "twist"
+                        ],
+                        "heuristics": [
+                            "Claim paraphrase + intensifier words; mismatched modality vs original"
+                        ]
+                    },
+                    "principles": [
+                        "Evidence"
+                    ],
+                    "drivers": [
+                        "identity_protection"
+                    ],
+                    "severity": "high"
+                },
+                {
+                    "id": "F-STRAW-2",
+                    "label": "Hollow Man",
+                    "aliases": [
+                        "fabricated opponent"
+                    ],
+                    "definition": "Invent a weak opposing view no one stated, then defeat it.",
+                    "examples": [
+                        "Some people think metrics are useless; clearly we shouldn’t track anything."
+                    ],
+                    "cues": {
+                        "phrases": [
+                            "some people say",
+                            "everyone knows"
+                        ],
+                        "keywords": [
+                            "nobody",
+                            "everybody",
+                            "always"
+                        ],
+                        "heuristics": [
+                            "Unattributed plural + absolute quantifiers"
+                        ]
+                    },
+                    "principles": [
+                        "Representation"
+                    ],
+                    "drivers": [
+                        "overload_complexity"
+                    ],
+                    "severity": "medium"
+                }
+            ]
+        },
+        {
+            "group_id": "FG-ADHOM",
+            "root": {
+                "id": "F-ADHOM",
+                "label": "Ad Hominem",
+                "definition": "Attack the person rather than the argument.",
+                "principles": [
+                    "Respect",
+                    "Evidence"
+                ],
+                "drivers": [
+                    "status_games",
+                    "identity_protection"
+                ],
+                "severity": "high"
+            },
+            "variants": [
+                {
+                    "id": "F-ADHOM-1",
+                    "label": "Abusive Ad Hominem",
+                    "aliases": [
+                        "insult",
+                        "name-calling"
+                    ],
+                    "definition": "Direct insult as a substitute for a reasoned response.",
+                    "examples": [
+                        "Your idea is dumb; next."
+                    ],
+                    "cues": {
+                        "phrases": [],
+                        "keywords": [
+                            "idiot",
+                            "clown",
+                            "stupid"
+                        ],
+                        "heuristics": [
+                            "Second-person attack + absence of claim engagement"
+                        ]
+                    },
+                    "principles": [
+                        "Respect"
+                    ],
+                    "drivers": [
+                        "status_games"
+                    ],
+                    "severity": "high"
+                },
+                {
+                    "id": "F-ADHOM-2",
+                    "label": "Tu Quoque",
+                    "aliases": [
+                        "appeal to hypocrisy"
+                    ],
+                    "definition": "Dismiss a claim because the speaker is inconsistent.",
+                    "examples": [
+                        "You missed a deadline last month, so your scheduling plan is worthless."
+                    ],
+                    "cues": {
+                        "phrases": [
+                            "you also",
+                            "you did the same"
+                        ],
+                        "keywords": [
+                            "hypocrite",
+                            "double standard"
+                        ],
+                        "heuristics": [
+                            "Shift from claim merits → speaker behavior mismatch"
+                        ]
+                    },
+                    "principles": [
+                        "Evidence"
+                    ],
+                    "drivers": [
+                        "identity_protection"
+                    ],
+                    "severity": "medium"
+                }
+            ]
+        },
+        {
+            "group_id": "FG-POSTHOC",
+            "root": {
+                "id": "F-POSTHOC",
+                "label": "Post Hoc",
+                "definition": "Assuming causation because B followed A.",
+                "principles": [
+                    "Causality",
+                    "Evidence"
+                ],
+                "drivers": [
+                    "pattern_bias"
+                ],
+                "severity": "medium"
+            },
+            "variants": [
+                {
+                    "id": "F-POSTHOC-1",
+                    "label": "Post hoc ergo propter hoc",
+                    "aliases": [
+                        "false cause"
+                    ],
+                    "definition": "Temporal order mistaken for causal link.",
+                    "examples": [
+                        "We launched the blog then sales rose; the blog caused the lift."
+                    ],
+                    "cues": {
+                        "phrases": [
+                            "after we",
+                            "since then"
+                        ],
+                        "keywords": [
+                            "caused",
+                            "therefore"
+                        ],
+                        "heuristics": [
+                            "Temporal connector + causal verb with no control comparison"
+                        ]
+                    },
+                    "principles": [
+                        "Causality"
+                    ],
+                    "drivers": [
+                        "pattern_bias"
+                    ],
+                    "severity": "medium"
+                }
+            ]
+        },
+        {
+            "group_id": "FG-FALSEDICHOT",
+            "root": {
+                "id": "F-FALSEDICH",
+                "label": "False Dichotomy",
+                "definition": "Presenting two options as the only possibilities.",
+                "principles": [
+                    "Scope",
+                    "Alternatives"
+                ],
+                "drivers": [
+                    "over_simplification",
+                    "time_pressure"
+                ],
+                "severity": "high"
+            },
+            "variants": [
+                {
+                    "id": "F-FALSEDICH-1",
+                    "label": "Either–Or",
+                    "aliases": [
+                        "black-and-white"
+                    ],
+                    "definition": "Forcing a binary choice when more options exist.",
+                    "examples": [
+                        "Either we pivot now or we die."
+                    ],
+                    "cues": {
+                        "phrases": [
+                            "either…or",
+                            "if not X then Y"
+                        ],
+                        "keywords": [
+                            "only",
+                            "must",
+                            "cannot"
+                        ],
+                        "heuristics": [
+                            "Binary connective + absolute modal verbs"
+                        ]
+                    },
+                    "principles": [
+                        "Alternatives"
+                    ],
+                    "drivers": [
+                        "time_pressure"
+                    ],
+                    "severity": "high"
+                }
+            ]
+        },
+        {
+            "group_id": "FG-SLIPPERY",
+            "root": {
+                "id": "F-SLIPPERY",
+                "label": "Slippery Slope",
+                "definition": "Arguing that a minor step will inevitably lead to a chain of disastrous outcomes.",
+                "principles": [
+                    "Causality",
+                    "Risk"
+                ],
+                "drivers": [
+                    "fear_bias",
+                    "time_pressure"
+                ],
+                "severity": "medium"
+            },
+            "variants": [
+                {
+                    "id": "F-SLIPPERY-1",
+                    "label": "Domino Fallacy",
+                    "aliases": [
+                        "chain reaction"
+                    ],
+                    "definition": "Claiming one event will trigger many others without causal support.",
+                    "examples": [
+                        "If we hire one remote worker, soon everyone will stop coming to the office."
+                    ],
+                    "cues": {
+                        "phrases": [
+                            "if we allow",
+                            "it will lead to"
+                        ],
+                        "keywords": [
+                            "inevitable",
+                            "cascade"
+                        ]
+                    },
+                    "principles": [
+                        "Risk"
+                    ],
+                    "drivers": [
+                        "fear_bias"
+                    ],
+                    "severity": "medium"
+                }
+            ]
+        },
+        {
+            "group_id": "FG-CONFIRM",
+            "root": {
+                "id": "F-CONFIRM",
+                "label": "Confirmation Bias",
+                "definition": "Focusing on evidence that supports your belief and ignoring contradictory data.",
+                "principles": [
+                    "Evidence",
+                    "Balance"
+                ],
+                "drivers": [
+                    "identity_protection",
+                    "incentive_alignment"
+                ],
+                "severity": "high"
+            },
+            "variants": [
+                {
+                    "id": "F-CONFIRM-1",
+                    "label": "Cherry Picking",
+                    "aliases": [
+                        "selective evidence"
+                    ],
+                    "definition": "Highlighting only examples that confirm your position.",
+                    "examples": [
+                        "Our three happy clients prove this approach always works."
+                    ],
+                    "cues": {
+                        "keywords": [
+                            "only",
+                            "just these",
+                            "handpicked"
+                        ]
+                    },
+                    "principles": [
+                        "Evidence"
+                    ],
+                    "drivers": [
+                        "identity_protection"
+                    ],
+                    "severity": "high"
+                }
+            ]
+        },
+        {
+            "group_id": "FG-AUTHORITY",
+            "root": {
+                "id": "F-AUTH",
+                "label": "Appeal to Authority",
+                "definition": "Arguing that a claim must be true because an authority believes it.",
+                "principles": [
+                    "Evidence",
+                    "Credibility"
+                ],
+                "drivers": [
+                    "deference_to_authority"
+                ],
+                "severity": "medium"
+            },
+            "variants": [
+                {
+                    "id": "F-AUTH-1",
+                    "label": "Irrelevant Authority",
+                    "aliases": [
+                        "false authority"
+                    ],
+                    "definition": "Using an expert in one area as authority in another.",
+                    "examples": [
+                        "A celebrity investor says AI is safe, so it must be."
+                    ],
+                    "cues": {
+                        "keywords": [
+                            "expert",
+                            "famous",
+                            "professor"
+                        ],
+                        "phrases": [
+                            "as said by"
+                        ]
+                    },
+                    "principles": [
+                        "Credibility"
+                    ],
+                    "drivers": [
+                        "deference_to_authority"
+                    ],
+                    "severity": "medium"
+                }
+            ]
+        },
+        {
+            "group_id": "FG-IGNORANCE",
+            "root": {
+                "id": "F-IGNOR",
+                "label": "Appeal to Ignorance",
+                "definition": "Claiming something is true because it hasn’t been proven false.",
+                "principles": [
+                    "Evidence",
+                    "Burden"
+                ],
+                "drivers": [
+                    "over_simplification"
+                ],
+                "severity": "medium"
+            },
+            "variants": [
+                {
+                    "id": "F-IGNOR-1",
+                    "label": "Argument from Silence",
+                    "aliases": [
+                        "absence fallacy"
+                    ],
+                    "definition": "Treating lack of evidence as evidence of lack.",
+                    "examples": [
+                        "No one has disproved it, so it must be real."
+                    ],
+                    "cues": {
+                        "phrases": [
+                            "no one proved",
+                            "never shown"
+                        ],
+                        "keywords": [
+                            "disprove",
+                            "absence"
+                        ]
+                    },
+                    "principles": [
+                        "Burden"
+                    ],
+                    "drivers": [
+                        "over_simplification"
+                    ],
+                    "severity": "medium"
+                }
+            ]
+        },
+        {
+            "group_id": "FG-BANDWAGON",
+            "root": {
+                "id": "F-BAND",
+                "label": "Bandwagon",
+                "definition": "Assuming something is correct because it’s popular.",
+                "principles": [
+                    "Evidence",
+                    "Influence"
+                ],
+                "drivers": [
+                    "social_conformity"
+                ],
+                "severity": "medium"
+            },
+            "variants": [
+                {
+                    "id": "F-BAND-1",
+                    "label": "Appeal to Popularity",
+                    "aliases": [
+                        "consensus fallacy"
+                    ],
+                    "definition": "Popularity mistaken for truth.",
+                    "examples": [
+                        "Everyone’s using it, so it must be best."
+                    ],
+                    "cues": {
+                        "phrases": [
+                            "everyone",
+                            "most people"
+                        ],
+                        "keywords": [
+                            "trending",
+                            "viral"
+                        ]
+                    },
+                    "principles": [
+                        "Influence"
+                    ],
+                    "drivers": [
+                        "social_conformity"
+                    ],
+                    "severity": "medium"
+                }
+            ]
+        },
+        {
+            "group_id": "FG-REDHERR",
+            "root": {
+                "id": "F-REDHERR",
+                "label": "Red Herring",
+                "definition": "Diverting attention from the real issue to a different topic.",
+                "principles": [
+                    "Relevance",
+                    "Focus"
+                ],
+                "drivers": [
+                    "complexity_avoidance"
+                ],
+                "severity": "medium"
+            },
+            "variants": [
+                {
+                    "id": "F-REDHERR-1",
+                    "label": "Topic Shift",
+                    "aliases": [
+                        "whataboutism"
+                    ],
+                    "definition": "Raising a side issue to distract from the main point.",
+                    "examples": [
+                        "Why discuss safety when others have bigger problems?"
+                    ],
+                    "cues": {
+                        "keywords": [
+                            "but what about",
+                            "meanwhile"
+                        ],
+                        "phrases": [
+                            "on another note"
+                        ]
+                    },
+                    "principles": [
+                        "Focus"
+                    ],
+                    "drivers": [
+                        "complexity_avoidance"
+                    ],
+                    "severity": "medium"
+                }
+            ]
+        },
+        {
+            "group_id": "FG-CIRCULAR",
+            "root": {
+                "id": "F-CIRC",
+                "label": "Circular Reasoning",
+                "definition": "Using the conclusion as a premise without justification.",
+                "principles": [
+                    "Logic",
+                    "Evidence"
+                ],
+                "drivers": [
+                    "identity_protection"
+                ],
+                "severity": "medium"
+            },
+            "variants": [
+                {
+                    "id": "F-CIRC-1",
+                    "label": "Begging the Question",
+                    "aliases": [
+                        "tautology"
+                    ],
+                    "definition": "The claim assumes its own truth.",
+                    "examples": [
+                        "We know he’s honest because he always tells the truth."
+                    ],
+                    "cues": {
+                        "keywords": [
+                            "because it is",
+                            "since it is"
+                        ],
+                        "phrases": [
+                            "obviously true"
+                        ]
+                    },
+                    "principles": [
+                        "Logic"
+                    ],
+                    "drivers": [
+                        "identity_protection"
+                    ],
+                    "severity": "medium"
+                }
+            ]
+        },
+        {
+            "group_id": "FG-COMPOSITION",
+            "root": {
+                "id": "F-COMP",
+                "label": "Composition / Division",
+                "definition": "Assuming what’s true of parts must be true of the whole, or vice versa.",
+                "principles": [
+                    "Generalization",
+                    "Scope"
+                ],
+                "drivers": [
+                    "pattern_bias"
+                ],
+                "severity": "low"
+            },
+            "variants": [
+                {
+                    "id": "F-COMP-1",
+                    "label": "Part-to-Whole",
+                    "aliases": [],
+                    "definition": "Attributes of members assumed for the group.",
+                    "examples": [
+                        "Each engineer is great, so the team will succeed."
+                    ],
+                    "cues": {
+                        "keywords": [
+                            "each",
+                            "therefore all"
+                        ],
+                        "phrases": [
+                            "since every"
+                        ]
+                    },
+                    "principles": [
+                        "Generalization"
+                    ],
+                    "drivers": [
+                        "pattern_bias"
+                    ],
+                    "severity": "low"
+                }
+            ]
+        },
+        {
+            "group_id": "FG-ANEC",
+            "root": {
+                "id": "F-ANEC",
+                "label": "Anecdotal Fallacy",
+                "definition": "Using personal stories instead of data as proof.",
+                "principles": [
+                    "Evidence",
+                    "Sample"
+                ],
+                "drivers": [
+                    "availability_bias"
+                ],
+                "severity": "medium"
+            },
+            "variants": [
+                {
+                    "id": "F-ANEC-1",
+                    "label": "Vivid Anecdote",
+                    "aliases": [
+                        "one case fallacy"
+                    ],
+                    "definition": "One personal example used to reject general data.",
+                    "examples": [
+                        "My uncle smoked all his life and lived to 90."
+                    ],
+                    "cues": {
+                        "phrases": [
+                            "I know someone",
+                            "in my experience"
+                        ],
+                        "keywords": [
+                            "personally",
+                            "story"
+                        ]
+                    },
+                    "principles": [
+                        "Sample"
+                    ],
+                    "drivers": [
+                        "availability_bias"
+                    ],
+                    "severity": "medium"
+                }
+            ]
+        },
+        {
+            "group_id": "FG-AMBIGUITY",
+            "root": {
+                "id": "F-AMBIG",
+                "label": "Ambiguity",
+                "definition": "Misleading by using double meanings or unclear language.",
+                "principles": [
+                    "Clarity",
+                    "Definition"
+                ],
+                "drivers": [
+                    "communication_noise"
+                ],
+                "severity": "medium"
+            },
+            "variants": [
+                {
+                    "id": "F-AMBIG-1",
+                    "label": "Equivocation",
+                    "aliases": [
+                        "semantic shift"
+                    ],
+                    "definition": "Using a key term in two different senses.",
+                    "examples": [
+                        "Freedom means never being told what to do."
+                    ],
+                    "cues": {
+                        "keywords": [
+                            "means",
+                            "define"
+                        ],
+                        "phrases": [
+                            "by freedom I mean"
+                        ]
+                    },
+                    "principles": [
+                        "Definition"
+                    ],
+                    "drivers": [
+                        "communication_noise"
+                    ],
+                    "severity": "medium"
+                }
+            ]
+        },
+        {
+            "group_id": "FG-LOADEQ",
+            "root": {
+                "id": "F-LOADEQ",
+                "label": "Loaded Question",
+                "definition": "Asking a question that presupposes guilt or bias.",
+                "principles": [
+                    "Framing",
+                    "Assumption"
+                ],
+                "drivers": [
+                    "status_games",
+                    "identity_protection"
+                ],
+                "severity": "high"
+            },
+            "variants": [
+                {
+                    "id": "F-LOADEQ-1",
+                    "label": "Complex Question",
+                    "aliases": [
+                        "trap question"
+                    ],
+                    "definition": "Smuggles an assumption within the question itself.",
+                    "examples": [
+                        "When did you stop avoiding responsibility?"
+                    ],
+                    "cues": {
+                        "phrases": [
+                            "when did you",
+                            "why do you still"
+                        ],
+                        "keywords": [
+                            "stop",
+                            "continue"
+                        ]
+                    },
+                    "principles": [
+                        "Framing"
+                    ],
+                    "drivers": [
+                        "status_games"
+                    ],
+                    "severity": "high"
+                }
+            ]
+        },
+        {
+            "group_id": "FG-HASTY",
+            "root": {
+                "id": "F-HASTY",
+                "label": "Hasty Generalization",
+                "definition": "Drawing a broad conclusion from limited cases.",
+                "principles": [
+                    "Sample",
+                    "Scope"
+                ],
+                "drivers": [
+                    "over_simplification"
+                ],
+                "severity": "medium"
+            },
+            "variants": [
+                {
+                    "id": "F-HASTY-1",
+                    "label": "Small Sample Bias",
+                    "aliases": [],
+                    "definition": "Too few examples used to represent the whole.",
+                    "examples": [
+                        "Two customers complained, so everyone hates it."
+                    ],
+                    "cues": {
+                        "keywords": [
+                            "few",
+                            "only"
+                        ],
+                        "phrases": [
+                            "every time"
+                        ]
+                    },
+                    "principles": [
+                        "Sample"
+                    ],
+                    "drivers": [
+                        "over_simplification"
+                    ],
+                    "severity": "medium"
+                }
+            ]
+        },
+        {
+            "group_id": "FG-AFFECT",
+            "root": {
+                "id": "F-AFFECT",
+                "label": "Appeal to Emotion",
+                "definition": "Manipulating emotions instead of evidence.",
+                "principles": [
+                    "Evidence",
+                    "Motivation"
+                ],
+                "drivers": [
+                    "fear_bias",
+                    "empathy_trigger"
+                ],
+                "severity": "medium"
+            },
+            "variants": [
+                {
+                    "id": "F-AFFECT-1",
+                    "label": "Appeal to Fear",
+                    "aliases": [
+                        "scare tactic"
+                    ],
+                    "definition": "Arguing through threats or worst-case imagery.",
+                    "examples": [
+                        "If we don’t act now, everything will collapse."
+                    ],
+                    "cues": {
+                        "keywords": [
+                            "fear",
+                            "disaster"
+                        ],
+                        "phrases": [
+                            "if we don’t",
+                            "catastrophic"
+                        ]
+                    },
+                    "principles": [
+                        "Motivation"
+                    ],
+                    "drivers": [
+                        "fear_bias"
+                    ],
+                    "severity": "medium"
+                }
+            ]
+        },
+        {
+            "group_id": "FG-COST",
+            "root": {
+                "id": "F-COST",
+                "label": "Sunk Cost Fallacy",
+                "definition": "Continuing an endeavor because of past investment, not current value.",
+                "principles": [
+                    "Decision",
+                    "Value"
+                ],
+                "drivers": [
+                    "loss_aversion",
+                    "identity_protection"
+                ],
+                "severity": "high"
+            },
+            "variants": [
+                {
+                    "id": "F-COST-1",
+                    "label": "Escalation of Commitment",
+                    "aliases": [
+                        "throwing good after bad"
+                    ],
+                    "definition": "Doubling down to justify prior effort.",
+                    "examples": [
+                        "We’ve spent too much to quit now."
+                    ],
+                    "cues": {
+                        "keywords": [
+                            "already spent",
+                            "can’t quit"
+                        ],
+                        "phrases": [
+                            "we’ve come too far"
+                        ]
+                    },
+                    "principles": [
+                        "Decision"
+                    ],
+                    "drivers": [
+                        "loss_aversion"
+                    ],
+                    "severity": "high"
+                }
+            ]
+        },
+        {
+            "group_id": "FG-NORM",
+            "root": {
+                "id": "F-NORM",
+                "label": "Naturalistic Fallacy",
+                "definition": "Assuming what is natural is inherently good.",
+                "principles": [
+                    "Value",
+                    "Definition"
+                ],
+                "drivers": [
+                    "moral_simplification"
+                ],
+                "severity": "low"
+            },
+            "variants": [
+                {
+                    "id": "F-NORM-1",
+                    "label": "Appeal to Nature",
+                    "aliases": [],
+                    "definition": "‘Natural’ used as synonym for ‘right’.",
+                    "examples": [
+                        "It’s natural to compete, so it’s fine to undercut others."
+                    ],
+                    "cues": {
+                        "keywords": [
+                            "natural",
+                            "organic"
+                        ],
+                        "phrases": [
+                            "as nature intended"
+                        ]
+                    },
+                    "principles": [
+                        "Value"
+                    ],
+                    "drivers": [
+                        "moral_simplification"
+                    ],
+                    "severity": "low"
+                }
+            ]
+        },
+        {
+            "group_id": "FG-FALSEEQUIV",
+            "root": {
+                "id": "F-FALSEEQUIV",
+                "label": "False Equivalence",
+                "definition": "Treating two things as morally or logically the same despite relevant differences.",
+                "principles": [
+                    "Relevance",
+                    "Balance"
+                ],
+                "drivers": [
+                    "over_simplification"
+                ],
+                "severity": "medium"
+            },
+            "variants": [
+                {
+                    "id": "F-FALSEEQUIV-1",
+                    "label": "Superficial Similarity",
+                    "aliases": [
+                        "apples to oranges"
+                    ],
+                    "definition": "Equating items that share a surface trait but differ on decisive factors.",
+                    "examples": [
+                        "Both are subscriptions, so canceling either has the same impact."
+                    ],
+                    "cues": {
+                        "keywords": [
+                            "same as",
+                            "no different"
+                        ],
+                        "phrases": [
+                            "just like",
+                            "equally"
+                        ]
+                    },
+                    "principles": [
+                        "Relevance"
+                    ],
+                    "drivers": [
+                        "over_simplification"
+                    ],
+                    "severity": "medium"
+                }
+            ]
+        },
+        {
+            "group_id": "FG-SCOTSMAN",
+            "root": {
+                "id": "F-SCOTSMAN",
+                "label": "No True Scotsman",
+                "definition": "Protecting a universal claim by redefining membership of a group.",
+                "principles": [
+                    "Definition",
+                    "Representation"
+                ],
+                "drivers": [
+                    "identity_protection"
+                ],
+                "severity": "medium"
+            },
+            "variants": [
+                {
+                    "id": "F-SCOTSMAN-1",
+                    "label": "Retreat to Purity",
+                    "aliases": [
+                        "purity fallacy"
+                    ],
+                    "definition": "Excluding counterexamples by narrowing the group after the fact.",
+                    "examples": [
+                        "Real innovators don’t worry about safety metrics."
+                    ],
+                    "cues": {
+                        "keywords": [
+                            "real",
+                            "true",
+                            "proper"
+                        ],
+                        "phrases": [
+                            "no true",
+                            "real X would never"
+                        ]
+                    },
+                    "principles": [
+                        "Definition"
+                    ],
+                    "drivers": [
+                        "identity_protection"
+                    ],
+                    "severity": "medium"
+                }
+            ]
+        },
+        {
+            "group_id": "FG-GENETIC",
+            "root": {
+                "id": "F-GENETIC",
+                "label": "Genetic Fallacy",
+                "definition": "Judging a claim as true/false solely because of its origin.",
+                "principles": [
+                    "Evidence",
+                    "Credibility"
+                ],
+                "drivers": [
+                    "status_games"
+                ],
+                "severity": "low"
+            },
+            "variants": [
+                {
+                    "id": "F-GENETIC-1",
+                    "label": "Source Dismissal",
+                    "aliases": [
+                        "poisoning the well"
+                    ],
+                    "definition": "Rejecting the claim because of who/where it came from.",
+                    "examples": [
+                        "That idea started on Twitter, so it’s not serious."
+                    ],
+                    "cues": {
+                        "keywords": [
+                            "came from",
+                            "origin"
+                        ],
+                        "phrases": [
+                            "because it’s from"
+                        ]
+                    },
+                    "principles": [
+                        "Credibility"
+                    ],
+                    "drivers": [
+                        "status_games"
+                    ],
+                    "severity": "low"
+                }
+            ]
+        },
+        {
+            "group_id": "FG-TRADITION",
+            "root": {
+                "id": "F-TRAD",
+                "label": "Appeal to Tradition",
+                "definition": "Claiming something is right because it’s old or customary.",
+                "principles": [
+                    "Evidence",
+                    "Alternatives"
+                ],
+                "drivers": [
+                    "institutional_inertia"
+                ],
+                "severity": "low"
+            },
+            "variants": [
+                {
+                    "id": "F-TRAD-1",
+                    "label": "We’ve Always Done It",
+                    "aliases": [],
+                    "definition": "Endorsing a practice solely due to longevity.",
+                    "examples": [
+                        "We can’t change the process; it’s how we’ve always done it."
+                    ],
+                    "cues": {
+                        "keywords": [
+                            "always",
+                            "tradition"
+                        ],
+                        "phrases": [
+                            "we’ve always",
+                            "since the beginning"
+                        ]
+                    },
+                    "principles": [
+                        "Alternatives"
+                    ],
+                    "drivers": [
+                        "institutional_inertia"
+                    ],
+                    "severity": "low"
+                }
+            ]
+        },
+        {
+            "group_id": "FG-NOVELTY",
+            "root": {
+                "id": "F-NOVEL",
+                "label": "Appeal to Novelty",
+                "definition": "Claiming something is better because it’s new.",
+                "principles": [
+                    "Evidence",
+                    "Value"
+                ],
+                "drivers": [
+                    "shiny_object_bias"
+                ],
+                "severity": "low"
+            },
+            "variants": [
+                {
+                    "id": "F-NOVEL-1",
+                    "label": "Newness = Better",
+                    "aliases": [
+                        "innovation bias"
+                    ],
+                    "definition": "Assuming recency implies superiority.",
+                    "examples": [
+                        "The newest framework is obviously the best."
+                    ],
+                    "cues": {
+                        "keywords": [
+                            "new",
+                            "latest",
+                            "next-gen"
+                        ],
+                        "phrases": [
+                            "cutting-edge",
+                            "state of the art"
+                        ]
+                    },
+                    "principles": [
+                        "Value"
+                    ],
+                    "drivers": [
+                        "shiny_object_bias"
+                    ],
+                    "severity": "low"
+                }
+            ]
+        },
+        {
+            "group_id": "FG-SHARP",
+            "root": {
+                "id": "F-SHARP",
+                "label": "Texas Sharpshooter",
+                "definition": "Finding patterns after the fact and mistaking them for intent or signal.",
+                "principles": [
+                    "Evidence",
+                    "Sample"
+                ],
+                "drivers": [
+                    "pattern_bias"
+                ],
+                "severity": "medium"
+            },
+            "variants": [
+                {
+                    "id": "F-SHARP-1",
+                    "label": "Cluster Illusion",
+                    "aliases": [
+                        "cherry target"
+                    ],
+                    "definition": "Draw the target after seeing the hits.",
+                    "examples": [
+                        "We won 3 deals in healthcare—clearly we’re a healthcare company now."
+                    ],
+                    "cues": {
+                        "keywords": [
+                            "pattern",
+                            "cluster"
+                        ],
+                        "phrases": [
+                            "if you look here"
+                        ]
+                    },
+                    "principles": [
+                        "Sample"
+                    ],
+                    "drivers": [
+                        "pattern_bias"
+                    ],
+                    "severity": "medium"
+                }
+            ]
+        },
+        {
+            "group_id": "FG-SURVIVOR",
+            "root": {
+                "id": "F-SURVIVOR",
+                "label": "Survivorship Bias",
+                "definition": "Focusing on winners and ignoring the many unseen failures.",
+                "principles": [
+                    "Evidence",
+                    "Sample"
+                ],
+                "drivers": [
+                    "availability_bias"
+                ],
+                "severity": "medium"
+            },
+            "variants": [
+                {
+                    "id": "F-SURVIVOR-1",
+                    "label": "Only Winners Count",
+                    "aliases": [],
+                    "definition": "Using visible successes as proof of ease or correctness.",
+                    "examples": [
+                        "Founders who dropped out became billionaires—college is useless."
+                    ],
+                    "cues": {
+                        "keywords": [
+                            "successful",
+                            "winners"
+                        ],
+                        "phrases": [
+                            "look at these successes"
+                        ]
+                    },
+                    "principles": [
+                        "Sample"
+                    ],
+                    "drivers": [
+                        "availability_bias"
+                    ],
+                    "severity": "medium"
+                }
+            ]
+        },
+        {
+            "group_id": "FG-BASERATE",
+            "root": {
+                "id": "F-BASERATE",
+                "label": "Base Rate Neglect",
+                "definition": "Ignoring prior probabilities when interpreting evidence.",
+                "principles": [
+                    "Evidence",
+                    "Risk"
+                ],
+                "drivers": [
+                    "overconfidence_bias"
+                ],
+                "severity": "medium"
+            },
+            "variants": [
+                {
+                    "id": "F-BASERATE-1",
+                    "label": "Prior Blindness",
+                    "aliases": [
+                        "base-rate fallacy"
+                    ],
+                    "definition": "Overweighting a specific test or anecdote vs population stats.",
+                    "examples": [
+                        "The test is 95% accurate, so the positive must mean we have it."
+                    ],
+                    "cues": {
+                        "keywords": [
+                            "accuracy",
+                            "chance"
+                        ],
+                        "phrases": [
+                            "ignoring prevalence",
+                            "regardless of base rate"
+                        ]
+                    },
+                    "principles": [
+                        "Risk"
+                    ],
+                    "drivers": [
+                        "overconfidence_bias"
+                    ],
+                    "severity": "medium"
+                }
+            ]
+        },
+        {
+            "group_id": "FG-GAMBLER",
+            "root": {
+                "id": "F-GAMBLER",
+                "label": "Gambler’s Fallacy",
+                "definition": "Believing future probabilities are altered by past random events.",
+                "principles": [
+                    "Causality",
+                    "Risk"
+                ],
+                "drivers": [
+                    "pattern_bias"
+                ],
+                "severity": "low"
+            },
+            "variants": [
+                {
+                    "id": "F-GAMBLER-1",
+                    "label": "Due for a Win",
+                    "aliases": [
+                        "Monte Carlo fallacy"
+                    ],
+                    "definition": "Expecting reversal after a streak.",
+                    "examples": [
+                        "We’ve had 5 losses—surely we’re due to win now."
+                    ],
+                    "cues": {
+                        "keywords": [
+                            "due",
+                            "streak"
+                        ],
+                        "phrases": [
+                            "bound to happen",
+                            "about time"
+                        ]
+                    },
+                    "principles": [
+                        "Risk"
+                    ],
+                    "drivers": [
+                        "pattern_bias"
+                    ],
+                    "severity": "low"
+                }
+            ]
+        },
+        {
+            "group_id": "FG-CONSEQ",
+            "root": {
+                "id": "F-CONSEQ",
+                "label": "Appeal to Consequences",
+                "definition": "Arguing a claim is true/false because the outcome would be desirable/undesirable.",
+                "principles": [
+                    "Evidence",
+                    "Framing"
+                ],
+                "drivers": [
+                    "moral_simplification"
+                ],
+                "severity": "medium"
+            },
+            "variants": [
+                {
+                    "id": "F-CONSEQ-1",
+                    "label": "Wishful Proof",
+                    "aliases": [
+                        "argumentum ad consequentiam"
+                    ],
+                    "definition": "Using desirability/undesirability as proof.",
+                    "examples": [
+                        "If AI bias were real, we’d have to pause development—so it’s exaggerated."
+                    ],
+                    "cues": {
+                        "keywords": [
+                            "would mean",
+                            "otherwise"
+                        ],
+                        "phrases": [
+                            "can’t be true because"
+                        ]
+                    },
+                    "principles": [
+                        "Framing"
+                    ],
+                    "drivers": [
+                        "moral_simplification"
+                    ],
+                    "severity": "medium"
+                }
+            ]
+        },
+        {
+            "group_id": "FG-MIDDLEGROUND",
+            "root": {
+                "id": "F-MIDDLE",
+                "label": "Middle Ground",
+                "definition": "Assuming the compromise between two positions must be correct.",
+                "principles": [
+                    "Alternatives",
+                    "Logic"
+                ],
+                "drivers": [
+                    "conflict_avoidance"
+                ],
+                "severity": "low"
+            },
+            "variants": [
+                {
+                    "id": "F-MIDDLE-1",
+                    "label": "Compromise = Truth",
+                    "aliases": [],
+                    "definition": "Treating the midpoint as inherently valid.",
+                    "examples": [
+                        "Let’s split the difference—then it’s fair and correct."
+                    ],
+                    "cues": {
+                        "keywords": [
+                            "split",
+                            "meet in the middle"
+                        ],
+                        "phrases": [
+                            "halfway between"
+                        ]
+                    },
+                    "principles": [
+                        "Alternatives"
+                    ],
+                    "drivers": [
+                        "conflict_avoidance"
+                    ],
+                    "severity": "low"
+                }
+            ]
+        }
+    ]
+}

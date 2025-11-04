@@ -1,0 +1,157 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "https://owlume/schemas/owlume_insights.schema.json",
+    "title": "Owlume Insight Export",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "export_spec",
+        "metrics_summary",
+        "bse_summary"
+    ],
+    "properties": {
+        "$schema": {
+            "type": "string",
+            "description": "Optional schema reference URI."
+        },
+        "export_spec": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+                "version",
+                "generated",
+                "source_stage",
+                "mode"
+            ],
+            "properties": {
+                "version": {
+                    "type": "string",
+                    "description": "Export format version, e.g. v1.0"
+                },
+                "generated": {
+                    "type": "string",
+                    "format": "date-time",
+                    "description": "UTC timestamp when this export was generated."
+                },
+                "source_stage": {
+                    "type": "string",
+                    "const": "S8-S3",
+                    "description": "Stage/step that produced this export."
+                },
+                "mode": {
+                    "type": "string",
+                    "enum": [
+                        "internal",
+                        "partner"
+                    ],
+                    "description": "Export mode: internal vs partner-safe."
+                }
+            }
+        },
+        "metrics_summary": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+                "clarity_delta_avg",
+                "empathy_activation_rate",
+                "bias_drift_index",
+                "positive_outcome_rate"
+            ],
+            "properties": {
+                "clarity_delta_avg": {
+                    "type": "number",
+                    "description": "Average Clarity Δ across the window."
+                },
+                "empathy_activation_rate": {
+                    "type": "number",
+                    "description": "Proportion of sessions where empathy overlay activated."
+                },
+                "bias_drift_index": {
+                    "type": "number",
+                    "description": "Aggregate index of bias vector movement."
+                },
+                "positive_outcome_rate": {
+                    "type": "number",
+                    "description": "Share of sessions labeled as positive/improved."
+                }
+            }
+        },
+        "reciprocity_summary": {
+            "type": "object",
+            "description": "Optional rolled-up metrics from reciprocity_aggregates.json.",
+            "additionalProperties": true
+        },
+        "bse_summary": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+                "dimensions",
+                "n_vectors"
+            ],
+            "properties": {
+                "dimensions": {
+                    "type": "object",
+                    "description": "Mean score per bias dimension (evidence, agency, risk, etc.).",
+                    "additionalProperties": {
+                        "type": "number"
+                    }
+                },
+                "n_vectors": {
+                    "type": "integer",
+                    "minimum": 0,
+                    "description": "Number of user bias vectors included in this aggregation."
+                }
+            }
+        },
+        "bse_samples": {
+            "type": "array",
+            "description": "Internal-only sample of individual bias vectors for debugging.",
+            "items": {
+                "type": "object",
+                "additionalProperties": false,
+                "required": [
+                    "user",
+                    "vector"
+                ],
+                "properties": {
+                    "user": {
+                        "type": "string",
+                        "description": "User identifier (internal export only)."
+                    },
+                    "vector": {
+                        "type": "object",
+                        "description": "Bias vector for this user.",
+                        "additionalProperties": {
+                            "type": "number"
+                        }
+                    }
+                }
+            }
+        },
+        "partner": {
+            "type": "object",
+            "description": "Partner metadata for external exports (mode=partner).",
+            "additionalProperties": false,
+            "required": [
+                "partner_id",
+                "label",
+                "export_scope"
+            ],
+            "properties": {
+                "partner_id": {
+                    "type": "string",
+                    "description": "Identifier for the partner (e.g. HR-PILOT-001)."
+                },
+                "label": {
+                    "type": "string",
+                    "description": "Human-friendly label for this export run."
+                },
+                "export_scope": {
+                    "type": "string",
+                    "const": "aggregates_only",
+                    "description": "Indicates that only aggregate/safe data is included."
+                }
+            }
+        }
+    }
+}

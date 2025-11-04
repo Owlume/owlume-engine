@@ -1,0 +1,4 @@
+{"type": "BSE_EMA_UPDATE", "user": "local", "alpha": 0.2, "delta": {"risk": -0.05, "conflict": -0.03, "identity": 0.02}, "ts": "2025-11-03T06:49:24.654756+00:00"}
+{"type": "BSE_EMA_UPDATE", "user": "local", "alpha": 0.2, "delta": {"risk": -0.05, "conflict": -0.03, "identity": 0.02}, "ts": "2025-11-03T06:49:34.727612+00:00"}
+{"type": "BSE_EMA_UPDATE", "user": "local", "alpha": 0.2, "delta": {"risk": -0.05, "conflict": -0.03, "identity": 0.02}, "ts": "2025-11-03T06:49:45.043231+00:00"}
+{"type": "BSE_EMA_UPDATE", "user": "local", "alpha": 0.2, "delta": {"risk": -0.05, "conflict": -0.03, "identity": 0.02}, "ts": "2025-11-03T06:49:56.315097+00:00"}

@@ -1,0 +1,42 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "runtime_feedback_event",
+    "type": "object",
+    "required": [
+        "id",
+        "type",
+        "timestamp",
+        "did"
+    ],
+    "properties": {
+        "id": {
+            "type": "string"
+        },
+        "type": {
+            "type": "string"
+        },
+        "timestamp": {
+            "type": "string",
+            "format": "date-time"
+        },
+        "did": {
+            "type": "string"
+        },
+        "cg_delta": {
+            "type": "number"
+        },
+        "empathy_bias": {
+            "type": "number"
+        },
+        "mode": {
+            "type": "string"
+        },
+        "principle": {
+            "type": "string"
+        },
+        "source": {
+            "type": "string"
+        }
+    },
+    "additionalProperties": true
+}

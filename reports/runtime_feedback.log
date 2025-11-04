@@ -1,0 +1,8 @@
+[UI_FEEDBACK] HIGH_CG_SESSION • DID=DID-test-123 • Δ=0.27 • Decision × Risk
+[UI_FEEDBACK] HIGH_CG_SESSION • DID=DID-test-123 • Δ=0.27 • Decision × Risk
+[WATCH] processed=1 • last_ts=2025-10-30T21:49:55Z • files=1
+[UI_FEEDBACK] HIGH_CG_SESSION • DID=DID-test-456 • Δ=0.41 • Analytical × Clarity
+[WATCH] processed=1 • last_ts=2025-10-30T22:00:43Z • files=1
+[UI_FEEDBACK] HIGH_CG_SESSION • DID=DID-test-123 • Δ=0.27 • Decision × Risk
+[UI_FEEDBACK] HIGH_CG_SESSION • DID=DID-test-456 • Δ=0.41 • Analytical × Clarity
+[WATCH] processed=2 • last_ts=2025-10-30T22:00:43Z • files=1

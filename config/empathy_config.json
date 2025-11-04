@@ -1,0 +1,22 @@
+{
+    "$schema": "../schemas/empathy_weights.schema.json",
+    "spec": "Owlume empathy configuration v1.0",
+    "weights": {
+        "relational": {
+            "base": 0.25,
+            "link_to": "cg_delta"
+        },
+        "moral": {
+            "base": 0.15,
+            "link_to": "cg_delta"
+        },
+        "contextual": {
+            "base": 0.10,
+            "link_to": "cg_delta"
+        }
+    },
+    "adaptive_rules": {
+        "boost_if_cg_delta_high": 0.10,
+        "decay_if_cg_delta_low": 0.05
+    }
+}

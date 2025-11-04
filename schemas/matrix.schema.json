@@ -1,7 +1,7 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
   "$id": "https://owlume.org/schemas/matrix.schema.json",
-  "title": "Questioncraft Matrix (Nested Map: Mode → Principle → Question)",
+  "title": "Questioncraft Matrix (Nested Map: Mode â†’ Principle â†’ Question)",
   "type": "object",
   "required": [
     "Analytical",

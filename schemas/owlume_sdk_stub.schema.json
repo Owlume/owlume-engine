@@ -1,0 +1,501 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "https://owlume/schemas/owlume_sdk_stub.schema.json",
+    "title": "Owlume SDK Stub v0.1 — Request/Response Envelope",
+    "description": "Standard envelope for partner ↔ Owlume reflections (request) and outputs (response). Includes Trust Layer (consent, anonymization) and reciprocity learning.",
+    "type": "object",
+    "properties": {
+        "spec": {
+            "type": "object",
+            "required": [
+                "version",
+                "channel"
+            ],
+            "properties": {
+                "version": {
+                    "type": "string",
+                    "enum": [
+                        "v0.1"
+                    ]
+                },
+                "channel": {
+                    "type": "string",
+                    "enum": [
+                        "sdk-stub"
+                    ]
+                },
+                "partner_id": {
+                    "type": "string",
+                    "maxLength": 128
+                },
+                "sdk_name": {
+                    "type": "string",
+                    "default": "owlume-sdk-stub"
+                }
+            },
+            "additionalProperties": false
+        },
+        "trust": {
+            "type": "object",
+            "description": "Lightweight consent + anonymization + audit hooks.",
+            "required": [
+                "consent",
+                "anonymization",
+                "audit"
+            ],
+            "properties": {
+                "consent": {
+                    "type": "object",
+                    "required": [
+                        "terms_version",
+                        "scope",
+                        "consent_token"
+                    ],
+                    "properties": {
+                        "terms_version": {
+                            "type": "string"
+                        },
+                        "scope": {
+                            "type": "array",
+                            "items": {
+                                "type": "string",
+                                "enum": [
+                                    "process_reflection",
+                                    "store_deltalogs",
+                                    "return_learning"
+                                ]
+                            },
+                            "minItems": 1
+                        },
+                        "consent_token": {
+                            "type": "string",
+                            "minLength": 6
+                        }
+                    },
+                    "additionalProperties": false
+                },
+                "anonymization": {
+                    "type": "object",
+                    "required": [
+                        "enabled"
+                    ],
+                    "properties": {
+                        "enabled": {
+                            "type": "boolean"
+                        },
+                        "hash_salt_id": {
+                            "type": "string",
+                            "description": "Opaque salt handle used to hash user IDs outside Owlume."
+                        }
+                    },
+                    "additionalProperties": false
+                },
+                "audit": {
+                    "type": "object",
+                    "required": [
+                        "log_level"
+                    ],
+                    "properties": {
+                        "log_level": {
+                            "type": "string",
+                            "enum": [
+                                "off",
+                                "errors",
+                                "summary",
+                                "full"
+                            ]
+                        },
+                        "retention_days": {
+                            "type": "integer",
+                            "minimum": 0,
+                            "maximum": 365
+                        }
+                    },
+                    "additionalProperties": false
+                }
+            },
+            "additionalProperties": false
+        },
+        "reciprocity": {
+            "type": "object",
+            "description": "Hints for 2-way clarity transfer (where to POST outcomes/feedback).",
+            "properties": {
+                "return_url": {
+                    "type": "string",
+                    "format": "uri"
+                },
+                "ack_required": {
+                    "type": "boolean",
+                    "default": true
+                }
+            },
+            "additionalProperties": false
+        },
+        "input": {
+            "$ref": "#/$defs/reflection_input"
+        },
+        "output": {
+            "oneOf": [
+                {
+                    "$ref": "#/$defs/processing_output"
+                },
+                {
+                    "$ref": "#/$defs/learning_feedback"
+                }
+            ]
+        }
+    },
+    "oneOf": [
+        {
+            "required": [
+                "spec",
+                "trust",
+                "input"
+            ]
+        },
+        {
+            "required": [
+                "spec",
+                "trust",
+                "output"
+            ]
+        }
+    ],
+    "$defs": {
+        "reflection_input": {
+            "type": "object",
+            "description": "Partner → Owlume reflection payload.",
+            "required": [
+                "reciprocity_id",
+                "timestamp",
+                "text"
+            ],
+            "properties": {
+                "reciprocity_id": {
+                    "type": "string",
+                    "description": "Stable ID used by both sides to stitch request/response."
+                },
+                "user_hint": {
+                    "type": "string",
+                    "description": "Partner-scoped user alias (hashed if anonymization.enabled=true)."
+                },
+                "timestamp": {
+                    "type": "string",
+                    "format": "date-time"
+                },
+                "usage_context": {
+                    "type": "string",
+                    "enum": [
+                        "WORK",
+                        "RELATIONSHIP",
+                        "STRATEGY",
+                        "LEARNING",
+                        "OTHER"
+                    ],
+                    "default": "OTHER"
+                },
+                "source": {
+                    "type": "string",
+                    "enum": [
+                        "gpt-app",
+                        "slack",
+                        "web",
+                        "api"
+                    ],
+                    "default": "api"
+                },
+                "text": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "metadata": {
+                    "type": "object",
+                    "properties": {
+                        "language": {
+                            "type": "string",
+                            "default": "en"
+                        },
+                        "partner_tags": {
+                            "type": "array",
+                            "items": {
+                                "type": "string"
+                            },
+                            "maxItems": 16
+                        }
+                    },
+                    "additionalProperties": false
+                }
+            },
+            "additionalProperties": false
+        },
+        "processing_output": {
+            "type": "object",
+            "description": "Owlume → Partner processing result.",
+            "required": [
+                "reciprocity_id",
+                "did",
+                "mode",
+                "principle",
+                "confidence",
+                "questions",
+                "vectors"
+            ],
+            "properties": {
+                "reciprocity_id": {
+                    "type": "string"
+                },
+                "did": {
+                    "type": "string",
+                    "description": "Dilemma ID allocated by Owlume."
+                },
+                "mode": {
+                    "type": "string",
+                    "description": "Detected Questioncraft Mode (canonical label)"
+                },
+                "principle": {
+                    "type": "string",
+                    "description": "Detected Questioncraft Principle (canonical label)"
+                },
+                "confidence": {
+                    "type": "number",
+                    "minimum": 0.0,
+                    "maximum": 1.0
+                },
+                "questions": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "minItems": 1,
+                    "maxItems": 7
+                },
+                "fallacies": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "required": [
+                            "id",
+                            "score"
+                        ],
+                        "properties": {
+                            "id": {
+                                "type": "string"
+                            },
+                            "label": {
+                                "type": "string"
+                            },
+                            "score": {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 1
+                            }
+                        },
+                        "additionalProperties": false
+                    },
+                    "maxItems": 5
+                },
+                "context_drivers": {
+                    "type": "array",
+                    "items": {
+                        "type": "object",
+                        "required": [
+                            "id",
+                            "score"
+                        ],
+                        "properties": {
+                            "id": {
+                                "type": "string"
+                            },
+                            "label": {
+                                "type": "string"
+                            },
+                            "score": {
+                                "type": "number",
+                                "minimum": 0,
+                                "maximum": 1
+                            }
+                        },
+                        "additionalProperties": false
+                    },
+                    "maxItems": 5
+                },
+                "empathy_state": {
+                    "type": "object",
+                    "description": "Structured empathy overlay (post-L4).",
+                    "properties": {
+                        "activation": {
+                            "type": "string",
+                            "enum": [
+                                "LOW",
+                                "MEDIUM",
+                                "HIGH"
+                            ]
+                        },
+                        "bias": {
+                            "type": "number",
+                            "minimum": -1.0,
+                            "maximum": 1.0
+                        }
+                    },
+                    "additionalProperties": false
+                },
+                "clarity": {
+                    "type": "object",
+                    "properties": {
+                        "cg_pre": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "cg_post": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "cg_delta": {
+                            "type": "number",
+                            "minimum": -1,
+                            "maximum": 1
+                        }
+                    },
+                    "additionalProperties": false
+                },
+                "vectors": {
+                    "type": "object",
+                    "required": [
+                        "bias_vector"
+                    ],
+                    "properties": {
+                        "bias_vector": {
+                            "type": "object",
+                            "description": "Bias Signature Embedding (BSE) snapshot.",
+                            "required": [
+                                "evidence",
+                                "agency",
+                                "risk",
+                                "conflict",
+                                "identity",
+                                "ambiguity"
+                            ],
+                            "properties": {
+                                "evidence": {
+                                    "type": "number",
+                                    "minimum": 0,
+                                    "maximum": 1
+                                },
+                                "agency": {
+                                    "type": "number",
+                                    "minimum": 0,
+                                    "maximum": 1
+                                },
+                                "risk": {
+                                    "type": "number",
+                                    "minimum": 0,
+                                    "maximum": 1
+                                },
+                                "conflict": {
+                                    "type": "number",
+                                    "minimum": 0,
+                                    "maximum": 1
+                                },
+                                "identity": {
+                                    "type": "number",
+                                    "minimum": 0,
+                                    "maximum": 1
+                                },
+                                "ambiguity": {
+                                    "type": "number",
+                                    "minimum": 0,
+                                    "maximum": 1
+                                }
+                            },
+                            "additionalProperties": false
+                        },
+                        "clarity_vector": {
+                            "type": "object",
+                            "description": "Optional fine-grained clarity signal vector.",
+                            "additionalProperties": {
+                                "type": "number"
+                            }
+                        }
+                    },
+                    "additionalProperties": false
+                },
+                "audit": {
+                    "type": "object",
+                    "properties": {
+                        "anonymized": {
+                            "type": "boolean"
+                        },
+                        "hash_id": {
+                            "type": "string"
+                        },
+                        "log_ref": {
+                            "type": "string"
+                        }
+                    },
+                    "additionalProperties": false
+                }
+            },
+            "additionalProperties": false
+        },
+        "learning_feedback": {
+            "type": "object",
+            "description": "Partner → Owlume reciprocity feedback for a prior analysis.",
+            "required": [
+                "reciprocity_id",
+                "did",
+                "learning"
+            ],
+            "properties": {
+                "reciprocity_id": {
+                    "type": "string"
+                },
+                "did": {
+                    "type": "string"
+                },
+                "learning": {
+                    "type": "object",
+                    "required": [
+                        "outcome"
+                    ],
+                    "properties": {
+                        "outcome": {
+                            "type": "string",
+                            "enum": [
+                                "IMPROVED_DECISION",
+                                "STATUS_QUO",
+                                "DEFERRED"
+                            ]
+                        },
+                        "helpfulness": {
+                            "type": "integer",
+                            "minimum": 1,
+                            "maximum": 5
+                        },
+                        "comment": {
+                            "type": "string",
+                            "maxLength": 2000
+                        },
+                        "label": {
+                            "type": "string",
+                            "maxLength": 256
+                        },
+                        "cg_pre_ext": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        },
+                        "cg_post_ext": {
+                            "type": "number",
+                            "minimum": 0,
+                            "maximum": 1
+                        }
+                    },
+                    "additionalProperties": false
+                }
+            },
+            "additionalProperties": false
+        }
+    }
+}

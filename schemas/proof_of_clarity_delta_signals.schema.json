@@ -1,7 +1,7 @@
 {
     "$schema": "http://json-schema.org/draft-07/schema#",
     "$id": "proof_of_clarity_delta_signals.schema.json",
-    "title": "Proof of Clarity — Delta Signals (per-reflection)",
+    "title": "Proof of Clarity â€” Delta Signals (per-reflection)",
     "type": "object",
     "additionalProperties": false,
     "properties": {

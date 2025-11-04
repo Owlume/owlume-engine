@@ -1,6 +1,6 @@
 ﻿from __future__ import annotations  # must be first
 
-import os, sys, inspect
+import os, sys, inspect, traceback
 from pathlib import Path
 
 # Put project root on sys.path so `import src.elenx_engine` works
@@ -69,12 +69,32 @@ def main() -> int:
         print(f"SMOKE: engine_init_error: {e}")
         print(traceback.format_exc())
         return 1
+    # --- DR sanity probe (temporary) ---
+    try:
+        sample = "We have a decision that because of evidence and criteria might be too linear; what alternatives could we explore with stakeholders?"
+        det, qs = eng.analyze(sample)
+        dr = None
+        if hasattr(det, "dual_reasoning"):
+            dr = det.dual_reasoning
+        elif hasattr(det, "meta") and isinstance(det.meta, dict):
+            dr = det.meta.get("dual_reasoning")
+        print("[dbg] dual_reasoning:", dr)
+    except Exception as e:
+        print(f"[dbg] DR probe failed: {e}")
+    # --- end DR probe ---
 
     failures = 0
     ran = 0
     for i, text in enumerate(_limit_samples(SAMPLES), start=1):
         try:
             det, qs = eng.analyze(text)
+            dr = None
+            if hasattr(det, "meta") and isinstance(det.meta, dict):
+                dr = det.meta.get("dual_reasoning")
+            elif hasattr(det, "dual_reasoning"):
+                dr = det.dual_reasoning
+            print("[dbg] dual_reasoning:", dr)
+
         except Exception as e:
             print(f"SMOKE: analyze_error sample={i}: {e}")
             print(traceback.format_exc())

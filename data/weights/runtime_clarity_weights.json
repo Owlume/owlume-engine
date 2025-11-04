@@ -1,0 +1,11 @@
+{
+  "$schema": "https://owlume/schemas/runtime_clarity_weights.schema.json",
+  "spec": {
+    "version": "v0.1"
+  },
+  "multipliers": {
+    "global": 1.0,
+    "empathy": 1.0
+  },
+  "updated_at": "2025-11-03T06:49:55.721853+00:00"
+}
