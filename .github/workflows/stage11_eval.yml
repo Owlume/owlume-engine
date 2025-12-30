@@ -1,0 +1,68 @@
+name: Stage 11 — Eval Suite & Dashboard
+
+on:
+  push:
+    branches: [ "**" ]
+  pull_request:
+
+jobs:
+  stage11-eval:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install dependencies (if present)
+        shell: bash
+        run: |
+          python -m pip install --upgrade pip
+          if [ -f requirements.txt ]; then pip install -r requirements.txt; fi
+          if [ -f requirements-dev.txt ]; then pip install -r requirements-dev.txt; fi
+          if [ -f pyproject.toml ]; then pip install -e .; fi
+          pip install pytest
+
+      - name: Run tests (contract stays enforced)
+        shell: bash
+        env:
+          PYTHONPATH: "."
+        run: |
+          python -m pytest -q
+
+      # This is the crucial “strict Step 7” move:
+      # CI *generates* the audit log, then builds telemetry + dashboard + eval suite.
+      - name: Generate self-audit log
+        shell: bash
+        env:
+          PYTHONPATH: "."
+        run: |
+          python -m scripts.run_self_audit_harness
+
+      - name: Build telemetry + dashboard + eval suite
+        shell: bash
+        env:
+          PYTHONPATH: "."
+        run: |
+          python scripts/stage11/compute_stage11_telemetry.py
+          python scripts/stage11/build_stage11_dashboard.py
+          python scripts/stage11/run_eval_suite.py
+
+      - name: Gate: eval suite must be non-empty
+        shell: bash
+        run: |
+          python -c "import json; p='reports/stage11_eval_suite.json'; d=json.load(open(p,'r',encoding='utf-8')); assert d.get('n_events',0)>0, f'Empty eval suite: {d}' ; print('OK: n_events=', d.get('n_events'))"
+
+      - name: Upload Stage 11 artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: stage11-eval-artifacts
+          path: |
+            reports/stage11_self_audit_log.jsonl
+            reports/stage11_telemetry_summary.json
+            reports/stage11_dashboard.html
+            reports/stage11_eval_suite.json
