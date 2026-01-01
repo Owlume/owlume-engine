@@ -4,6 +4,8 @@ from .types import FrameAuditResult, FrameAuditTrace
 from .check_registry import CHECK_SPECS, TRACE_SPEC
 from .checks import DETECTORS
 
+import re
+
 
 try:
     from src.frame_audit.score import score_checks  # type: ignore
