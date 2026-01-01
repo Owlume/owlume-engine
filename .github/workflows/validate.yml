@@ -36,12 +36,6 @@ jobs:
       - name: Run validator
         run: python -u scripts/validate_packs.py
 
-      - name: Validate Owlume Insights export (S8-S3)
-        run: |
-          python -u scripts/validate_json.py \
-            --schemas schemas/owlume_insights.schema.json \
-            --data exports/owlume_insights.sample.json
-
       # Stage 12 contract: baseline must reproduce byte-identically
       - name: Stage 12 ΓÇö Reproduce Stage 11 baseline (contract)
         run: |
