@@ -1,0 +1,30 @@
+{
+  "events": [
+    {
+      "after": 0.3,
+      "before": 0.3,
+      "improved": false,
+      "interventions": [],
+      "sample_id": "false_dichotomy"
+    },
+    {
+      "after": 0.18,
+      "before": 0.18,
+      "improved": false,
+      "interventions": [],
+      "sample_id": "undefined_success"
+    },
+    {
+      "after": 0.08,
+      "before": 0.08,
+      "improved": false,
+      "interventions": [],
+      "sample_id": "strong_claim_no_ur"
+    }
+  ],
+  "improved_rate": 0.0,
+  "mean_after": 0.18666666666666665,
+  "mean_before": 0.18666666666666665,
+  "mean_delta": 0.0,
+  "n_events": 3
+}
