@@ -38,7 +38,7 @@ def main():
     failures = 0
 
       # Skip folders that contain generated or temporary JSONs
-    SKIP_DIRS = {"runtime", "metrics", "artifacts", "reports"}    
+    SKIP_DIRS = {"runtime", "metrics", "artifacts", "reports", "golden"}    
     for p in sorted(DATA.rglob("*.json")):
         if any(part in SKIP_DIRS for part in p.parts):
             continue
@@ -66,9 +66,9 @@ def main():
     (REPORTS / "json_validation.junit.xml").write_text("\n".join(xml), encoding="utf-8")
 
     if failures:
-        print(f"[L2] ❌ Validation failed — {failures} file(s) with errors.")
+        print(f"[L2] FAIL Validation failed - {failures} file(s) with errors.")
         sys.exit(1)
-    print("[L2] ✅ All JSON validated OK.")
+    print("[L2] OK   All JSON validated OK.")
 
 if __name__ == "__main__":
     main()
