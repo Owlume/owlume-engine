@@ -121,7 +121,13 @@ def collect_data_files():
         print("::notice ::data/ folder not found — nothing to validate.")
         return []
 
-    ignore_dirs = {DATA_DIR / "runtime", DATA_DIR / "metrics"}
+    # Exclude generated/runtime folders and golden contract snapshots
+    ignore_dirs = {
+        DATA_DIR / "runtime",
+        DATA_DIR / "metrics",
+        DATA_DIR / "golden",   # <-- key fix: do not schema-validate baseline snapshots
+    }
+
     files = []
     for p in DATA_DIR.rglob("*.json"):
         if not p.is_file():
@@ -131,6 +137,7 @@ def collect_data_files():
             continue
         files.append(p)
     return files
+
 
 def main():
     ap = argparse.ArgumentParser()
@@ -171,7 +178,8 @@ def main():
 if __name__ == "__main__":
     try:
         main()
-    except Exception as ex:
-            print("::error ::Unhandled exception in validator:")
-            print(traceback.format_exc())
-            sys.exit(1)
+    except Exception:
+        print("::error ::Unhandled exception in validator:")
+        print(traceback.format_exc())
+        sys.exit(1)
+
