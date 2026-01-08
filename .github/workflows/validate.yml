@@ -11,7 +11,7 @@ permissions:
 
 jobs:
   validate:
-    name: Validate JSON & Schemas
+    name: Validate JSON & Schemas (${{ github.event_name }})
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
@@ -50,7 +50,7 @@ jobs:
           path: reports/json_validation.junit.xml
 
   smoke:
-    name: Re-run Smoke Test (Elenx Fusion)
+    name: Re-run Smoke Test (Elenx Fusion) (${{ github.event_name }})
     runs-on: ubuntu-latest
     needs: validate
     steps:
@@ -71,7 +71,7 @@ jobs:
         run: python -u scripts/smoke_test_engine_fusion.py
 
   validate_windows:
-    name: Validate JSON & Schemas (Windows)
+    name: Validate JSON & Schemas (Windows) (${{ github.event_name }})
     runs-on: windows-latest
     steps:
       - uses: actions/checkout@v4
@@ -103,7 +103,7 @@ jobs:
           path: reports/json_validation.junit.xml
 
   smoke_windows:
-    name: Re-run Smoke Test (Elenx Fusion) (Windows)
+    name: Re-run Smoke Test (Elenx Fusion) (Windows) (${{ github.event_name }})
     runs-on: windows-latest
     needs: validate_windows
     steps:
