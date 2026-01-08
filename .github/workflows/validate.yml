@@ -37,10 +37,8 @@ jobs:
         run: python -u scripts/validate_packs.py
 
       # Stage 12 contract: baseline must reproduce byte-identically
-      - name: Stage 12 — Reproduce Stage 11 baseline (contract)
-        env:
-          PYTHONPATH: "."
-        run: python -u scripts/stage11/reproduce_baseline.py
+      - name: Stage 12 — Engine Reproducibility Contract (ERC)
+        run: python -u scripts/stage12/verify_engine_repro.py
 
       - name: Upload JUnit report
         if: always()
