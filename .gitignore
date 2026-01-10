@@ -1,49 +1,19 @@
-# =============================
-# Owlume Engine — .gitignore
-# =============================
-
-# --- Python bytecode / caches ---
 __pycache__/
-**/__pycache__/
-*.py[cod]
-*.class
+*.pyc
+*.pyo
+*.pyd
 
-# --- Virtual environments ---
 .venv/
 venv/
-env/
-ENV/
-*.venv/
 
-# --- Pytest / tooling caches ---
-.pytest_cache/
-.mypy_cache/
-.ruff_cache/
-.pytype/
-.coverage
-htmlcov/
-
-# --- Build artifacts ---
-build/
-dist/
-.eggs/
-*.egg-info/
-
-# --- OS junk ---
-.DS_Store
-Thumbs.db
-
-# --- Owlume generated reports (keep authored docs, ignore generated trials) ---
-reports/trial_*.json
 reports/trial_*.md
+reports/trial_*.json
 reports/stage11_*.json
-reports/stage11_*.md
 reports/stage12_*.json
-reports/stage12_*.md
 
-# --- Golden candidate snapshots (generated) ---
 data/golden/stage11_candidate_snapshot.json
-
-# --- Local scratch ---
 tmp/
 
+.DS_Store
+Thumbs.db
+.vscode/
