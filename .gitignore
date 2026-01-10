@@ -43,3 +43,7 @@ reports/stage12_*.md
 
 # --- Golden candidate snapshots (generated) ---
 data/golden/stage11_candidate_snapshot.json
+
+# --- Local scratch ---
+tmp/
+
