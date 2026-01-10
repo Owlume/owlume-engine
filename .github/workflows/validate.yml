@@ -47,6 +47,33 @@ jobs:
           name: json-validation-junit
           path: reports/json_validation.junit.xml
 
+  etrg_ubuntu:
+    name: ETRG (Ubuntu) — Trial + ERC
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python 3.13
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.13"
+
+      - name: Install deps
+        run: |
+          python -m pip install --upgrade pip
+          pip install -r requirements.txt
+
+      - name: Validate packs
+        run: python scripts/validate_packs.py
+
+      - name: Trial run
+        run: python scripts/trial_run.py --input examples/client_prompt.txt
+
+      - name: Verify ERC
+        run: python scripts/stage12/verify_engine_repro.py
+       
   smoke:
     name: Re-run Smoke Test (Elenx Fusion) (${{ github.event_name }})
     runs-on: ubuntu-latest
