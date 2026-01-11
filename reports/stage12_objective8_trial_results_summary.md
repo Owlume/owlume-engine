@@ -25,6 +25,8 @@ Validate that external users (non-developers) can run the Owlume Trial Kit end-t
 - **Trial window:** (start date → end date)
 - **Number of testers:** N =
 - **Instructions used:** Quickstart (unmodified)
+- **Baseline commit:** `091320d`
+- **Traceability note:** Report skeleton was committed before the first external tester run.
 - **Canonical command:**
 
 
