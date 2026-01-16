@@ -18,3 +18,7 @@ tmp/
 Thumbs.db
 .vscode/# Local-only: Trial proof packet (do not commit)
 trial_proof_packet_obj7/
+
+# Stage14 runtime logs (append-only, never commit)
+data/logs/block_events.jsonl
+
