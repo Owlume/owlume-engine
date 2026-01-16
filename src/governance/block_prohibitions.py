@@ -59,9 +59,36 @@ class BlockProhibitionsError(ValueError):
     pass
 
 
+def _norm_rule_id(rule: Dict[str, Any]) -> str:
+    return str(rule.get("id") or rule.get("code") or "UNKNOWN_RULE")
+
+
+def _norm_desc(rule: Dict[str, Any]) -> str:
+    return str(rule.get("description") or rule.get("rule") or "")
+
+
+def _norm_sev(rule: Dict[str, Any]) -> str:
+    # Default severity is HIGH for fail-closed prohibitions.
+    sev = rule.get("severity")
+    return str(sev) if sev is not None else "HIGH"
+
+
 class BlockProhibitionsPolicy:
     """
     Loads and serves the canonical Stage 14 negative rules.
+
+    Supports two policy shapes:
+      - legacy: {"rules": [...]}
+      - schema-aligned: {"prohibitions": [...]}
+
+    Each item can be:
+      A) full rule object with "when" triggers:
+         {id, severity, description, when:{...}}
+
+      B) minimal prohibition item (schema-aligned list style):
+         {code, description}
+         -> treated as unconditional prohibition (always violated).
+         This is intentionally fail-closed.
     """
 
     def __init__(self, rules_path: Path | None = None, schema_path: Path | None = None) -> None:
@@ -69,18 +96,30 @@ class BlockProhibitionsPolicy:
         self._rules_path = rules_path or (root / "data" / "policy" / "stage14_block_negative_rules.v1.json")
         self._schema_path = schema_path or (root / "schemas" / "block_negative_rules.schema.json")
 
-        rules = _load_json(self._rules_path)
+        rules_doc = _load_json(self._rules_path)
         schema = _load_json(self._schema_path)
 
         try:
-            jsonschema.validate(instance=rules, schema=schema)
+            jsonschema.validate(instance=rules_doc, schema=schema)
         except jsonschema.ValidationError as e:
             raise BlockProhibitionsError(f"Negative rules schema validation failed: {e}") from e
 
-        if rules["spec"].get("non_tunable") is not True:
+        # Hard requirement: negative rules are policy-law (non-tunable).
+        if rules_doc.get("spec", {}).get("non_tunable") is not True:
             raise BlockProhibitionsError("Negative rules must be non_tunable=true.")
 
-        self._rules = rules["rules"]
+        # Accept both keys; canonical is "prohibitions" (new), but allow "rules" (legacy).
+        items = rules_doc.get("prohibitions")
+        if items is None:
+            items = rules_doc.get("rules")
+
+        if items is None:
+            raise BlockProhibitionsError("Negative rules must include 'prohibitions' (or legacy 'rules').")
+
+        if not isinstance(items, list):
+            raise BlockProhibitionsError("Negative rules list must be an array.")
+
+        self._items: List[Dict[str, Any]] = items
 
     def check(self, ctx: Dict[str, Any]) -> List[ProhibitionViolation]:
         """
@@ -89,11 +128,25 @@ class BlockProhibitionsPolicy:
         """
         violations: List[ProhibitionViolation] = []
 
-        for rule in self._rules:
-            rule_id = rule["id"]
-            severity = rule["severity"]
-            desc = rule["description"]
-            when = rule["when"]
+        for rule in self._items:
+            if not isinstance(rule, dict):
+                # Unknown entry -> fail closed.
+                raise BlockProhibitionsError("Invalid prohibition entry; expected object.")
+
+            rule_id = _norm_rule_id(rule)
+            severity = _norm_sev(rule)
+            desc = _norm_desc(rule)
+
+            when = rule.get("when")
+
+            # If no "when" is present, treat as an unconditional prohibition.
+            # This allows schema-aligned minimal items {code, description}.
+            if when is None:
+                violations.append(ProhibitionViolation(rule_id, severity, desc))
+                continue
+
+            if not isinstance(when, dict) or len(when) != 1:
+                raise BlockProhibitionsError(f"Invalid 'when' for rule {rule_id}; expected single-key object.")
 
             # Each rule has exactly one key in `when`.
             key = next(iter(when.keys()))
@@ -116,8 +169,12 @@ class BlockProhibitionsPolicy:
 
             elif key == "missing_any":
                 # val is list of dotted paths; missing OR empty strings/empty arrays prohibit.
+                if not isinstance(val, list):
+                    raise BlockProhibitionsError(f"Rule {rule_id} missing_any must be a list.")
                 missing = False
                 for dotted in val:
+                    if not isinstance(dotted, str):
+                        raise BlockProhibitionsError(f"Rule {rule_id} missing_any paths must be strings.")
                     got = _get_path(ctx, dotted)
                     if got is None:
                         missing = True
@@ -133,29 +190,35 @@ class BlockProhibitionsPolicy:
 
             elif key == "failed_interventions_missing_any":
                 # Look for ctx["bias_evidence"]["failed_interventions"] or ctx["failed_interventions"].
+                if not isinstance(val, list):
+                    raise BlockProhibitionsError(f"Rule {rule_id} failed_interventions_missing_any must be a list.")
                 fi = _get_path(ctx, "bias_evidence.failed_interventions")
                 if fi is None:
                     fi = ctx.get("failed_interventions")
                 if not isinstance(fi, list):
                     violations.append(ProhibitionViolation(rule_id, severity, desc))
                 else:
-                    needed = set(val)
-                    present = set([x for x in fi if isinstance(x, str)])
+                    needed = {x for x in val if isinstance(x, str)}
+                    present = {x for x in fi if isinstance(x, str)}
                     if not needed.issubset(present):
                         violations.append(ProhibitionViolation(rule_id, severity, desc))
 
             elif key == "flags_any_true":
+                # If flags missing -> treat as false (do not prohibit).
+                if not isinstance(val, list):
+                    raise BlockProhibitionsError(f"Rule {rule_id} flags_any_true must be a list.")
                 flags = ctx.get("flags", {})
                 if not isinstance(flags, dict):
-                    # Missing flags is not automatically prohibited; treat as false.
                     continue
-                if any(bool(flags.get(name)) is True for name in val):
+                if any(bool(flags.get(name)) is True for name in val if isinstance(name, str)):
                     violations.append(ProhibitionViolation(rule_id, severity, desc))
 
             elif key == "mode_any":
-                mode = ctx.get("mode")
                 # If mode missing, do not prohibit; only prohibit if explicitly in these modes.
-                if mode in val:
+                if not isinstance(val, list):
+                    raise BlockProhibitionsError(f"Rule {rule_id} mode_any must be a list.")
+                mode = ctx.get("mode")
+                if isinstance(mode, str) and mode in val:
                     violations.append(ProhibitionViolation(rule_id, severity, desc))
 
             else:
