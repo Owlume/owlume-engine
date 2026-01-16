@@ -15,7 +15,6 @@ from __future__ import annotations
 from pathlib import Path
 from typing import Any, Dict
 import json
-
 import jsonschema
 
 
@@ -66,4 +65,4 @@ def validate_block_event(event: Dict[str, Any], schema_path: Path | None = None)
     constraint = (event.get("constraint") or {})
     certainty = constraint.get("certainty")
     if certainty != "HIGH":
-        raise ValueError(f"BLOCK requires constraint.certainty='HIGH'; got {certainty!r}")
+        raise jsonschema.ValueError(f"BLOCK requires constraint.certainty='HIGH'; got {certainty!r}")
