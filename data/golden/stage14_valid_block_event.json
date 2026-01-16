@@ -32,10 +32,11 @@
         ]
     },
     "audit": {
-        "decision_table_hash": "672d01ff086f7e16642b540c5586f0e01beb39744299ef28b16f6435a26930db"
+        "decision_table_hash": "3b3ad24cbc3cc06fb822819fd3b7e04ab91bf341e94af237498252767b55d1f5"
     }
 }
 '@ | Set-Content -Encoding utf8 .\data\golden\stage14_valid_block_event.json
+
 
 
 
