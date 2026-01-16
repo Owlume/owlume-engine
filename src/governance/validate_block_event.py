@@ -49,3 +49,21 @@ def validate_block_event(event: Dict[str, Any], schema_path: Path | None = None)
         jsonschema.validate(instance=event, schema=schema)
     except jsonschema.ValidationError as e:
         raise BlockEventValidationError(str(e)) from e
+
+    # --- Stage 14: BLOCK invariants (policy law; non-tunable) ---
+    system_state = (event.get("system_state") or {})
+    harm = system_state.get("harm")
+    if harm != "IRREVERSIBLE":
+        raise ValueError(f"BLOCK requires system_state.harm='IRREVERSIBLE'; got {harm!r}")
+
+    bias = (event.get("bias_evidence") or {})
+    failed = bias.get("failed_interventions") or []
+    failed_set = set(failed)
+    for req in ("REFLECT", "WARN"):
+        if req not in failed_set:
+            raise ValueError(f"BLOCK requires failed_interventions include {req}; got {failed}")
+
+    constraint = (event.get("constraint") or {})
+    certainty = constraint.get("certainty")
+    if certainty != "HIGH":
+        raise ValueError(f"BLOCK requires constraint.certainty='HIGH'; got {certainty!r}")
