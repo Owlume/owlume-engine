@@ -1,20 +1,173 @@
 {
-    "spec": {
-        "stage": 14,
-        "name": "stage14_action_gating_table.v1",
-        "version": "v1",
-        "tunable": false,
-        "interpretation": "narrow",
-        "description": "Closed set for Stage 14 gating eligibility. Only ACTION/ADVICE/INSTRUCTIONS may be gated."
+  "spec": {
+    "stage": 14,
+    "name": "stage14_action_gating_table.v1",
+    "version": "v1",
+    "tunable": false,
+    "interpretation": "narrow"
+  },
+  "rows": [
+    {
+      "constraint_status": "NONE",
+      "harm_profile": "LOW",
+      "judgment_integrity": "OK",
+      "action": "ALLOW"
     },
-    "eligible_output_kinds": [
-        "ACTION",
-        "ADVICE",
-        "INSTRUCTIONS"
-    ],
-    "ineligible_output_kinds": [
-        "QUESTIONS",
-        "REFRAME",
-        "ANALYSIS"
-    ]
+    {
+      "constraint_status": "NONE",
+      "harm_profile": "LOW",
+      "judgment_integrity": "AT_RISK",
+      "action": "ALLOW"
+    },
+    {
+      "constraint_status": "NONE",
+      "harm_profile": "LOW",
+      "judgment_integrity": "COMPROMISED",
+      "action": "ALLOW"
+    },
+    {
+      "constraint_status": "NONE",
+      "harm_profile": "MED",
+      "judgment_integrity": "OK",
+      "action": "ALLOW"
+    },
+    {
+      "constraint_status": "NONE",
+      "harm_profile": "MED",
+      "judgment_integrity": "AT_RISK",
+      "action": "ALLOW"
+    },
+    {
+      "constraint_status": "NONE",
+      "harm_profile": "MED",
+      "judgment_integrity": "COMPROMISED",
+      "action": "ALLOW"
+    },
+    {
+      "constraint_status": "NONE",
+      "harm_profile": "HIGH",
+      "judgment_integrity": "OK",
+      "action": "ALLOW"
+    },
+    {
+      "constraint_status": "NONE",
+      "harm_profile": "HIGH",
+      "judgment_integrity": "AT_RISK",
+      "action": "ALLOW"
+    },
+    {
+      "constraint_status": "NONE",
+      "harm_profile": "HIGH",
+      "judgment_integrity": "COMPROMISED",
+      "action": "ALLOW"
+    },
+    {
+      "constraint_status": "SOFT",
+      "harm_profile": "LOW",
+      "judgment_integrity": "OK",
+      "action": "ALLOW"
+    },
+    {
+      "constraint_status": "SOFT",
+      "harm_profile": "LOW",
+      "judgment_integrity": "AT_RISK",
+      "action": "ALLOW"
+    },
+    {
+      "constraint_status": "SOFT",
+      "harm_profile": "LOW",
+      "judgment_integrity": "COMPROMISED",
+      "action": "ALLOW"
+    },
+    {
+      "constraint_status": "SOFT",
+      "harm_profile": "MED",
+      "judgment_integrity": "OK",
+      "action": "ALLOW"
+    },
+    {
+      "constraint_status": "SOFT",
+      "harm_profile": "MED",
+      "judgment_integrity": "AT_RISK",
+      "action": "ALLOW"
+    },
+    {
+      "constraint_status": "SOFT",
+      "harm_profile": "MED",
+      "judgment_integrity": "COMPROMISED",
+      "action": "ALLOW"
+    },
+    {
+      "constraint_status": "SOFT",
+      "harm_profile": "HIGH",
+      "judgment_integrity": "OK",
+      "action": "ALLOW"
+    },
+    {
+      "constraint_status": "SOFT",
+      "harm_profile": "HIGH",
+      "judgment_integrity": "AT_RISK",
+      "action": "ALLOW"
+    },
+    {
+      "constraint_status": "SOFT",
+      "harm_profile": "HIGH",
+      "judgment_integrity": "COMPROMISED",
+      "action": "ALLOW"
+    },
+    {
+      "constraint_status": "HARD",
+      "harm_profile": "LOW",
+      "judgment_integrity": "OK",
+      "action": "ALLOW"
+    },
+    {
+      "constraint_status": "HARD",
+      "harm_profile": "LOW",
+      "judgment_integrity": "AT_RISK",
+      "action": "ALLOW"
+    },
+    {
+      "constraint_status": "HARD",
+      "harm_profile": "LOW",
+      "judgment_integrity": "COMPROMISED",
+      "action": "ALLOW"
+    },
+    {
+      "constraint_status": "HARD",
+      "harm_profile": "MED",
+      "judgment_integrity": "OK",
+      "action": "ALLOW"
+    },
+    {
+      "constraint_status": "HARD",
+      "harm_profile": "MED",
+      "judgment_integrity": "AT_RISK",
+      "action": "ALLOW"
+    },
+    {
+      "constraint_status": "HARD",
+      "harm_profile": "MED",
+      "judgment_integrity": "COMPROMISED",
+      "action": "ALLOW"
+    },
+    {
+      "constraint_status": "HARD",
+      "harm_profile": "HIGH",
+      "judgment_integrity": "OK",
+      "action": "ALLOW"
+    },
+    {
+      "constraint_status": "HARD",
+      "harm_profile": "HIGH",
+      "judgment_integrity": "AT_RISK",
+      "action": "ALLOW"
+    },
+    {
+      "constraint_status": "HARD",
+      "harm_profile": "HIGH",
+      "judgment_integrity": "COMPROMISED",
+      "action": "BLOCK"
+    }
+  ]
 }
