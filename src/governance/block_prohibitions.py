@@ -184,7 +184,38 @@ class BlockProhibitionsPolicy:
                     description="Missing core BLOCK context (fail-closed): " + ", ".join(core_missing),
                 )
             )
+        
+        # ---- Non-tunable Stage 14 prohibitions (hard-coded invariants) ----
 
+        # 1) Moral/political/ideological disagreement flags prohibit BLOCK.
+        flags = ctx.get("flags", {})
+        if isinstance(flags, dict):
+            if bool(flags.get("moral_disagreement")) is True:
+                violations.append(ProhibitionViolation(
+                    rule_id="NO_BLOCK_ON_MORAL_DISAGREEMENT",
+                    severity="HIGH",
+                    description="BLOCK prohibited when moral_disagreement is True.",
+                ))
+            if bool(flags.get("political_disagreement")) is True:
+                violations.append(ProhibitionViolation(
+                    rule_id="NO_BLOCK_ON_POLITICAL_DISAGREEMENT",
+                    severity="HIGH",
+                    description="BLOCK prohibited when political_disagreement is True.",
+                ))
+            if bool(flags.get("ideological_disagreement")) is True:
+                violations.append(ProhibitionViolation(
+                    rule_id="NO_BLOCK_ON_IDEOLOGICAL_DISAGREEMENT",
+                    severity="HIGH",
+                    description="BLOCK prohibited when ideological_disagreement is True.",
+                ))
+
+        # 2) Analysis-only mode prohibits BLOCK.
+        if ctx.get("mode") == "ANALYSIS_ONLY":
+            violations.append(ProhibitionViolation(
+                rule_id="NO_BLOCK_IN_ANALYSIS_ONLY",
+                severity="HIGH",
+                description="BLOCK prohibited in ANALYSIS_ONLY mode.",
+            ))
 
         for rule in self._items:
             if not isinstance(rule, dict):
