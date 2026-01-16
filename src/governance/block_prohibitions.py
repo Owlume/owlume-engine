@@ -149,6 +149,42 @@ class BlockProhibitionsPolicy:
 
     def check(self, ctx: Dict[str, Any]) -> List[ProhibitionViolation]:
         violations: List[ProhibitionViolation] = []
+        # ---- Fail-closed: missing core context prohibits BLOCK ----
+        # If we don't have the minimum state needed to even assess BLOCK legitimacy,
+        # we must conservatively prohibit BLOCK.
+        core_missing = []
+
+        for k in ("constraint_status", "harm_profile", "judgment_integrity"):
+            v = ctx.get(k)
+            if not isinstance(v, str) or not v.strip():
+                core_missing.append(k)
+
+        # These are also required for legitimate BLOCK posture in Stage 14.
+        fi = _get_path(ctx, "bias_evidence.failed_interventions")
+        if not isinstance(fi, list) or len(fi) == 0:
+            core_missing.append("bias_evidence.failed_interventions")
+
+        jb = ctx.get("justification", {})
+        if not isinstance(jb, dict) or not isinstance(jb.get("why_block_is_necessary"), str) or not jb.get("why_block_is_necessary", "").strip():
+            core_missing.append("justification.why_block_is_necessary")
+        if not isinstance(jb, dict) or not isinstance(jb.get("why_lower_measures_failed"), str) or not jb.get("why_lower_measures_failed", "").strip():
+            core_missing.append("justification.why_lower_measures_failed")
+
+        ub = ctx.get("unblock_conditions", {})
+        if not isinstance(ub, dict) or not isinstance(ub.get("required_actions"), list) or len(ub.get("required_actions", [])) == 0:
+            core_missing.append("unblock_conditions.required_actions")
+        if not isinstance(ub, dict) or not isinstance(ub.get("reassessment_triggers"), list) or len(ub.get("reassessment_triggers", [])) == 0:
+            core_missing.append("unblock_conditions.reassessment_triggers")
+
+        if core_missing:
+            violations.append(
+                ProhibitionViolation(
+                    rule_id="MISSING_CORE_CONTEXT",
+                    severity="HIGH",
+                    description="Missing core BLOCK context (fail-closed): " + ", ".join(core_missing),
+                )
+            )
+
 
         for rule in self._items:
             if not isinstance(rule, dict):
