@@ -1,0 +1,61 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Stage14 Action Gating Table",
+    "type": "object",
+    "required": [
+        "spec",
+        "rows"
+    ],
+    "properties": {
+        "spec": {
+            "type": "object",
+            "required": [
+                "stage",
+                "name",
+                "version"
+            ],
+            "properties": {
+                "stage": {
+                    "type": "integer",
+                    "const": 14
+                },
+                "name": {
+                    "type": "string"
+                },
+                "version": {
+                    "type": "string"
+                }
+            },
+            "additionalProperties": true
+        },
+        "rows": {
+            "type": "array",
+            "minItems": 1,
+            "items": {
+                "type": "object",
+                "required": [
+                    "constraint_status",
+                    "harm_profile",
+                    "judgment_integrity",
+                    "action"
+                ],
+                "properties": {
+                    "constraint_status": {
+                        "type": "string"
+                    },
+                    "harm_profile": {
+                        "type": "string"
+                    },
+                    "judgment_integrity": {
+                        "type": "string"
+                    },
+                    "action": {
+                        "type": "string"
+                    }
+                },
+                "additionalProperties": true
+            }
+        }
+    },
+    "additionalProperties": true
+}

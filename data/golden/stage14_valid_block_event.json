@@ -1,4 +1,3 @@
-@'
 {
     "event_type": "BLOCK_TRIGGERED",
     "system_state": {
@@ -35,8 +34,3 @@
         "decision_table_hash": "3b3ad24cbc3cc06fb822819fd3b7e04ab91bf341e94af237498252767b55d1f5"
     }
 }
-'@ | Set-Content -Encoding utf8 .\data\golden\stage14_valid_block_event.json
-
-
-
-
