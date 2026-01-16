@@ -68,9 +68,42 @@ def _norm_desc(rule: Dict[str, Any]) -> str:
 
 
 def _norm_sev(rule: Dict[str, Any]) -> str:
-    # Default severity is HIGH for fail-closed prohibitions.
     sev = rule.get("severity")
     return str(sev) if sev is not None else "HIGH"
+
+
+# ---- Code-based prohibitions (schema-aligned simple list) ----
+# These are *runtime* negative rules: they prohibit BLOCK given ctx.
+# Non-runtime meta rules must not generate violations (e.g. NO_CONFIG_KNOBS).
+_RUNTIME_CODE_RULES = {
+    # Prohibit BLOCK if any moral/political/ideological disagreement flags are true.
+    "NO_BLOCK_ON_MORAL_OR_POLITICAL_DISAGREEMENT": "flags_any_true",
+    # Prohibit BLOCK if system is in analysis-only mode.
+    "NO_BLOCK_IN_ANALYSIS_ONLY_MODE": "mode_eq",
+    # Prohibit BLOCK if output kind is QUESTIONS (BLOCK must never apply to QUESTIONS).
+    "NO_BLOCK_ON_QUESTIONS": "output_kind_eq",
+    # Prohibit BLOCK if output kind is REFRAME (if your policy uses this).
+    "NO_BLOCK_ON_REFRAME": "output_kind_eq",
+    # Prohibit BLOCK if output kind is ANALYSIS (if your policy uses this).
+    "NO_BLOCK_ON_ANALYSIS": "output_kind_eq",
+}
+
+# Meta/charter-only statements: should NEVER create a runtime violation.
+_META_ONLY_CODES = {
+    "NO_CONFIG_KNOBS",
+}
+
+
+def _infer_output_kind(ctx: Dict[str, Any]) -> Optional[str]:
+    """
+    Best-effort output kind extractor.
+    Supports multiple field names used across the codebase/tests.
+    """
+    for k in ("output_kind", "kind", "output_type_attempted"):
+        v = ctx.get(k)
+        if isinstance(v, str) and v.strip():
+            return v.strip()
+    return None
 
 
 class BlockProhibitionsPolicy:
@@ -85,10 +118,9 @@ class BlockProhibitionsPolicy:
       A) full rule object with "when" triggers:
          {id, severity, description, when:{...}}
 
-      B) minimal prohibition item (schema-aligned list style):
+      B) simple prohibition item:
          {code, description}
-         -> treated as unconditional prohibition (always violated).
-         This is intentionally fail-closed.
+         -> evaluated by code-based logic (not unconditional).
     """
 
     def __init__(self, rules_path: Path | None = None, schema_path: Path | None = None) -> None:
@@ -104,126 +136,150 @@ class BlockProhibitionsPolicy:
         except jsonschema.ValidationError as e:
             raise BlockProhibitionsError(f"Negative rules schema validation failed: {e}") from e
 
-        # Hard requirement: negative rules are policy-law (non-tunable).
         if rules_doc.get("spec", {}).get("non_tunable") is not True:
             raise BlockProhibitionsError("Negative rules must be non_tunable=true.")
 
-        # Accept both keys; canonical is "prohibitions" (new), but allow "rules" (legacy).
         items = rules_doc.get("prohibitions")
         if items is None:
             items = rules_doc.get("rules")
-
-        if items is None:
-            raise BlockProhibitionsError("Negative rules must include 'prohibitions' (or legacy 'rules').")
-
-        if not isinstance(items, list):
-            raise BlockProhibitionsError("Negative rules list must be an array.")
+        if items is None or not isinstance(items, list):
+            raise BlockProhibitionsError("Negative rules must include 'prohibitions' (or legacy 'rules') list.")
 
         self._items: List[Dict[str, Any]] = items
 
     def check(self, ctx: Dict[str, Any]) -> List[ProhibitionViolation]:
-        """
-        Evaluate prohibitions. Any returned violation prohibits BLOCK.
-        Missing context is treated as prohibited where relevant.
-        """
         violations: List[ProhibitionViolation] = []
 
         for rule in self._items:
             if not isinstance(rule, dict):
-                # Unknown entry -> fail closed.
                 raise BlockProhibitionsError("Invalid prohibition entry; expected object.")
 
             rule_id = _norm_rule_id(rule)
             severity = _norm_sev(rule)
             desc = _norm_desc(rule)
 
+            # If "when" exists -> evaluate legacy trigger rules.
             when = rule.get("when")
+            if when is not None:
+                if not isinstance(when, dict) or len(when) != 1:
+                    raise BlockProhibitionsError(f"Invalid 'when' for rule {rule_id}; expected single-key object.")
 
-            # If no "when" is present, treat as an unconditional prohibition.
-            # This allows schema-aligned minimal items {code, description}.
-            if when is None:
-                violations.append(ProhibitionViolation(rule_id, severity, desc))
-                continue
+                key = next(iter(when.keys()))
+                val = when[key]
 
-            if not isinstance(when, dict) or len(when) != 1:
-                raise BlockProhibitionsError(f"Invalid 'when' for rule {rule_id}; expected single-key object.")
-
-            # Each rule has exactly one key in `when`.
-            key = next(iter(when.keys()))
-            val = when[key]
-
-            if key == "constraint_status_not":
-                cs = ctx.get("constraint_status")
-                if cs is None or cs != "HARD":
-                    violations.append(ProhibitionViolation(rule_id, severity, desc))
-
-            elif key == "harm_profile_not":
-                hp = ctx.get("harm_profile")
-                if hp is None or hp != "HIGH":
-                    violations.append(ProhibitionViolation(rule_id, severity, desc))
-
-            elif key == "judgment_integrity_not":
-                ji = ctx.get("judgment_integrity")
-                if ji is None or ji != "COMPROMISED":
-                    violations.append(ProhibitionViolation(rule_id, severity, desc))
-
-            elif key == "missing_any":
-                # val is list of dotted paths; missing OR empty strings/empty arrays prohibit.
-                if not isinstance(val, list):
-                    raise BlockProhibitionsError(f"Rule {rule_id} missing_any must be a list.")
-                missing = False
-                for dotted in val:
-                    if not isinstance(dotted, str):
-                        raise BlockProhibitionsError(f"Rule {rule_id} missing_any paths must be strings.")
-                    got = _get_path(ctx, dotted)
-                    if got is None:
-                        missing = True
-                        break
-                    if isinstance(got, str) and got.strip() == "":
-                        missing = True
-                        break
-                    if isinstance(got, list) and len(got) == 0:
-                        missing = True
-                        break
-                if missing:
-                    violations.append(ProhibitionViolation(rule_id, severity, desc))
-
-            elif key == "failed_interventions_missing_any":
-                # Look for ctx["bias_evidence"]["failed_interventions"] or ctx["failed_interventions"].
-                if not isinstance(val, list):
-                    raise BlockProhibitionsError(f"Rule {rule_id} failed_interventions_missing_any must be a list.")
-                fi = _get_path(ctx, "bias_evidence.failed_interventions")
-                if fi is None:
-                    fi = ctx.get("failed_interventions")
-                if not isinstance(fi, list):
-                    violations.append(ProhibitionViolation(rule_id, severity, desc))
-                else:
-                    needed = {x for x in val if isinstance(x, str)}
-                    present = {x for x in fi if isinstance(x, str)}
-                    if not needed.issubset(present):
+                if key == "constraint_status_not":
+                    cs = ctx.get("constraint_status")
+                    if cs is None or cs != "HARD":
                         violations.append(ProhibitionViolation(rule_id, severity, desc))
 
-            elif key == "flags_any_true":
-                # If flags missing -> treat as false (do not prohibit).
-                if not isinstance(val, list):
-                    raise BlockProhibitionsError(f"Rule {rule_id} flags_any_true must be a list.")
+                elif key == "harm_profile_not":
+                    hp = ctx.get("harm_profile")
+                    if hp is None or hp != "HIGH":
+                        violations.append(ProhibitionViolation(rule_id, severity, desc))
+
+                elif key == "judgment_integrity_not":
+                    ji = ctx.get("judgment_integrity")
+                    if ji is None or ji != "COMPROMISED":
+                        violations.append(ProhibitionViolation(rule_id, severity, desc))
+
+                elif key == "missing_any":
+                    if not isinstance(val, list):
+                        raise BlockProhibitionsError(f"Rule {rule_id} missing_any must be a list.")
+                    missing = False
+                    for dotted in val:
+                        if not isinstance(dotted, str):
+                            raise BlockProhibitionsError(f"Rule {rule_id} missing_any paths must be strings.")
+                        got = _get_path(ctx, dotted)
+                        if got is None:
+                            missing = True
+                            break
+                        if isinstance(got, str) and got.strip() == "":
+                            missing = True
+                            break
+                        if isinstance(got, list) and len(got) == 0:
+                            missing = True
+                            break
+                    if missing:
+                        violations.append(ProhibitionViolation(rule_id, severity, desc))
+
+                elif key == "failed_interventions_missing_any":
+                    if not isinstance(val, list):
+                        raise BlockProhibitionsError(f"Rule {rule_id} failed_interventions_missing_any must be a list.")
+                    fi = _get_path(ctx, "bias_evidence.failed_interventions")
+                    if fi is None:
+                        fi = ctx.get("failed_interventions")
+                    if not isinstance(fi, list):
+                        violations.append(ProhibitionViolation(rule_id, severity, desc))
+                    else:
+                        needed = {x for x in val if isinstance(x, str)}
+                        present = {x for x in fi if isinstance(x, str)}
+                        if not needed.issubset(present):
+                            violations.append(ProhibitionViolation(rule_id, severity, desc))
+
+                elif key == "flags_any_true":
+                    if not isinstance(val, list):
+                        raise BlockProhibitionsError(f"Rule {rule_id} flags_any_true must be a list.")
+                    flags = ctx.get("flags", {})
+                    if not isinstance(flags, dict):
+                        continue
+                    if any(bool(flags.get(name)) is True for name in val if isinstance(name, str)):
+                        violations.append(ProhibitionViolation(rule_id, severity, desc))
+
+                elif key == "mode_any":
+                    if not isinstance(val, list):
+                        raise BlockProhibitionsError(f"Rule {rule_id} mode_any must be a list.")
+                    mode = ctx.get("mode")
+                    if isinstance(mode, str) and mode in val:
+                        violations.append(ProhibitionViolation(rule_id, severity, desc))
+
+                else:
+                    raise BlockProhibitionsError(f"Unknown negative rule trigger: {key}")
+
+                continue  # done with legacy-trigger rule
+
+            # Otherwise: schema-aligned "code/description" item -> evaluate by code.
+            code = rule.get("code")
+            if not isinstance(code, str) or not code.strip():
+                # No code, no when -> fail closed.
+                raise BlockProhibitionsError(f"Prohibition missing 'code' and 'when': {rule!r}")
+
+            code = code.strip()
+
+            # Meta-only charter statements do not create runtime violations.
+            if code in _META_ONLY_CODES:
+                continue
+
+            # Known runtime code rules.
+            if code == "NO_BLOCK_ON_MORAL_OR_POLITICAL_DISAGREEMENT":
                 flags = ctx.get("flags", {})
                 if not isinstance(flags, dict):
+                    # Missing flags -> treat as false (do not prohibit)
                     continue
-                if any(bool(flags.get(name)) is True for name in val if isinstance(name, str)):
-                    violations.append(ProhibitionViolation(rule_id, severity, desc))
+                if any(bool(flags.get(k)) is True for k in ("moral_disagreement", "political_disagreement", "ideological_disagreement")):
+                    violations.append(ProhibitionViolation(code, severity, desc))
+                continue
 
-            elif key == "mode_any":
-                # If mode missing, do not prohibit; only prohibit if explicitly in these modes.
-                if not isinstance(val, list):
-                    raise BlockProhibitionsError(f"Rule {rule_id} mode_any must be a list.")
+            if code == "NO_BLOCK_IN_ANALYSIS_ONLY_MODE":
                 mode = ctx.get("mode")
-                if isinstance(mode, str) and mode in val:
-                    violations.append(ProhibitionViolation(rule_id, severity, desc))
+                if isinstance(mode, str) and mode.strip().upper() == "ANALYSIS_ONLY":
+                    violations.append(ProhibitionViolation(code, severity, desc))
+                continue
 
-            else:
-                # Unknown rule type -> fail closed.
-                raise BlockProhibitionsError(f"Unknown negative rule trigger: {key}")
+            if code in ("NO_BLOCK_ON_QUESTIONS", "NO_BLOCK_ON_REFRAME", "NO_BLOCK_ON_ANALYSIS"):
+                out_kind = _infer_output_kind(ctx)
+                if out_kind is None:
+                    # If we cannot determine output kind, do not prohibit on this basis.
+                    continue
+                if code == "NO_BLOCK_ON_QUESTIONS" and out_kind.upper() == "QUESTIONS":
+                    violations.append(ProhibitionViolation(code, severity, desc))
+                elif code == "NO_BLOCK_ON_REFRAME" and out_kind.upper() == "REFRAME":
+                    violations.append(ProhibitionViolation(code, severity, desc))
+                elif code == "NO_BLOCK_ON_ANALYSIS" and out_kind.upper() == "ANALYSIS":
+                    violations.append(ProhibitionViolation(code, severity, desc))
+                continue
+
+            # Unknown code -> fail closed (policy-law safety).
+            raise BlockProhibitionsError(f"Unknown prohibition code: {code}")
 
         return violations
 
