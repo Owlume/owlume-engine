@@ -5,7 +5,8 @@
     "version": "v1",
     "tunable": false,
     "interpretation": "narrow",
-    "description": "Negative rules: Stage 14 BLOCK must never be used to suppress analysis/questions. It only constrains action-guiding output."
+    "description": "Negative rules: Stage 14 BLOCK must never be used to suppress analysis/questions. It only constrains action-guiding output.",
+    "non_tunable": true
   },
   "prohibitions": [
     {
