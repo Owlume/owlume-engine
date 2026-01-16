@@ -1,0 +1,22 @@
+@'
+{
+    "spec": {
+        "stage": 14,
+        "name": "stage14_action_gating_table.v1",
+        "version": "v1",
+        "tunable": false,
+        "interpretation": "narrow",
+        "description": "Closed set for Stage 14 gating eligibility. Only ACTION/ADVICE/INSTRUCTIONS may be gated."
+    },
+    "eligible_output_kinds": [
+        "ACTION",
+        "ADVICE",
+        "INSTRUCTIONS"
+    ],
+    "ineligible_output_kinds": [
+        "QUESTIONS",
+        "REFRAME",
+        "ANALYSIS"
+    ]
+}
+'@ | Set-Content -Encoding utf8 .\data\policy\stage14_action_gating_table.v1.json
