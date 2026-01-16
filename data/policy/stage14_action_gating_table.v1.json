@@ -1,4 +1,3 @@
-@'
 {
     "spec": {
         "stage": 14,
@@ -19,4 +18,3 @@
         "ANALYSIS"
     ]
 }
-'@ | Set-Content -Encoding utf8 .\data\policy\stage14_action_gating_table.v1.json

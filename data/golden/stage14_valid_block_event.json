@@ -1,0 +1,46 @@
+{
+  "event_id": "GOLDEN_STAGE14_BLOCK_EVENT",
+  "event_type": "BLOCK_TRIGGERED",
+  "timestamp": "2026-01-16T00:00:00Z",
+  "did": "DID_GOLDEN_STAGE14",
+  "user_id": null,
+  "input_type": "S",
+  "output_type_attempted": "INSTRUCTIONS",
+  "mode": "Analytical",
+  "principle": "Evidence & Validation",
+  "reason_code": "BLOCK_STAGE14_ALL_CONDITIONS_MET",
+  "conditions": {
+    "action_imminent": true,
+    "irreversible_risk": true,
+    "distortion_present": true,
+    "insufficient_reflection_window": true
+  },
+  "system_state": "BLOCKED",
+  "constraint_status": "HARD",
+  "harm_profile": "HIGH",
+  "judgment_integrity": "COMPROMISED",
+  "bias_evidence": { "failed_interventions": ["REFLECT", "WARN", "SLOW"] },
+  "justification": {
+    "why_block_is_necessary": "Golden test fixture: validate Stage 14 governance invariants.",
+    "why_lower_measures_failed": "Golden test fixture: REFLECT/WARN/SLOW assumed attempted."
+  },
+  "unblock_conditions": {
+    "required_actions": ["widen_reflection_window", "collect_new_evidence"],
+    "reassessment_triggers": ["new evidence", "time window restored"]
+  },
+  "flags": {
+    "moral_disagreement": false,
+    "political_disagreement": false,
+    "ideological_disagreement": false
+  },
+  "trace_ref": null,
+  "extra": { "golden": true },
+  "policy": {
+    "stage": 14,
+    "charter": "Stage 14 — BLOCK Governance Charter",
+    "review_protocol": "Stage 14 — BLOCK Review & Audit Protocol",
+    "interpretation": "narrow",
+    "tunable": false,
+    "action_gating_table_hash": "e68739c07cfd5a529c452bba7a4f0c0f6861c1a4f40606c528ed1487d3e1bdd3"
+  }
+}
