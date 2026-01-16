@@ -1,13 +1,15 @@
 {
     "event_type": "BLOCK_TRIGGERED",
     "system_state": {
-        "mode": "EXECUTION"
+        "mode": "EXECUTION",
+        "harm": "IRREVERSIBLE"
     },
     "constraint": {
         "status": "HARD",
         "harm_profile": "HIGH",
         "judgment_integrity": "COMPROMISED",
-        "confidence": "HIGH"
+        "confidence": "HIGH",
+        "certainty": "HIGH"
     },
     "bias_evidence": {
         "failed_interventions": [
@@ -34,6 +36,3 @@
         "decision_table_hash": "a2ff4674819ef0575bc495d0ab42bbca05698d3df50dc7bd3673d3533eae3e4b"
     }
 }
-
-
-
