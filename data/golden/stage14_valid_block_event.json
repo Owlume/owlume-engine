@@ -8,7 +8,7 @@
         "status": "HARD",
         "harm_profile": "HIGH",
         "judgment_integrity": "COMPROMISED",
-        "confidence": "0.95",
+        "confidence": 0.95,
         "certainty": "HIGH"
     },
     "bias_evidence": {
