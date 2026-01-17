@@ -1,0 +1,29 @@
+{
+  "spec": {
+    "stage": 14,
+    "name": "stage14_block_negative_rules.v1",
+    "version": "v1",
+    "tunable": false,
+    "interpretation": "narrow",
+    "description": "Negative rules: Stage 14 BLOCK must never be used to suppress analysis/questions. It only constrains action-guiding output.",
+    "non_tunable": true
+  },
+  "prohibitions": [
+    {
+      "code": "NO_BLOCK_ON_QUESTIONS",
+      "description": "BLOCK MUST NOT apply to QUESTIONS output."
+    },
+    {
+      "code": "NO_BLOCK_ON_REFRAME",
+      "description": "BLOCK MUST NOT apply to REFRAME output."
+    },
+    {
+      "code": "NO_BLOCK_ON_ANALYSIS",
+      "description": "BLOCK MUST NOT apply to ANALYSIS output."
+    },
+    {
+      "code": "NO_CONFIG_KNOBS",
+      "description": "No thresholds, no config knobs, no overrides are permitted for BLOCK."
+    }
+  ]
+}

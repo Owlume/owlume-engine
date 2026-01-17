@@ -1,0 +1,140 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "Owlume Stage 14 — Constraint BLOCK Event (schema)",
+    "type": "object",
+    "required": [
+        "event_type",
+        "system_state",
+        "constraint",
+        "bias_evidence",
+        "justification",
+        "unblock_conditions",
+        "audit"
+    ],
+    "properties": {
+        "event_type": {
+            "type": "string",
+            "const": "BLOCK_TRIGGERED"
+        },
+        "system_state": {
+            "type": "object",
+            "required": [
+                "mode",
+                "harm"
+            ],
+            "properties": {
+                "mode": {
+                    "type": "string"
+                },
+                "harm": {
+                    "type": "string",
+                    "enum": [
+                        "IRREVERSIBLE"
+                    ]
+                }
+            },
+            "additionalProperties": true
+        },
+        "constraint": {
+            "type": "object",
+            "required": [
+                "status",
+                "harm_profile",
+                "judgment_integrity",
+                "certainty"
+            ],
+            "properties": {
+                "status": {
+                    "type": "string"
+                },
+                "harm_profile": {
+                    "type": "string"
+                },
+                "judgment_integrity": {
+                    "type": "string"
+                },
+                "certainty": {
+                    "type": "string",
+                    "enum": [
+                        "HIGH"
+                    ]
+                },
+                "confidence": {
+                    "type": "number"
+                }
+            },
+            "additionalProperties": true
+        },
+        "bias_evidence": {
+            "type": "object",
+            "required": [
+                "failed_interventions"
+            ],
+            "properties": {
+                "failed_interventions": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            },
+            "additionalProperties": true
+        },
+        "justification": {
+            "type": "object",
+            "required": [
+                "why_block_is_necessary",
+                "why_lower_measures_failed"
+            ],
+            "properties": {
+                "why_block_is_necessary": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "why_lower_measures_failed": {
+                    "type": "string",
+                    "minLength": 1
+                }
+            },
+            "additionalProperties": true
+        },
+        "unblock_conditions": {
+            "type": "object",
+            "required": [
+                "required_actions",
+                "reassessment_triggers"
+            ],
+            "properties": {
+                "required_actions": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "minItems": 1
+                },
+                "reassessment_triggers": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    },
+                    "minItems": 1
+                }
+            },
+            "additionalProperties": true
+        },
+        "audit": {
+            "type": "object",
+            "required": [
+                "decision_table_hash"
+            ],
+            "properties": {
+                "decision_table_hash": {
+                    "type": "string",
+                    "minLength": 8
+                }
+            },
+            "additionalProperties": true
+        }
+    },
+    "additionalProperties": true
+}

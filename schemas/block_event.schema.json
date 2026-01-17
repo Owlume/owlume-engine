@@ -1,0 +1,127 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "title": "block_event",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "event_id",
+        "event_type",
+        "timestamp",
+        "did",
+        "input_type",
+        "output_type_attempted",
+        "reason_code",
+        "conditions",
+        "policy"
+    ],
+    "properties": {
+        "event_id": {
+            "type": "string",
+            "minLength": 1
+        },
+        "event_type": {
+            "const": "BLOCK_TRIGGERED"
+        },
+        "timestamp": {
+            "type": "string",
+            "minLength": 1
+        },
+        "did": {
+            "type": "string",
+            "minLength": 1
+        },
+        "user_id": {
+            "type": [
+                "string",
+                "null"
+            ]
+        },
+        "input_type": {
+            "type": "string",
+            "minLength": 1
+        },
+        "output_type_attempted": {
+            "type": "string",
+            "minLength": 1
+        },
+        "mode": {
+            "type": [
+                "string",
+                "null"
+            ]
+        },
+        "principle": {
+            "type": [
+                "string",
+                "null"
+            ]
+        },
+        "reason_code": {
+            "type": "string",
+            "const": "BLOCK_STAGE14_ALL_CONDITIONS_MET"
+        },
+        "conditions": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+                "action_imminent",
+                "irreversible_risk",
+                "distortion_present",
+                "insufficient_reflection_window"
+            ],
+            "properties": {
+                "action_imminent": {
+                    "type": "boolean"
+                },
+                "irreversible_risk": {
+                    "type": "boolean"
+                },
+                "distortion_present": {
+                    "type": "boolean"
+                },
+                "insufficient_reflection_window": {
+                    "type": "boolean"
+                }
+            }
+        },
+        "trace_ref": {
+            "type": [
+                "string",
+                "null"
+            ]
+        },
+        "extra": {
+            "type": "object"
+        },
+        "policy": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+                "stage",
+                "charter",
+                "review_protocol",
+                "interpretation",
+                "tunable"
+            ],
+            "properties": {
+                "stage": {
+                    "const": 14
+                },
+                "charter": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "review_protocol": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "interpretation": {
+                    "const": "narrow"
+                },
+                "tunable": {
+                    "const": false
+                }
+            }
+        }
+    }
+}
