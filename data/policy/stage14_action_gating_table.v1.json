@@ -10,13 +10,13 @@
     {
       "constraint_status": "NONE",
       "harm_profile": "LOW",
-      "judgment_integrity": "OK",
+      "judgment_integrity": "INTACT",
       "action": "ALLOW"
     },
     {
       "constraint_status": "NONE",
       "harm_profile": "LOW",
-      "judgment_integrity": "AT_RISK",
+      "judgment_integrity": "DEGRADED",
       "action": "ALLOW"
     },
     {
@@ -27,32 +27,32 @@
     },
     {
       "constraint_status": "NONE",
-      "harm_profile": "MED",
-      "judgment_integrity": "OK",
+      "harm_profile": "MEDIUM",
+      "judgment_integrity": "INTACT",
       "action": "ALLOW"
     },
     {
       "constraint_status": "NONE",
-      "harm_profile": "MED",
-      "judgment_integrity": "AT_RISK",
+      "harm_profile": "MEDIUM",
+      "judgment_integrity": "DEGRADED",
       "action": "ALLOW"
     },
     {
       "constraint_status": "NONE",
-      "harm_profile": "MED",
+      "harm_profile": "MEDIUM",
       "judgment_integrity": "COMPROMISED",
-      "action": "ALLOW"
-    },
-    {
-      "constraint_status": "NONE",
-      "harm_profile": "HIGH",
-      "judgment_integrity": "OK",
       "action": "ALLOW"
     },
     {
       "constraint_status": "NONE",
       "harm_profile": "HIGH",
-      "judgment_integrity": "AT_RISK",
+      "judgment_integrity": "INTACT",
+      "action": "ALLOW"
+    },
+    {
+      "constraint_status": "NONE",
+      "harm_profile": "HIGH",
+      "judgment_integrity": "DEGRADED",
       "action": "ALLOW"
     },
     {
@@ -64,13 +64,13 @@
     {
       "constraint_status": "SOFT",
       "harm_profile": "LOW",
-      "judgment_integrity": "OK",
+      "judgment_integrity": "INTACT",
       "action": "ALLOW"
     },
     {
       "constraint_status": "SOFT",
       "harm_profile": "LOW",
-      "judgment_integrity": "AT_RISK",
+      "judgment_integrity": "DEGRADED",
       "action": "ALLOW"
     },
     {
@@ -81,32 +81,32 @@
     },
     {
       "constraint_status": "SOFT",
-      "harm_profile": "MED",
-      "judgment_integrity": "OK",
+      "harm_profile": "MEDIUM",
+      "judgment_integrity": "INTACT",
       "action": "ALLOW"
     },
     {
       "constraint_status": "SOFT",
-      "harm_profile": "MED",
-      "judgment_integrity": "AT_RISK",
+      "harm_profile": "MEDIUM",
+      "judgment_integrity": "DEGRADED",
       "action": "ALLOW"
     },
     {
       "constraint_status": "SOFT",
-      "harm_profile": "MED",
+      "harm_profile": "MEDIUM",
       "judgment_integrity": "COMPROMISED",
       "action": "ALLOW"
     },
     {
       "constraint_status": "SOFT",
       "harm_profile": "HIGH",
-      "judgment_integrity": "OK",
+      "judgment_integrity": "INTACT",
       "action": "ALLOW"
     },
     {
       "constraint_status": "SOFT",
       "harm_profile": "HIGH",
-      "judgment_integrity": "AT_RISK",
+      "judgment_integrity": "DEGRADED",
       "action": "ALLOW"
     },
     {
@@ -118,13 +118,13 @@
     {
       "constraint_status": "HARD",
       "harm_profile": "LOW",
-      "judgment_integrity": "OK",
+      "judgment_integrity": "INTACT",
       "action": "ALLOW"
     },
     {
       "constraint_status": "HARD",
       "harm_profile": "LOW",
-      "judgment_integrity": "AT_RISK",
+      "judgment_integrity": "DEGRADED",
       "action": "ALLOW"
     },
     {
@@ -135,32 +135,32 @@
     },
     {
       "constraint_status": "HARD",
-      "harm_profile": "MED",
-      "judgment_integrity": "OK",
+      "harm_profile": "MEDIUM",
+      "judgment_integrity": "INTACT",
       "action": "ALLOW"
     },
     {
       "constraint_status": "HARD",
-      "harm_profile": "MED",
-      "judgment_integrity": "AT_RISK",
+      "harm_profile": "MEDIUM",
+      "judgment_integrity": "DEGRADED",
       "action": "ALLOW"
     },
     {
       "constraint_status": "HARD",
-      "harm_profile": "MED",
+      "harm_profile": "MEDIUM",
       "judgment_integrity": "COMPROMISED",
       "action": "ALLOW"
     },
     {
       "constraint_status": "HARD",
       "harm_profile": "HIGH",
-      "judgment_integrity": "OK",
+      "judgment_integrity": "INTACT",
       "action": "ALLOW"
     },
     {
       "constraint_status": "HARD",
       "harm_profile": "HIGH",
-      "judgment_integrity": "AT_RISK",
+      "judgment_integrity": "DEGRADED",
       "action": "ALLOW"
     },
     {
