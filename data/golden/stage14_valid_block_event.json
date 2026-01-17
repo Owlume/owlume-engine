@@ -1,38 +1,38 @@
 {
-  "event_type": "BLOCK_TRIGGERED",
-  "system_state": {
-    "mode": "EXECUTION",
-    "harm": "IRREVERSIBLE"
-  },
-  "constraint": {
-    "status": "HARD",
-    "harm_profile": "HIGH",
-    "judgment_integrity": "COMPROMISED",
-    "confidence": "HIGH",
-    "certainty": "HIGH"
-  },
-  "bias_evidence": {
-    "failed_interventions": [
-      "REFLECT",
-      "WARN",
-      "SLOW"
-    ]
-  },
-  "justification": {
-    "why_block_is_necessary": "High-stakes irreversible execution attempt with distortion present.",
-    "why_lower_measures_failed": "User continued to seek action guidance after reflection prompts."
-  },
-  "unblock_conditions": {
-    "required_actions": [
-      "Provide evidence",
-      "State assumptions",
-      "Name downside"
-    ],
-    "reassessment_triggers": [
-      "New evidence"
-    ]
-  },
-  "audit": {
-    "decision_table_hash": "a2ff4674819ef0575bc495d0ab42bbca05698d3df50dc7bd3673d3533eae3e4b"
-  }
+    "event_type": "BLOCK_TRIGGERED",
+    "system_state": {
+        "mode": "EXECUTION",
+        "harm": "IRREVERSIBLE"
+    },
+    "constraint": {
+        "status": "HARD",
+        "harm_profile": "HIGH",
+        "judgment_integrity": "COMPROMISED",
+        "confidence": "0.95",
+        "certainty": "HIGH"
+    },
+    "bias_evidence": {
+        "failed_interventions": [
+            "REFLECT",
+            "WARN",
+            "SLOW"
+        ]
+    },
+    "justification": {
+        "why_block_is_necessary": "High-stakes irreversible execution attempt with distortion present.",
+        "why_lower_measures_failed": "User continued to seek action guidance after reflection prompts."
+    },
+    "unblock_conditions": {
+        "required_actions": [
+            "Provide evidence",
+            "State assumptions",
+            "Name downside"
+        ],
+        "reassessment_triggers": [
+            "New evidence"
+        ]
+    },
+    "audit": {
+        "decision_table_hash": "a2ff4674819ef0575bc495d0ab42bbca05698d3df50dc7bd3673d3533eae3e4b"
+    }
 }
