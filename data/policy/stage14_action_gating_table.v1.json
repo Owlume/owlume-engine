@@ -1,10 +1,27 @@
 {
   "spec": {
     "stage": 14,
-    "name": "stage14_action_gating_table.v1",
-    "version": "v1",
+    "name": "stage14_block_negative_rules.v1",
+    "version": "v1"
+  },
+  "tunable": false,
+  "interpretation": "narrow",
+  "description": "Negative rules: Stage 14 BLOCK must never be used to suppress analysis/questions. It only constrains action-guiding output.",
+  "governance": {
+    "law_class": "BLOCK_POLICY_LAW",
     "tunable": false,
-    "interpretation": "narrow"
+    "learnable": false,
+    "override_allowed": false,
+    "source_of_truth": "FROZEN_TABLES_ONLY",
+    "stage_freeze_tag": "stage15-precharter-freeze"
+  },
+  "governance": {
+    "law_class": "BLOCK_POLICY_LAW",
+    "tunable": false,
+    "learnable": false,
+    "override_allowed": false,
+    "source_of_truth": "FROZEN_TABLES_ONLY",
+    "stage_freeze_tag": "stage15-precharter-freeze"
   },
   "rows": [
     {
