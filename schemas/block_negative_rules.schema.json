@@ -38,6 +38,17 @@
         }
       }
     },
+    "description": {
+      "type": "string"
+    },
+    "interpretation": {
+      "type": "string"
+    },
+    "tunable": {
+      "type": "boolean",
+      "const": false,
+      "description": "Compatibility field. Must remain false; BLOCK policy is non-tunable."
+    },
     "governance": {
       "type": "object",
       "description": "Stage 15: BLOCK policy law governance header. Immutable; must not be influenced by learning, empathy, or optimization subsystems.",
