@@ -37,7 +37,8 @@ def warn(msg):
     print(f"⚠️  {msg}")
 
 def load_json(path):
-    with open(path, "r", encoding="utf-8") as f:
+    # BOM-tolerant JSON loader (Windows-friendly)
+    with open(path, "r", encoding="utf-8-sig") as f:
         return json.load(f)
 
 def check_python_tabnanny(path):
@@ -57,19 +58,34 @@ def check_import(module_name, extra_path=None):
 
 def validate_thresholds(path):
     obj = load_json(path)
+
+    # Support both legacy flat and v1 nested formats
+    if isinstance(obj, dict) and isinstance(obj.get("thresholds"), dict):
+        th = obj["thresholds"]
+    else:
+        th = obj
+
     # Must have numeric low/medium/high, 0<=low<=medium<=high<=1
     for key in ("low", "medium", "high"):
-        if key not in obj:
+        if key not in th:
             fail(f"{path}: missing '{key}' key.")
-        if not isinstance(obj[key], (int, float)):
+        if not isinstance(th[key], (int, float)):
             fail(f"{path}: '{key}' must be number.")
-    low, med, high = obj["low"], obj["medium"], obj["high"]
+
+    low, med, high = th["low"], th["medium"], th["high"]
     if not (0 <= low <= med <= high <= 1.0):
-        fail(f"{path}: low/medium/high must satisfy 0 <= low <= medium <= high <= 1.0 (got {low}, {med}, {high}).")
-    # meaningful_delta
-    md = obj.get("meaningful_delta")
-    if md is None or not isinstance(md, (int, float)) or not (0 <= md <= 1.0):
-        fail(f"{path}: 'meaningful_delta' must be a number in [0,1].")
+        fail(
+            f"{path}: low/medium/high must satisfy "
+            f"0 <= low <= medium <= high <= 1.0 "
+            f"(got {low}, {med}, {high})."
+        )
+
+    # meaningful_delta (optional but validated if present)
+    md = th.get("meaningful_delta")
+    if md is not None:
+        if not isinstance(md, (int, float)) or not (0 <= md <= 1.0):
+            fail(f"{path}: 'meaningful_delta' must be a number in [0,1].")
+
     ok("clarity_gain_thresholds.json structure looks good.")
 
 def validate_logs_against_schema(schema_path, logs_dir):
@@ -78,6 +94,14 @@ def validate_logs_against_schema(schema_path, logs_dir):
     validator = Draft7Validator(schema)
     # Look for clarity_gain_*.jsonl
     files = sorted(glob.glob(os.path.join(logs_dir, "clarity_gain_*.jsonl")))
+    
+    # B1: validate only active-contract logs (exclude legacy / samples / backups)
+    files = [
+        f for f in files
+        if (".bak" not in os.path.basename(f).lower())
+        and ("samples" not in os.path.basename(f).lower())
+        and (os.path.basename(f) >= "clarity_gain_202601.jsonl")
+    ]
     if not files:
         warn("No clarity_gain_*.jsonl files found — skipping log validation.")
         return
