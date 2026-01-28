@@ -1,0 +1,49 @@
+{
+    "$schema": "http://json-schema.org/draft-07/schema#",
+    "$id": "https://owlume.com/schemas/judgment_terminal_state.schema.json",
+    "title": "Owlume Judgment Terminal State (v1)",
+    "type": "object",
+    "additionalProperties": false,
+    "required": [
+        "type",
+        "statement",
+        "confidence",
+        "owner",
+        "acknowledged",
+        "timestamp"
+    ],
+    "properties": {
+        "type": {
+            "type": "string",
+            "enum": [
+                "position",
+                "boundary",
+                "deferral"
+            ]
+        },
+        "statement": {
+            "type": "string",
+            "minLength": 10,
+            "maxLength": 500
+        },
+        "confidence": {
+            "type": "number",
+            "minimum": 0.0,
+            "maximum": 1.0
+        },
+        "owner": {
+            "type": "string",
+            "enum": [
+                "user"
+            ]
+        },
+        "acknowledged": {
+            "type": "boolean",
+            "const": true
+        },
+        "timestamp": {
+            "type": "string",
+            "format": "date-time"
+        }
+    }
+}

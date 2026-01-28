@@ -2,6 +2,13 @@
     "$schema": "http://json-schema.org/draft-07/schema#",
     "title": "Clarity Gain Record",
     "description": "Schema for a single DilemmaNet clarity-gain reflection record produced in T2.",
+    "spec": "owlume.dilemmalog.clarity_gain_record.v2",
+    "version": "2.0.0",
+    "policy": {
+        "judgment_landing": "MANDATORY",
+        "rule": "Owlume is incomplete unless every interaction ends with an owned conclusion.",
+        "effective_from": "2026-01-01"
+    },
     "type": "object",
     "additionalProperties": false,
     "properties": {
@@ -12,6 +19,39 @@
         "user_text": {
             "type": "string",
             "description": "Raw dilemma/statement provided by the user."
+        },
+        "judgment_landing": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": [
+                "type",
+                "statement",
+                "confidence",
+                "acknowledged"
+            ],
+            "properties": {
+                "type": {
+                    "type": "string",
+                    "enum": [
+                        "position",
+                        "constraint",
+                        "next_step",
+                        "defer"
+                    ]
+                },
+                "statement": {
+                    "type": "string",
+                    "minLength": 1
+                },
+                "confidence": {
+                    "type": "number",
+                    "minimum": 0.0,
+                    "maximum": 1.0
+                },
+                "acknowledged": {
+                    "type": "boolean"
+                }
+            }
         },
         "detected": {
             "type": "object",
@@ -70,6 +110,53 @@
                         "principle",
                         "confidence"
                     ]
+                },
+                "judgment_terminal_state": {
+                    "type": "object",
+                    "description": "Derived terminal state from judgment landing gate; stored under detected for traceability.",
+                    "additionalProperties": false,
+                    "required": [
+                        "type",
+                        "statement",
+                        "confidence",
+                        "owner",
+                        "acknowledged",
+                        "timestamp"
+                    ],
+                    "properties": {
+                        "type": {
+                            "type": "string",
+                            "enum": [
+                                "position",
+                                "constraint",
+                                "next_step",
+                                "defer"
+                            ]
+                        },
+                        "statement": {
+                            "type": "string",
+                            "minLength": 1
+                        },
+                        "confidence": {
+                            "type": "number",
+                            "minimum": 0.0,
+                            "maximum": 1.0
+                        },
+                        "owner": {
+                            "type": "string",
+                            "enum": [
+                                "user"
+                            ],
+                            "description": "Ownership marker: the conclusion is owned by the user."
+                        },
+                        "acknowledged": {
+                            "type": "boolean"
+                        },
+                        "timestamp": {
+                            "type": "string",
+                            "format": "date-time"
+                        }
+                    }
                 }
             },
             "required": [
@@ -78,7 +165,8 @@
                 "drivers",
                 "empathy",
                 "confidence",
-                "alt"
+                "alt",
+                "judgment_terminal_state"
             ]
         },
         "voices": {
@@ -192,6 +280,7 @@
     "required": [
         "session_id",
         "user_text",
+        "judgment_landing",
         "detected",
         "voices",
         "clarity_gain",
@@ -202,6 +291,12 @@
         {
             "session_id": "DLM-2025-10-18-084522",
             "user_text": "My co-founder is distant. Tension is rising and I’m avoiding the hard talk.",
+            "judgment_landing": {
+                "type": "position",
+                "statement": "I will name the tension directly and schedule the conversation.",
+                "confidence": 0.7,
+                "acknowledged": true
+            },
             "detected": {
                 "mode": "Critical",
                 "principle": "Assumption",
@@ -214,6 +309,14 @@
                     "mode": "Risk & Second-Order",
                     "principle": "Test Assumptions",
                     "confidence": 0.41
+                },
+                "judgment_terminal_state": {
+                    "type": "position",
+                    "statement": "I will name the tension directly and schedule the conversation.",
+                    "confidence": 0.7,
+                    "owner": "user",
+                    "acknowledged": true,
+                    "timestamp": "2025-10-18T08:45:22Z"
                 }
             },
             "voices": [
@@ -240,6 +343,12 @@
         {
             "session_id": "DLM-2025-10-18-084523",
             "user_text": "We have two customers; strategy seems solid but pressure is high.",
+            "judgment_landing": {
+                "type": "defer",
+                "statement": "I will not decide yet; I need one more piece of evidence first.",
+                "confidence": 0.6,
+                "acknowledged": true
+            },
             "detected": {
                 "mode": "Decision",
                 "principle": "Evidence",
@@ -250,6 +359,14 @@
                     "mode": null,
                     "principle": null,
                     "confidence": null
+                },
+                "judgment_terminal_state": {
+                    "type": "defer",
+                    "statement": "I will not decide yet; I need one more piece of evidence first.",
+                    "confidence": 0.6,
+                    "owner": "user",
+                    "acknowledged": true,
+                    "timestamp": "2025-10-18T15:02:10Z"
                 }
             },
             "voices": [
